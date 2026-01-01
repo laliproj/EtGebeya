@@ -1,0 +1,608 @@
+[
+  {
+    "id": 1,
+    "title": "iPhone 16 Pro Max 256GB - Natural Titanium",
+    "description": "Brand new iPhone 16 Pro Max in Natural Titanium. 256GB storage, A18 Pro chip, 48MP camera system with 5x optical zoom. Comes with original box, cable, and documentation. Never used, still sealed.",
+    "price": 1199,
+    "category": "phones",
+    "brand": "Apple",
+    "model": "iPhone 16 Pro Max",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800",
+      "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=800",
+      "https://images.unsplash.com/photo-1591337676887-a217a6970a8a?w=800",
+      "https://images.unsplash.com/photo-1605236453806-6ff36851218e?w=800",
+      "https://images.unsplash.com/photo-1580910051074-3eb694886f81?w=800"
+    ],
+    "specs": {
+      "storage": "256GB",
+      "ram": "8GB",
+      "processor": "A18 Pro",
+      "screenSize": "6.9\"",
+      "camera": "48MP",
+      "battery": "4685mAh"
+    },
+    "features": ["5G", "Face ID", "USB-C", "Action Button", "Camera Control", "Titanium Frame"],
+    "sellerId": 1,
+    "location": "New York, NY",
+    "postedAt": "2026-05-23T10:00:00Z",
+    "views": 342,
+    "isFeatured": true
+  },
+  {
+    "id": 2,
+    "title": "Samsung Galaxy S25 Ultra 512GB - Titanium Black",
+    "description": "Slightly used Samsung Galaxy S25 Ultra in excellent condition. 512GB storage, Snapdragon 8 Elite processor, 200MP camera, S Pen included. Minor signs of use on the frame, screen is flawless with screen protector. Comes with case and charger.",
+    "price": 899,
+    "category": "phones",
+    "brand": "Samsung",
+    "model": "Galaxy S25 Ultra",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800",
+      "https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=800",
+      "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?w=800",
+      "https://images.unsplash.com/photo-1546054454-aa26e2b734c7?w=800",
+      "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=800"
+    ],
+    "specs": {
+      "storage": "512GB",
+      "ram": "12GB",
+      "processor": "Snapdragon 8 Elite",
+      "screenSize": "6.8\"",
+      "camera": "200MP",
+      "battery": "5000mAh"
+    },
+    "features": ["5G", "S Pen", "IP68", "Wi-Fi 7", "Gorilla Glass Armor", "AI Features"],
+    "sellerId": 2,
+    "location": "Los Angeles, CA",
+    "postedAt": "2026-05-23T08:30:00Z",
+    "views": 256,
+    "isFeatured": true
+  },
+  {
+    "id": 3,
+    "title": "MacBook Pro 16\" M4 Max - 48GB RAM",
+    "description": "Top of the line MacBook Pro 16-inch with M4 Max chip, 48GB unified memory, 1TB SSD. Space Black color. Perfect for video editing, 3D rendering, and software development. Used for 2 months, in pristine condition. AppleCare+ active until 2028.",
+    "price": 2799,
+    "category": "laptops",
+    "brand": "Apple",
+    "model": "MacBook Pro 16\" M4 Max",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800",
+      "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=800",
+      "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=800",
+      "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800",
+      "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800"
+    ],
+    "specs": {
+      "storage": "1TB SSD",
+      "ram": "48GB",
+      "processor": "M4 Max",
+      "screenSize": "16.2\"",
+      "camera": "1080p FaceTime",
+      "battery": "100Wh"
+    },
+    "features": ["Liquid Retina XDR", "Thunderbolt 5", "HDMI", "SD Card", "MagSafe", "ProMotion 120Hz"],
+    "sellerId": 3,
+    "location": "San Francisco, CA",
+    "postedAt": "2026-05-22T15:00:00Z",
+    "views": 534,
+    "isFeatured": true
+  },
+  {
+    "id": 4,
+    "title": "Dell XPS 16 - Intel Core Ultra 9, 32GB RAM",
+    "description": "Powerful Dell XPS 16 with stunning 16-inch OLED display, Intel Core Ultra 9 processor, 32GB RAM, 1TB SSD, NVIDIA RTX 4070. Perfect condition, only used for light office work. Includes original charger and sleeve.",
+    "price": 1650,
+    "category": "laptops",
+    "brand": "Dell",
+    "model": "XPS 16",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800",
+      "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=800",
+      "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=800",
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800",
+      "https://images.unsplash.com/photo-1629131726692-1accd0c53ce0?w=800"
+    ],
+    "specs": {
+      "storage": "1TB SSD",
+      "ram": "32GB",
+      "processor": "Core Ultra 9",
+      "screenSize": "16\"",
+      "camera": "1080p IR",
+      "battery": "99.5Wh"
+    },
+    "features": ["OLED 3.8K", "Thunderbolt 4", "RTX 4070", "Wi-Fi 7", "Haptic Trackpad"],
+    "sellerId": 4,
+    "location": "Austin, TX",
+    "postedAt": "2026-05-22T12:00:00Z",
+    "views": 189,
+    "isFeatured": false
+  },
+  {
+    "id": 5,
+    "title": "Sony WH-1000XM5 Wireless Headphones - Silver",
+    "description": "Industry-leading noise cancelling headphones in Silver. Exceptional sound quality with LDAC support. Includes carrying case, cable, and airplane adapter. Lightly used, perfect working condition.",
+    "price": 249,
+    "category": "headphones",
+    "brand": "Sony",
+    "model": "WH-1000XM5",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=800",
+      "https://images.unsplash.com/photo-1545127398-14699f92334b?w=800",
+      "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800",
+      "https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=800",
+      "https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?w=800"
+    ],
+    "specs": {
+      "battery": "30 hours",
+      "connectivity": "Bluetooth 5.3",
+      "driver": "30mm",
+      "weight": "250g"
+    },
+    "features": ["ANC", "Multipoint", "Speak-to-Chat", "LDAC", "Wear Detection", "Touch Controls"],
+    "sellerId": 5,
+    "location": "Chicago, IL",
+    "postedAt": "2026-05-23T09:00:00Z",
+    "views": 178,
+    "isFeatured": true
+  },
+  {
+    "id": 6,
+    "title": "iPad Pro 13\" M4 - 256GB WiFi + Cellular",
+    "description": "Brand new sealed iPad Pro 13-inch with M4 chip. Ultra Retina XDR OLED display with nano-texture glass. WiFi + Cellular model. Space Black color. Includes Apple Pencil Pro and Magic Keyboard Folio.",
+    "price": 1599,
+    "category": "tablets",
+    "brand": "Apple",
+    "model": "iPad Pro 13\" M4",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800",
+      "https://images.unsplash.com/photo-1561154464-82e9aeb8d8be?w=800",
+      "https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=800",
+      "https://images.unsplash.com/photo-1542751110-97427bbecf20?w=800",
+      "https://images.unsplash.com/photo-1623126908029-58cb08a2b272?w=800"
+    ],
+    "specs": {
+      "storage": "256GB",
+      "ram": "8GB",
+      "processor": "M4",
+      "screenSize": "13\"",
+      "camera": "12MP Wide + 10MP Ultra Wide",
+      "battery": "38.99Wh"
+    },
+    "features": ["OLED XDR", "Face ID", "Thunderbolt/USB4", "Apple Pencil Pro", "5G", "LiDAR"],
+    "sellerId": 1,
+    "location": "New York, NY",
+    "postedAt": "2026-05-21T14:00:00Z",
+    "views": 412,
+    "isFeatured": true
+  },
+  {
+    "id": 7,
+    "title": "Canon EOS R5 Mark II - Body Only",
+    "description": "Professional mirrorless camera with 45MP full-frame sensor, 8K RAW video, AI-powered autofocus. Less than 5000 shutter count. Perfect for professional photography and videography. Battery grip included.",
+    "price": 3899,
+    "category": "cameras",
+    "brand": "Canon",
+    "model": "EOS R5 Mark II",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800",
+      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800",
+      "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?w=800",
+      "https://images.unsplash.com/photo-1495707902641-75cac588d2e9?w=800",
+      "https://images.unsplash.com/photo-1452780212940-6f5c0d14d848?w=800"
+    ],
+    "specs": {
+      "sensor": "45MP Full-Frame",
+      "video": "8K 60p RAW",
+      "iso": "100-102400",
+      "fps": "30fps Electronic",
+      "weight": "738g"
+    },
+    "features": ["IBIS", "Dual Card Slots", "AI AF", "Eye-Detect AF", "5GHz WiFi", "USB-C"],
+    "sellerId": 6,
+    "location": "Miami, FL",
+    "postedAt": "2026-05-22T18:30:00Z",
+    "views": 289,
+    "isFeatured": false
+  },
+  {
+    "id": 8,
+    "title": "AirPods Pro 2 with USB-C - Sealed",
+    "description": "Brand new sealed AirPods Pro 2nd generation with USB-C charging case. Active Noise Cancellation, Adaptive Transparency, Personalized Spatial Audio. Full Apple warranty included.",
+    "price": 199,
+    "category": "headphones",
+    "brand": "Apple",
+    "model": "AirPods Pro 2",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=800",
+      "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=800",
+      "https://images.unsplash.com/photo-1590658268037-6bf12f032f62?w=800",
+      "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=800",
+      "https://images.unsplash.com/photo-1588423771073-b8903fde1c68?w=800"
+    ],
+    "specs": {
+      "battery": "6 hours (30 with case)",
+      "connectivity": "Bluetooth 5.3",
+      "chipset": "H2",
+      "weight": "5.3g each"
+    },
+    "features": ["ANC", "Adaptive Transparency", "Spatial Audio", "IP54", "USB-C", "Find My"],
+    "sellerId": 2,
+    "location": "Los Angeles, CA",
+    "postedAt": "2026-05-23T07:00:00Z",
+    "views": 567,
+    "isFeatured": true
+  },
+  {
+    "id": 9,
+    "title": "Lenovo ThinkPad X1 Carbon Gen 12 - Business Laptop",
+    "description": "Premium business ultrabook with Intel Core Ultra 7, 16GB RAM, 512GB SSD. 14-inch 2.8K OLED display. Fingerprint reader, IR camera, MIL-STD-810H certified. Company-refreshed with fresh Windows 11 install.",
+    "price": 1299,
+    "category": "laptops",
+    "brand": "Lenovo",
+    "model": "ThinkPad X1 Carbon",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=800",
+      "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=800",
+      "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800",
+      "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800",
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800"
+    ],
+    "specs": {
+      "storage": "512GB SSD",
+      "ram": "16GB",
+      "processor": "Core Ultra 7",
+      "screenSize": "14\"",
+      "camera": "1080p + IR",
+      "battery": "57Wh"
+    },
+    "features": ["2.8K OLED", "Thunderbolt 4", "5G Optional", "MIL-STD-810H", "Fingerprint", "TrackPoint"],
+    "sellerId": 3,
+    "location": "San Francisco, CA",
+    "postedAt": "2026-05-21T10:00:00Z",
+    "views": 234,
+    "isFeatured": false
+  },
+  {
+    "id": 10,
+    "title": "Google Pixel 9 Pro - 256GB Obsidian",
+    "description": "Google Pixel 9 Pro in Obsidian color, 256GB storage. Tensor G4 chip with amazing AI photography features. 7 years of OS updates remaining. Includes original box, cable, and case. Used for 3 months.",
+    "price": 649,
+    "category": "phones",
+    "brand": "Google",
+    "model": "Pixel 9 Pro",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=800",
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800",
+      "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=800",
+      "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?w=800",
+      "https://images.unsplash.com/photo-1546054454-aa26e2b734c7?w=800"
+    ],
+    "specs": {
+      "storage": "256GB",
+      "ram": "16GB",
+      "processor": "Tensor G4",
+      "screenSize": "6.3\"",
+      "camera": "50MP + 48MP + 48MP",
+      "battery": "4700mAh"
+    },
+    "features": ["5G", "Gemini AI", "Magic Eraser", "Best Take", "IP68", "7yr Updates"],
+    "sellerId": 5,
+    "location": "Chicago, IL",
+    "postedAt": "2026-05-22T20:00:00Z",
+    "views": 321,
+    "isFeatured": false
+  },
+  {
+    "id": 11,
+    "title": "Samsung Galaxy Tab S10 Ultra - 512GB",
+    "description": "Flagship Samsung tablet with massive 14.6-inch AMOLED display. Snapdragon 8 Gen 3, 16GB RAM, 512GB storage. Comes with S Pen, Book Cover Keyboard, and original box. Barely used.",
+    "price": 999,
+    "category": "tablets",
+    "brand": "Samsung",
+    "model": "Galaxy Tab S10 Ultra",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1561154464-82e9aeb8d8be?w=800",
+      "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800",
+      "https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=800",
+      "https://images.unsplash.com/photo-1623126908029-58cb08a2b272?w=800",
+      "https://images.unsplash.com/photo-1542751110-97427bbecf20?w=800"
+    ],
+    "specs": {
+      "storage": "512GB",
+      "ram": "16GB",
+      "processor": "Snapdragon 8 Gen 3",
+      "screenSize": "14.6\"",
+      "camera": "13MP + 8MP",
+      "battery": "11200mAh"
+    },
+    "features": ["S Pen", "DeX Mode", "AMOLED 120Hz", "IP68", "Wi-Fi 7", "8K Video"],
+    "sellerId": 4,
+    "location": "Austin, TX",
+    "postedAt": "2026-05-21T16:00:00Z",
+    "views": 187,
+    "isFeatured": true
+  },
+  {
+    "id": 12,
+    "title": "Anker 737 Power Bank 24,000mAh",
+    "description": "High-capacity portable charger with 140W output. Powers laptops, tablets, and phones. Smart temperature monitoring, bi-directional charging. Perfect travel companion. Brand new, unopened.",
+    "price": 109,
+    "category": "accessories",
+    "brand": "Anker",
+    "model": "737 PowerCore",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=800",
+      "https://images.unsplash.com/photo-1585338107529-13afc25806f9?w=800",
+      "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800",
+      "https://images.unsplash.com/photo-1625315714730-0d25cf609a56?w=800",
+      "https://images.unsplash.com/photo-1618577608401-46f4a95be7df?w=800"
+    ],
+    "specs": {
+      "capacity": "24000mAh",
+      "output": "140W Max",
+      "ports": "2 USB-C, 1 USB-A",
+      "weight": "640g"
+    },
+    "features": ["140W", "PD 3.1", "Laptop Charging", "LED Display", "Smart Temp Control"],
+    "sellerId": 6,
+    "location": "Miami, FL",
+    "postedAt": "2026-05-23T06:00:00Z",
+    "views": 89,
+    "isFeatured": false
+  },
+  {
+    "id": 13,
+    "title": "Sony A7C II Full-Frame Mirrorless Camera",
+    "description": "Compact full-frame mirrorless with 33MP sensor, 4K 60p video, advanced AI autofocus. World's smallest full-frame camera. Shutter count under 2000. Includes 28-60mm kit lens, extra battery, and camera bag.",
+    "price": 1899,
+    "category": "cameras",
+    "brand": "Sony",
+    "model": "A7C II",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800",
+      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800",
+      "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?w=800",
+      "https://images.unsplash.com/photo-1495707902641-75cac588d2e9?w=800",
+      "https://images.unsplash.com/photo-1452780212940-6f5c0d14d848?w=800"
+    ],
+    "specs": {
+      "sensor": "33MP Full-Frame",
+      "video": "4K 60p",
+      "iso": "100-51200",
+      "fps": "10fps",
+      "weight": "514g"
+    },
+    "features": ["IBIS", "AI AF", "4K 60p", "S-Cinetone", "USB-C Streaming", "Compact Body"],
+    "sellerId": 1,
+    "location": "New York, NY",
+    "postedAt": "2026-05-20T11:00:00Z",
+    "views": 198,
+    "isFeatured": false
+  },
+  {
+    "id": 14,
+    "title": "ASUS ROG Zephyrus G16 - RTX 4090 Gaming Laptop",
+    "description": "Ultimate gaming laptop with Intel Core Ultra 9, RTX 4090 16GB, 32GB DDR5, 2TB SSD. 16-inch 240Hz OLED display with 0.2ms response. ROG Nebula HDR display. Less than 50 hours of gaming use.",
+    "price": 2499,
+    "category": "laptops",
+    "brand": "ASUS",
+    "model": "ROG Zephyrus G16",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800",
+      "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=800",
+      "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=800",
+      "https://images.unsplash.com/photo-1629131726692-1accd0c53ce0?w=800",
+      "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800"
+    ],
+    "specs": {
+      "storage": "2TB SSD",
+      "ram": "32GB DDR5",
+      "processor": "Core Ultra 9",
+      "screenSize": "16\"",
+      "camera": "1080p IR",
+      "battery": "90Wh",
+      "gpu": "RTX 4090 16GB"
+    },
+    "features": ["240Hz OLED", "RTX 4090", "MUX Switch", "CNC Aluminum", "Thunderbolt 4", "Wi-Fi 7"],
+    "sellerId": 2,
+    "location": "Los Angeles, CA",
+    "postedAt": "2026-05-22T09:00:00Z",
+    "views": 456,
+    "isFeatured": true
+  },
+  {
+    "id": 15,
+    "title": "Bose QuietComfort Ultra Headphones - Smoke White",
+    "description": "Premium wireless headphones with world-class noise cancellation and Immersive Audio. CustomTune sound calibration. Luxurious protein leather cushions. Used gently for 6 months, in excellent condition.",
+    "price": 329,
+    "category": "headphones",
+    "brand": "Bose",
+    "model": "QuietComfort Ultra",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800",
+      "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=800",
+      "https://images.unsplash.com/photo-1545127398-14699f92334b?w=800",
+      "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800",
+      "https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=800"
+    ],
+    "specs": {
+      "battery": "24 hours",
+      "connectivity": "Bluetooth 5.3",
+      "driver": "35mm Triport",
+      "weight": "250g"
+    },
+    "features": ["Immersive Audio", "CustomTune", "Aware Mode", "Multipoint", "USB-C", "Spatial Audio"],
+    "sellerId": 3,
+    "location": "San Francisco, CA",
+    "postedAt": "2026-05-21T13:00:00Z",
+    "views": 234,
+    "isFeatured": false
+  },
+  {
+    "id": 16,
+    "title": "OnePlus 13 256GB - Midnight Ocean",
+    "description": "Flagship killer with Snapdragon 8 Elite, 16GB RAM, 6000mAh battery with 100W charging. 6.82-inch 2K LTPO AMOLED. Gorgeous vegan leather back in Midnight Ocean. Complete box with accessories.",
+    "price": 749,
+    "category": "phones",
+    "brand": "OnePlus",
+    "model": "OnePlus 13",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=800",
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800",
+      "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=800",
+      "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?w=800",
+      "https://images.unsplash.com/photo-1546054454-aa26e2b734c7?w=800"
+    ],
+    "specs": {
+      "storage": "256GB",
+      "ram": "16GB",
+      "processor": "Snapdragon 8 Elite",
+      "screenSize": "6.82\"",
+      "camera": "50MP + 50MP + 50MP",
+      "battery": "6000mAh"
+    },
+    "features": ["100W SUPERVOOC", "50W Wireless", "IP69", "Hasselblad Camera", "IR Blaster", "Alert Slider"],
+    "sellerId": 4,
+    "location": "Austin, TX",
+    "postedAt": "2026-05-23T05:00:00Z",
+    "views": 145,
+    "isFeatured": false
+  },
+  {
+    "id": 17,
+    "title": "Fujifilm X100VI - Silver",
+    "description": "The legendary compact camera with 40.2MP X-Trans CMOS 5 HR sensor. Fixed 23mm f/2 lens (35mm equivalent). Built-in ND filter, film simulations including REALA ACE. Brand new, just arrived from waitlist.",
+    "price": 1599,
+    "category": "cameras",
+    "brand": "Fujifilm",
+    "model": "X100VI",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800",
+      "https://images.unsplash.com/photo-1495707902641-75cac588d2e9?w=800",
+      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800",
+      "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?w=800",
+      "https://images.unsplash.com/photo-1452780212940-6f5c0d14d848?w=800"
+    ],
+    "specs": {
+      "sensor": "40.2MP APS-C",
+      "video": "6.2K 30p",
+      "iso": "125-12800",
+      "fps": "20fps Electronic",
+      "weight": "521g"
+    },
+    "features": ["IBIS", "Film Simulations", "Hybrid VF", "Built-in ND", "USB-C", "Bluetooth"],
+    "sellerId": 5,
+    "location": "Chicago, IL",
+    "postedAt": "2026-05-20T08:00:00Z",
+    "views": 678,
+    "isFeatured": true
+  },
+  {
+    "id": 18,
+    "title": "Samsung Galaxy Buds 3 Pro - Silver",
+    "description": "Premium true wireless earbuds with Blade Lights design. Enhanced ANC with AI, 360 Audio, Hi-Fi 24bit audio. IPX7 water resistant. Includes extra ear tips and wireless charging case.",
+    "price": 179,
+    "category": "headphones",
+    "brand": "Samsung",
+    "model": "Galaxy Buds 3 Pro",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1590658268037-6bf12f032f62?w=800",
+      "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=800",
+      "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=800",
+      "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=800",
+      "https://images.unsplash.com/photo-1588423771073-b8903fde1c68?w=800"
+    ],
+    "specs": {
+      "battery": "7 hours (30 with case)",
+      "connectivity": "Bluetooth 5.4",
+      "driver": "10.5mm + 6.1mm Planar",
+      "weight": "5.4g each"
+    },
+    "features": ["AI ANC", "360 Audio", "IPX7", "Blade Lights", "SSC Codec", "Galaxy AI"],
+    "sellerId": 6,
+    "location": "Miami, FL",
+    "postedAt": "2026-05-23T11:00:00Z",
+    "views": 234,
+    "isFeatured": false
+  },
+  {
+    "id": 19,
+    "title": "Xiaomi 15 Ultra 512GB - White Ceramic",
+    "description": "Photography powerhouse with Leica Summilux quad camera system. Snapdragon 8 Elite, 16GB RAM, 512GB storage. Stunning white ceramic body. Dual satellite communication. Imported, brand new sealed.",
+    "price": 999,
+    "category": "phones",
+    "brand": "Xiaomi",
+    "model": "Xiaomi 15 Ultra",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800",
+      "https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=800",
+      "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?w=800",
+      "https://images.unsplash.com/photo-1546054454-aa26e2b734c7?w=800",
+      "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=800"
+    ],
+    "specs": {
+      "storage": "512GB",
+      "ram": "16GB",
+      "processor": "Snapdragon 8 Elite",
+      "screenSize": "6.73\"",
+      "camera": "200MP + 50MP + 50MP + 50MP",
+      "battery": "5400mAh"
+    },
+    "features": ["Leica Optics", "120W HyperCharge", "50W Wireless", "IP68", "Satellite Comm", "Ceramic Body"],
+    "sellerId": 1,
+    "location": "New York, NY",
+    "postedAt": "2026-05-22T07:00:00Z",
+    "views": 312,
+    "isFeatured": true
+  },
+  {
+    "id": 20,
+    "title": "Belkin 3-in-1 MagSafe Charging Stand",
+    "description": "Premium wireless charging stand for iPhone, Apple Watch, and AirPods simultaneously. 15W fast charging for iPhone, official MFi certified. Sleek modern design with sturdy build quality.",
+    "price": 129,
+    "category": "accessories",
+    "brand": "Belkin",
+    "model": "BoostCharge Pro 3-in-1",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=800",
+      "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800",
+      "https://images.unsplash.com/photo-1585338107529-13afc25806f9?w=800",
+      "https://images.unsplash.com/photo-1625315714730-0d25cf609a56?w=800",
+      "https://images.unsplash.com/photo-1618577608401-46f4a95be7df?w=800"
+    ],
+    "specs": {
+      "output": "15W iPhone, 5W Watch, 5W AirPods",
+      "input": "USB-C 36W",
+      "compatibility": "MagSafe iPhones, Apple Watch, AirPods",
+      "weight": "680g"
+    },
+    "features": ["MagSafe", "Fast Charge", "MFi Certified", "LED Indicator", "Non-slip Base"],
+    "sellerId": 2,
+    "location": "Los Angeles, CA",
+    "postedAt": "2026-05-21T09:00:00Z",
+    "views": 156,
+    "isFeatured": false
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "type": "product_approved",
+    "title": "Product Approved",
+    "message": "Your listing \"iPhone 16 Pro Max\" has been approved and is now live.",
+    "icon": "✅",
+    "read": false,
+    "createdAt": "2026-05-23T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "type": "product_reported",
+    "title": "Product Reported",
+    "message": "Your listing \"Samsung Galaxy S25\" has been reported for incorrect category.",
+    "icon": "⚠️",
+    "read": false,
+    "createdAt": "2026-05-23T09:30:00Z"
+  },
+  {
+    "id": 3,
+    "type": "warning",
+    "title": "Warning Received",
+    "message": "You have received a warning for listing a product in the wrong category. 1/3 warnings.",
+    "icon": "🚨",
+    "read": true,
+    "createdAt": "2026-05-22T15:00:00Z"
+  },
+  {
+    "id": 4,
+    "type": "wishlist",
+    "title": "Price Drop Alert",
+    "message": "MacBook Pro 16\" M4 Max in your wishlist has dropped to $2,599!",
+    "icon": "💰",
+    "read": false,
+    "createdAt": "2026-05-22T12:00:00Z"
+  },
+  {
+    "id": 5,
+    "type": "message",
+    "title": "New Message",
+    "message": "Sarah Johnson sent you a message about \"Sony WH-1000XM5\".",
+    "icon": "💬",
+    "read": false,
+    "createdAt": "2026-05-23T08:00:00Z"
+  },
+  {
+    "id": 6,
+    "type": "product_approved",
+    "title": "Product Approved",
+    "message": "Your listing \"Canon EOS R5 Mark II\" has been approved and is now live.",
+    "icon": "✅",
+    "read": true,
+    "createdAt": "2026-05-21T14:00:00Z"
+  },
+  {
+    "id": 7,
+    "type": "wishlist",
+    "title": "Item Sold",
+    "message": "An item in your wishlist \"AirPods Pro 2\" has been sold.",
+    "icon": "🔔",
+    "read": true,
+    "createdAt": "2026-05-21T10:00:00Z"
+  },
+  {
+    "id": 8,
+    "type": "message",
+    "title": "New Message",
+    "message": "Mike Chen is interested in your \"Dell XPS 16\" listing.",
+    "icon": "💬",
+    "read": false,
+    "createdAt": "2026-05-23T07:30:00Z"
+  }
+]
