@@ -1,0 +1,46 @@
+{
+  "phones": [
+    { "id": 1, "name": "Apple", "logo": "🍎", "models": ["iPhone 16 Pro Max", "iPhone 16 Pro", "iPhone 16", "iPhone 15 Pro Max", "iPhone 15 Pro", "iPhone 15", "iPhone 14 Pro", "iPhone 14", "iPhone 13", "iPhone SE"] },
+    { "id": 2, "name": "Samsung", "logo": "🔷", "models": ["Galaxy S25 Ultra", "Galaxy S25+", "Galaxy S25", "Galaxy S24 Ultra", "Galaxy S24", "Galaxy Z Fold 6", "Galaxy Z Flip 6", "Galaxy A55", "Galaxy A35", "Galaxy A15"] },
+    { "id": 3, "name": "Google", "logo": "🔵", "models": ["Pixel 9 Pro XL", "Pixel 9 Pro", "Pixel 9", "Pixel 8 Pro", "Pixel 8", "Pixel 7a"] },
+    { "id": 4, "name": "OnePlus", "logo": "🔴", "models": ["OnePlus 13", "OnePlus 12", "OnePlus Nord 4", "OnePlus Nord CE 4"] },
+    { "id": 5, "name": "Xiaomi", "logo": "🟠", "models": ["Xiaomi 15 Ultra", "Xiaomi 14 Pro", "Redmi Note 14 Pro+", "Redmi Note 13", "POCO F6 Pro"] },
+    { "id": 6, "name": "Generic", "logo": "📱", "models": [] }
+  ],
+  "laptops": [
+    { "id": 7, "name": "Apple", "logo": "🍎", "models": ["MacBook Pro 16\" M4 Max", "MacBook Pro 14\" M4 Pro", "MacBook Air 15\" M4", "MacBook Air 13\" M4"] },
+    { "id": 8, "name": "Dell", "logo": "💎", "models": ["XPS 16", "XPS 14", "XPS 13", "Inspiron 16", "Inspiron 15", "Latitude 7450", "Alienware m18"] },
+    { "id": 9, "name": "Lenovo", "logo": "🟦", "models": ["ThinkPad X1 Carbon", "ThinkPad T14s", "IdeaPad Pro 5", "IdeaPad Slim 5", "Legion Pro 7", "Yoga 9i"] },
+    { "id": 10, "name": "HP", "logo": "🔷", "models": ["Spectre x360 16", "Spectre x360 14", "Envy 16", "Pavilion Plus 14", "EliteBook 840", "OMEN 16"] },
+    { "id": 11, "name": "ASUS", "logo": "🟡", "models": ["ROG Zephyrus G16", "ROG Strix G16", "Zenbook 14 OLED", "Vivobook S 15", "TUF Gaming A15"] },
+    { "id": 12, "name": "Generic", "logo": "💻", "models": [] }
+  ],
+  "tablets": [
+    { "id": 13, "name": "Apple", "logo": "🍎", "models": ["iPad Pro 13\" M4", "iPad Pro 11\" M4", "iPad Air 13\" M3", "iPad Air 11\" M3", "iPad 10th Gen", "iPad mini 7"] },
+    { "id": 14, "name": "Samsung", "logo": "🔷", "models": ["Galaxy Tab S10 Ultra", "Galaxy Tab S10+", "Galaxy Tab S10", "Galaxy Tab A9+", "Galaxy Tab A9"] },
+    { "id": 15, "name": "Lenovo", "logo": "🟦", "models": ["Tab P12 Pro", "Tab P11 Pro", "Tab M11", "Tab M10 Plus"] },
+    { "id": 16, "name": "Generic", "logo": "📟", "models": [] }
+  ],
+  "headphones": [
+    { "id": 17, "name": "Apple", "logo": "🍎", "models": ["AirPods Pro 2", "AirPods 4", "AirPods Max 2", "AirPods Max"] },
+    { "id": 18, "name": "Sony", "logo": "🎵", "models": ["WH-1000XM5", "WH-1000XM4", "WF-1000XM5", "LinkBuds S", "LinkBuds Open"] },
+    { "id": 19, "name": "Samsung", "logo": "🔷", "models": ["Galaxy Buds 3 Pro", "Galaxy Buds 3", "Galaxy Buds FE"] },
+    { "id": 20, "name": "Bose", "logo": "🅱️", "models": ["QuietComfort Ultra", "QuietComfort 45", "Sport Earbuds", "700"] },
+    { "id": 21, "name": "JBL", "logo": "🟧", "models": ["Tour One M2", "Tune 770NC", "Live Pro 2", "Vibe 200TWS"] },
+    { "id": 22, "name": "Generic", "logo": "🎧", "models": [] }
+  ],
+  "cameras": [
+    { "id": 23, "name": "Canon", "logo": "📸", "models": ["EOS R5 Mark II", "EOS R6 Mark III", "EOS R8", "EOS R100", "PowerShot V10"] },
+    { "id": 24, "name": "Sony", "logo": "🎵", "models": ["A7R V", "A7 IV", "A7C II", "ZV-E10 II", "RX100 VII"] },
+    { "id": 25, "name": "Nikon", "logo": "🟡", "models": ["Z8", "Z6 III", "Z5", "Zf", "Z30"] },
+    { "id": 26, "name": "Fujifilm", "logo": "🟢", "models": ["X-T5", "X-H2S", "X-S20", "X100VI"] },
+    { "id": 27, "name": "Generic", "logo": "📷", "models": [] }
+  ],
+  "accessories": [
+    { "id": 28, "name": "Apple", "logo": "🍎", "models": [] },
+    { "id": 29, "name": "Samsung", "logo": "🔷", "models": [] },
+    { "id": 30, "name": "Anker", "logo": "🔋", "models": [] },
+    { "id": 31, "name": "Belkin", "logo": "🔌", "models": [] },
+    { "id": 32, "name": "Generic", "logo": "🔌", "models": [] }
+  ]
+}

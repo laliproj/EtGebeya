@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Phones",
+    "slug": "phones",
+    "icon": "📱",
+    "image": "/categories/phones.jpg",
+    "count": 1245
+  },
+  {
+    "id": 2,
+    "name": "Laptops",
+    "slug": "laptops",
+    "icon": "💻",
+    "image": "/categories/laptops.jpg",
+    "count": 876
+  },
+  {
+    "id": 3,
+    "name": "Tablets",
+    "slug": "tablets",
+    "icon": "📟",
+    "image": "/categories/tablets.jpg",
+    "count": 432
+  },
+  {
+    "id": 4,
+    "name": "Headphones",
+    "slug": "headphones",
+    "icon": "🎧",
+    "image": "/categories/headphones.jpg",
+    "count": 689
+  },
+  {
+    "id": 5,
+    "name": "Cameras",
+    "slug": "cameras",
+    "icon": "📷",
+    "image": "/categories/cameras.jpg",
+    "count": 234
+  },
+  {
+    "id": 6,
+    "name": "Accessories",
+    "slug": "accessories",
+    "icon": "🔌",
+    "image": "/categories/accessories.jpg",
+    "count": 1567
+  }
+]
