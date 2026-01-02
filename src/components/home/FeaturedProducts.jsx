@@ -9,3 +9,14 @@ const FeaturedProducts = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const data = await productService.getFeatured();
+        setProducts(data.slice(0, 4));
+      } catch (error) {
+        console.error('Failed to fetch featured products', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFeatured();
