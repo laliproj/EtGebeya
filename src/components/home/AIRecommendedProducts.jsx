@@ -14,3 +14,19 @@
       case 'personalized': return 'Recommended for You';
       case 'wishlist': return 'Based on Your Wishlist';
       default: return 'Trending Near You';
+    }
+  };
+
+  return (
+    <section className="py-12 bg-gradient-to-r from-primary-50 to-accent-50 dark:from-primary-900/20 dark:to-accent-900/20">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex items-center gap-2 mb-8">
+          <div className="p-2 bg-white dark:bg-surface-800 rounded-lg shadow-sm text-primary-500">
+            <HiOutlineSparkles className="w-6 h-6" />
+          </div>
+          <h2 className="text-2xl font-bold text-surface-900 dark:text-white">{getTitle()}</h2>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          {recommendations.map(product => (
+            <ProductCard key={product.id} product={product} />
