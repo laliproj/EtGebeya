@@ -21,3 +21,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     try {
         $query = "SELECT id, name, email, avatar, phone, location, joinDate, bio, trustScore, totalSold, totalRatings, isVerified, warnings, isBanned 
                   FROM users WHERE id = :id LIMIT 1";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':id', $userId);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            // Cast types
+            $user['trustScore'] = (float)$user['trustScore'];
+            $user['totalSold'] = (int)$user['totalSold'];
+            $user['totalRatings'] = (int)$user['totalRatings'];
+            $user['isVerified'] = (bool)$user['isVerified'];
+            $user['warnings'] = (int)$user['warnings'];
+            $user['isBanned'] = (bool)$user['isBanned'];
+            
+            jsonResponse(true, "Profile retrieved successfully", $user);
+        } else {
+            jsonResponse(false, "User not found", null, 404);
+        }
+    } catch(PDOException $e) {
+        jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+    }
+} elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+    // Update profile
