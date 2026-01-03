@@ -14,3 +14,19 @@ require_once __DIR__ . '/../../middleware/auth.php';
 // Authenticate and get seller ID
 $sellerId = AuthMiddleware::authenticate();
 
+if (!in_array($_SERVER['REQUEST_METHOD'], ['DELETE', 'POST'])) {
+    jsonResponse(false, "Method not allowed", null, 405);
+}
+
+// Support product ID via query string (DELETE) or JSON body (POST)
+if (isset($_GET['id'])) {
+    $productId = (int)$_GET['id'];
+} else {
+    $body = json_decode(file_get_contents("php://input"), true);
+    $productId = (int)($body['productId'] ?? 0);
+}
+
+if (!$productId) {
+    jsonResponse(false, "Product ID is required", null, 400);
+}
+

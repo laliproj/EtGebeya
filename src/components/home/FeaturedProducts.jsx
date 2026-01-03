@@ -20,3 +20,14 @@ const FeaturedProducts = () => {
       }
     };
     fetchFeatured();
+  }, []);
+
+  return (
+    <section className="py-8 px-4">
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-xl font-bold text-surface-900 dark:text-white flex items-center gap-2">
+            Featured Products
+            <span className="text-xl">🔥</span>
+          </h2>
+          <p className="text-sm text-surface-500 mt-1">Handpicked premium items</p>
