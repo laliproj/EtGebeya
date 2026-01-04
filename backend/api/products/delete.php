@@ -30,3 +30,19 @@ if (!$productId) {
     jsonResponse(false, "Product ID is required", null, 400);
 }
 
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    // Verify ownership
+    $checkStmt = $db->prepare("SELECT sellerId FROM products WHERE id = :id");
+    $checkStmt->execute([':id' => $productId]);
+    if ($checkStmt->rowCount() === 0) {
+        jsonResponse(false, "Product not found", null, 404);
+    }
+    
+    $row = $checkStmt->fetch(PDO::FETCH_ASSOC);
+    if ((int)$row['sellerId'] !== $sellerId) {
+        jsonResponse(false, "Unauthorized to delete this product", null, 403);
+    }
+
