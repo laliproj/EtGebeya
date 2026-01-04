@@ -46,3 +46,16 @@ try {
         jsonResponse(false, "Unauthorized to delete this product", null, 403);
     }
 
+    // Delete product (Cascade will delete images, specs, features, wishlist entries)
+    $stmt = $db->prepare("DELETE FROM products WHERE id = :id");
+    
+    if ($stmt->execute([':id' => $productId])) {
+        jsonResponse(true, "Product deleted successfully");
+    } else {
+        jsonResponse(false, "Failed to delete product", null, 500);
+    }
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
