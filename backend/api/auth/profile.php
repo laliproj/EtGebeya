@@ -67,3 +67,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $stmt = $db->prepare($query);
         
         if ($stmt->execute($params)) {
+            // Fetch updated user
+            $query = "SELECT id, name, email, avatar, phone, location, joinDate, bio, trustScore, isVerified 
+                      FROM users WHERE id = :id LIMIT 1";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(':id', $userId);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            $user['trustScore'] = (float)$user['trustScore'];
+            $user['isVerified'] = (bool)$user['isVerified'];
+            
+            jsonResponse(true, "Profile updated successfully", $user);
+        } else {
+            jsonResponse(false, "Failed to update profile", null, 500);
+        }
+    } catch(PDOException $e) {
+        jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+    }
+} else {
+    jsonResponse(false, "Method not allowed", null, 405);
+}
+?>
