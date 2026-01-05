@@ -15,3 +15,20 @@ try {
     $query = "SELECT p.*, u.name as seller_name, u.avatar as seller_avatar, u.trustScore as seller_rating,
               (SELECT GROUP_CONCAT(image_url) FROM product_images WHERE product_id = p.id) as images
               FROM products p
+              LEFT JOIN users u ON p.sellerId = u.id
+              WHERE p.status = 'active'
+              ORDER BY p.postedAt DESC LIMIT 8";
+    
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+
+    $products = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $products[] = [
+            'id' => (int)$row['id'],
+            'title' => $row['title'],
+            'price' => (float)$row['price'],
+            'category' => $row['category'],
+            'brand' => $row['brand'],
+            'condition' => $row['condition'],
+            'images' => $row['images'] ? explode(',', $row['images']) : [],
