@@ -32,3 +32,18 @@ try {
             'brand' => $row['brand'],
             'condition' => $row['condition'],
             'images' => $row['images'] ? explode(',', $row['images']) : [],
+            'sellerId' => (int)$row['sellerId'],
+            'sellerName' => $row['seller_name'],
+            'sellerRating' => (float)$row['seller_rating'],
+            'location' => $row['location'],
+            'postedAt' => date('c', strtotime($row['postedAt'])),
+            'isFeatured' => (bool)$row['isFeatured']
+        ];
+    }
+
+    jsonResponse(true, "Recent products retrieved", $products);
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
