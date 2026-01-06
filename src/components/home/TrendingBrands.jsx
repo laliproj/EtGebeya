@@ -25,3 +25,12 @@ const TrendingBrands = () => {
             to={`/products?brand=${brand.name.toLowerCase()}`}
             className="group flex flex-col items-center justify-center p-6 bg-white dark:bg-surface-800 rounded-2xl border border-surface-200 dark:border-surface-700 hover:shadow-lg hover:border-primary-500/30 transition-all duration-300"
           >
+            <span className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
+              {brand.logo}
+            </span>
+            <span className="text-sm font-semibold text-surface-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+              {brand.name}
+            </span>
+          </Link>
+        ))}
+      </div>
