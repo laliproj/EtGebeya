@@ -25,3 +25,30 @@ try {
     if (isset($_GET['category'])) {
         $query .= " AND p.category = :category";
         $params[':category'] = Validator::sanitize($_GET['category']);
+    }
+    if (isset($_GET['brand'])) {
+        $query .= " AND p.brand = :brand";
+        $params[':brand'] = Validator::sanitize($_GET['brand']);
+    }
+    if (isset($_GET['condition'])) {
+        $query .= " AND p.`condition` = :condition";
+        $params[':condition'] = Validator::sanitize($_GET['condition']);
+    }
+    if (isset($_GET['priceMin'])) {
+        $query .= " AND p.price >= :priceMin";
+        $params[':priceMin'] = (float)$_GET['priceMin'];
+    }
+    if (isset($_GET['priceMax'])) {
+        $query .= " AND p.price <= :priceMax";
+        $params[':priceMax'] = (float)$_GET['priceMax'];
+    }
+
+    $query .= " ORDER BY p.postedAt DESC";
+
+    $stmt = $db->prepare($query);
+    $stmt->execute($params);
+
+    $products = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // Format product data to match frontend expectations
+        $product = [

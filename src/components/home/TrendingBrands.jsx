@@ -34,3 +34,8 @@ const TrendingBrands = () => {
           </Link>
         ))}
       </div>
+    </section>
+  );
+};
+
+export default TrendingBrands;
