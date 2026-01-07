@@ -16,3 +16,12 @@ const TrendingBrands = () => {
           Trending Brands
         </h2>
         <p className="text-sm text-surface-500 mt-2">Top electronics brands in our marketplace</p>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+        {uniqueBrands.map((brand, index) => (
+          <Link
+            key={`${brand.id}-${index}`}
+            to={`/products?brand=${brand.name.toLowerCase()}`}
+            className="group flex flex-col items-center justify-center p-6 bg-white dark:bg-surface-800 rounded-2xl border border-surface-200 dark:border-surface-700 hover:shadow-lg hover:border-primary-500/30 transition-all duration-300"
+          >

@@ -28,3 +28,33 @@ try {
     
     $stmt = $db->prepare($query);
     $stmt->bindParam(':id', $productId);
+    $stmt->execute();
+
+    if ($stmt->rowCount() === 0) {
+        jsonResponse(false, "Product not found", null, 404);
+    }
+
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Get Specs
+    $specsQuery = "SELECT spec_key, spec_value FROM product_specs WHERE product_id = :id";
+    $specsStmt = $db->prepare($specsQuery);
+    $specsStmt->bindParam(':id', $productId);
+    $specsStmt->execute();
+    $specs = [];
+    while ($specRow = $specsStmt->fetch(PDO::FETCH_ASSOC)) {
+        $specs[$specRow['spec_key']] = $specRow['spec_value'];
+    }
+
+    // Get Features
+    $featuresQuery = "SELECT feature FROM product_features WHERE product_id = :id";
+    $featuresStmt = $db->prepare($featuresQuery);
+    $featuresStmt->bindParam(':id', $productId);
+    $featuresStmt->execute();
+    $features = [];
+    while ($featRow = $featuresStmt->fetch(PDO::FETCH_ASSOC)) {
+        $features[] = $featRow['feature'];
+    }
+
+    // Increment views
+    $updateViews = "UPDATE products SET views = views + 1 WHERE id = :id";
