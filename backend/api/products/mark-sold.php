@@ -20,3 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $data = json_decode(file_get_contents("php://input"), true);
 $productId = (int)($data['productId'] ?? 0);
 
+if (!$productId) {
+    jsonResponse(false, "Product ID is required", null, 400);
+}
+
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    // Verify ownership
+    $checkStmt = $db->prepare("SELECT sellerId, title FROM products WHERE id = :id");
+    $checkStmt->execute([':id' => $productId]);

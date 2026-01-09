@@ -27,3 +27,32 @@ const HeroBanner = () => {
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
             <Link 
+              to="/products"
+              className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-medium rounded-xl hover:shadow-lg hover:shadow-primary-500/25 hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2"
+            >
+              Shop Now
+              <HiOutlineArrowRight className="w-4 h-4" />
+            </Link>
+            <Link 
+              to="/products/new"
+              className="w-full sm:w-auto px-8 py-3.5 bg-surface-100 dark:bg-white/10 text-surface-900 dark:text-white font-medium rounded-xl hover:bg-surface-200 dark:hover:bg-white/20 transition-colors backdrop-blur-md flex items-center justify-center"
+            >
+              Start Selling
+            </Link>
+          </div>
+        </div>
+
+        {/* Hero Image / Mockup (using CSS and an image) */}
+        <div className="flex-1 w-full max-w-md lg:max-w-lg z-10 relative hidden md:block">
+          <div className="relative animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            <img 
+              src="https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800&q=80" 
+              onError={(e) => { e.target.src = 'https://placehold.co/800x600/f3f4f6/a3a3a3?text=Premium+Tech' }}
+              alt="Premium Smartphone" 
+              className="w-full h-auto rounded-2xl shadow-2xl shadow-black/20 dark:shadow-black/50 ring-1 ring-surface-200 dark:ring-white/10 rotate-[-5deg] hover:rotate-0 transition-transform duration-500"
+            />
+            {/* Floating element 1 */}
+            <div className="absolute -top-6 -right-6 bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-2xl shadow-xl animate-pulse-soft">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-success-500/20 rounded-full flex items-center justify-center">
+                  <span className="text-success-400 font-bold">100%</span>
