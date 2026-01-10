@@ -31,3 +31,14 @@ try {
     // Verify ownership
     $checkStmt = $db->prepare("SELECT sellerId, title FROM products WHERE id = :id");
     $checkStmt->execute([':id' => $productId]);
+    if ($checkStmt->rowCount() === 0) {
+        jsonResponse(false, "Product not found", null, 404);
+    }
+
+    $row = $checkStmt->fetch(PDO::FETCH_ASSOC);
+    if ((int)$row['sellerId'] !== $sellerId) {
+        jsonResponse(false, "Unauthorized to update this product", null, 403);
+    }
+
+    $stmt = $db->prepare("UPDATE products SET status = 'sold' WHERE id = :id");
+    $stmt->execute([':id' => $productId]);

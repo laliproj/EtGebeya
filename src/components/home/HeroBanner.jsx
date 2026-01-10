@@ -56,3 +56,31 @@ const HeroBanner = () => {
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-success-500/20 rounded-full flex items-center justify-center">
                   <span className="text-success-400 font-bold">100%</span>
+                </div>
+                <div>
+                  <p className="text-surface-900 dark:text-white text-xs font-semibold">Verified Sellers</p>
+                  <p className="text-surface-500 dark:text-surface-400 text-[10px]">Safe & Secure</p>
+                </div>
+              </div>
+            </div>
+            {/* Floating element 2 */}
+            <div className="absolute -bottom-6 -left-6 bg-white dark:bg-surface-900 border border-surface-200 dark:border-surface-700 p-4 rounded-2xl shadow-xl">
+              <div className="flex items-center gap-2">
+                <div className="flex -space-x-2">
+                  <img className="w-8 h-8 rounded-full border-2 border-white dark:border-surface-900" src="https://ui-avatars.com/api/?name=JS&background=random" alt="" />
+                  <img className="w-8 h-8 rounded-full border-2 border-white dark:border-surface-900" src="https://ui-avatars.com/api/?name=AK&background=random" alt="" />
+                  <div className="w-8 h-8 rounded-full border-2 border-white dark:border-surface-900 bg-surface-100 dark:bg-surface-800 flex items-center justify-center text-[10px] text-surface-900 dark:text-white">+2k</div>
+                </div>
+                <div className="ml-2 text-left">
+                  <p className="text-surface-900 dark:text-white text-xs font-semibold">Active Users</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default HeroBanner;
