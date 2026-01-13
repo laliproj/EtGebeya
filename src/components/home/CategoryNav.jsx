@@ -34,3 +34,13 @@ const CategoryNav = () => {
               </span>
               <span className="text-xs text-surface-500">
                 {category.count.toLocaleString()} items
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default CategoryNav;
