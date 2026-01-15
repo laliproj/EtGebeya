@@ -26,3 +26,17 @@ try {
         jsonResponse(true, "No similar products", []);
     }
     
+    $category = $catStmt->fetchColumn();
+
+    // Get products in same category excluding the current one
+    $query = "SELECT p.*, u.name as seller_name, u.avatar as seller_avatar, u.trustScore as seller_rating,
+              (SELECT GROUP_CONCAT(image_url) FROM product_images WHERE product_id = p.id) as images
+              FROM products p
+              LEFT JOIN users u ON p.sellerId = u.id
+              WHERE p.category = :category AND p.id != :id
+              ORDER BY p.views DESC, p.postedAt DESC LIMIT 4";
+    
+    $stmt = $db->prepare($query);
+    $stmt->execute([':category' => $category, ':id' => $productId]);
+
+    $products = [];
