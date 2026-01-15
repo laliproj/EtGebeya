@@ -40,3 +40,17 @@ try {
     $stmt->execute([':category' => $category, ':id' => $productId]);
 
     $products = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $products[] = [
+            'id' => (int)$row['id'],
+            'title' => $row['title'],
+            'price' => (float)$row['price'],
+            'category' => $row['category'],
+            'brand' => $row['brand'],
+            'condition' => $row['condition'],
+            'images' => $row['images'] ? explode(',', $row['images']) : [],
+            'sellerId' => (int)$row['sellerId'],
+            'sellerName' => $row['seller_name'],
+            'sellerRating' => (float)$row['seller_rating'],
+            'location' => $row['location'],
+            'postedAt' => date('c', strtotime($row['postedAt'])),
