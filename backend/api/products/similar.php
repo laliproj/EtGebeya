@@ -12,3 +12,17 @@ if (!isset($_GET['id'])) {
     jsonResponse(false, "Product ID is required", null, 400);
 }
 
+$productId = (int)$_GET['id'];
+
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    // Get category of the current product
+    $catStmt = $db->prepare("SELECT category FROM products WHERE id = :id");
+    $catStmt->execute([':id' => $productId]);
+    
+    if ($catStmt->rowCount() === 0) {
+        jsonResponse(true, "No similar products", []);
+    }
+    
