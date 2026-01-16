@@ -28,3 +28,13 @@ RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/Allo
 # Set working directory to Apache document root
 WORKDIR /var/www/html
 
+# Copy the compiled React static files from the build stage
+COPY --from=build /app/dist/ ./
+
+# Copy the PHP backend code
+COPY backend/ ./backend/
+
+# Install your Python AI dependencies if you have a requirements.txt file
+RUN if [ -f /var/www/html/requirements.txt ]; then \
+    pip3 install --no-cache-dir --break-system-packages -r /var/www/html/requirements.txt; \
+    fi
