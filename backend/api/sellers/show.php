@@ -12,3 +12,17 @@ if (!isset($_GET['id'])) {
 }
 
 $sellerId = (int)$_GET['id'];
+
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    $query = "SELECT id, name, avatar, location, joinDate, bio, trustScore, totalSold, totalRatings, isVerified 
+              FROM users WHERE id = :id AND isBanned = 0 LIMIT 1";
+    $stmt = $db->prepare($query);
+    $stmt->execute([':id' => $sellerId]);
+
+    if ($stmt->rowCount() === 0) {
+        jsonResponse(false, "Seller not found", null, 404);
+    }
+
