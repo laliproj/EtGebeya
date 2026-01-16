@@ -16,3 +16,21 @@ export default AITrendingProducts;
 // 
 // 
 // import { useEffect, useState } from 'react';
+import { HiOutlineFire, HiOutlineArrowTrendingUp } from 'react-icons/hi2';
+import api from '../../services/api';
+import ProductCard from '../product/ProductCard';
+import Skeleton from '../common/Skeleton';
+import { useNavigate } from 'react-router-dom';
+
+const AITrendingProducts = () => {
+  const [data, setData] = useState({ searches: [], products: [] });
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchTrending = async () => {
+      try {
+        const response = await api.get('/ai/trending.php');
+        if (response.data?.success) {
+          setData(response.data.data);
+        }

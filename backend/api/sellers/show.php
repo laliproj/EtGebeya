@@ -26,3 +26,15 @@ try {
         jsonResponse(false, "Seller not found", null, 404);
     }
 
+    $seller = $stmt->fetch(PDO::FETCH_ASSOC);
+    $seller['trustScore'] = (float)$seller['trustScore'];
+    $seller['totalSold'] = (int)$seller['totalSold'];
+    $seller['totalRatings'] = (int)$seller['totalRatings'];
+    $seller['isVerified'] = (bool)$seller['isVerified'];
+
+    jsonResponse(true, "Seller retrieved", $seller);
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
