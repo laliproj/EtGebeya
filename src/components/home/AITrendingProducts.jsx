@@ -70,3 +70,20 @@ const AITrendingProducts = () => {
             <h2 className="text-2xl font-bold text-surface-900 dark:text-white">Trending Right Now</h2>
           </div>
 
+          {/* Trending Searches Pills */}
+          {data.searches?.length > 0 && (
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
+              <span className="text-sm font-medium text-surface-500 flex items-center gap-1 shrink-0">
+                <HiOutlineArrowTrendingUp className="w-4 h-4" /> Popular searches:
+              </span>
+              {data.searches.map((search, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => navigate(`/products?search=${encodeURIComponent(search)}`)}
+                  className="px-3 py-1.5 bg-surface-100 dark:bg-surface-800 hover:bg-primary-50 dark:hover:bg-primary-900/30 hover:text-primary-600 dark:hover:text-primary-400 rounded-full text-xs font-medium text-surface-700 dark:text-surface-300 whitespace-nowrap transition-colors"
+                >
+                  {search}
+                </button>
+              ))}
+            </div>
+          )}
