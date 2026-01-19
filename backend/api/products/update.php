@@ -36,3 +36,40 @@ try {
     }
     
     $row = $checkStmt->fetch(PDO::FETCH_ASSOC);
+    if ((int)$row['sellerId'] !== $sellerId) {
+        jsonResponse(false, "Unauthorized to update this product", null, 403);
+    }
+
+    // Build update query
+    $allowed_fields = ['title', 'description', 'price', 'category', 'brand', 'model', 'condition', 'location'];
+    $updates = [];
+    $params = [':id' => $productId];
+    
+    foreach ($allowed_fields as $field) {
+        if (isset($data[$field])) {
+            $updates[] = "`{$field}` = :{$field}";
+            if ($field === 'price') {
+                $params[":{$field}"] = (float)$data[$field];
+            } else {
+                $params[":{$field}"] = Validator::sanitize($data[$field]);
+            }
+        }
+    }
+    
+    if (empty($updates)) {
+        jsonResponse(false, "No valid fields provided for update", null, 400);
+    }
+    
+    $query = "UPDATE products SET " . implode(', ', $updates) . " WHERE id = :id";
+    $stmt = $db->prepare($query);
+    
+    if ($stmt->execute($params)) {
+        jsonResponse(true, "Product updated successfully");
+    } else {
+        jsonResponse(false, "Failed to update product", null, 500);
+    }
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>

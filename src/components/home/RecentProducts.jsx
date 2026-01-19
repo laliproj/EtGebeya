@@ -10,3 +10,15 @@ const RecentProducts = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchRecent = async () => {
+      try {
+        const data = await productService.getRecent();
+        setProducts(data.slice(0, 8)); // Get 8 recent items
+      } catch (error) {
+        console.error('Failed to fetch recent products', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchRecent();
+  }, []);
