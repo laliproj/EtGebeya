@@ -34,3 +34,12 @@ try {
             'comment' => $row['comment'],
             'author' => $row['author'],
             'date' => date('Y-m-d', strtotime($row['date']))
+        ];
+    }
+
+    jsonResponse(true, "Seller reviews retrieved", $reviews);
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
