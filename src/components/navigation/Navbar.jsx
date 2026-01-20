@@ -174,3 +174,90 @@ const Navbar = () => {
                       </div>
 
                       {/* Admin link — only visible to admins */}
+                      {user?.isAdmin && (
+                        <Link
+                          to="/admin"
+                          onClick={() => setShowUserMenu(false)}
+                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-primary-700 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors font-semibold"
+                        >
+                          <HiOutlineShieldCheck className="w-4 h-4" />
+                          የአስተዳዳሪ ፓነል — Admin Panel
+                        </Link>
+                      )}
+
+                      <Link
+                        to="/profile"
+                        onClick={() => setShowUserMenu(false)}
+                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-surface-700 transition-colors"
+                      >
+                        <HiOutlineUser className="w-4 h-4" />
+                        መግቢያ / My Profile
+                      </Link>
+                      <Link
+                        to="/dashboard"
+                        onClick={() => setShowUserMenu(false)}
+                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-surface-700 transition-colors"
+                      >
+                        <HiOutlineChartBarSquare className="w-4 h-4" />
+                        ዳሽቦርዴ / Dashboard
+                      </Link>
+                      <Link
+                        to="/wishlist"
+                        onClick={() => setShowUserMenu(false)}
+                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-surface-700 transition-colors"
+                      >
+                        <HiOutlineHeart className="w-4 h-4" />
+                        ምርጦቼ / Wishlist
+                      </Link>
+                      <Link
+                        to="/my-reports"
+                        onClick={() => setShowUserMenu(false)}
+                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-surface-700 transition-colors"
+                      >
+                        <HiOutlineFlag className="w-4 h-4" />
+                        ሪፖርቶቼ / My Reports
+                      </Link>
+                      <div className="border-t border-surface-100 dark:border-surface-700 mt-1 pt-1">
+                        <button
+                          onClick={handleLogout}
+                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-danger-500 hover:bg-danger-500/5 w-full transition-colors"
+                        >
+                          <HiOutlineArrowRightOnRectangle className="w-4 h-4" />
+                          ውጣ / Logout
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Link
+                  to="/login"
+                  className="px-4 py-2 text-sm font-medium text-surface-700 dark:text-surface-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                >
+                  ግባ / Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl text-sm font-medium hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-200"
+                >
+                  ተመዝገብ / Sign Up
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Mobile Search Bar */}
+        {showMobileSearch && (
+          <div className="md:hidden pb-3 animate-slide-down">
+            <SearchBar onSearch={() => setShowMobileSearch(false)} />
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
