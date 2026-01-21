@@ -49,3 +49,54 @@ etgebeye/
 │   └── dataset_builder.py # Data engineering & log aggregation pipeline
 └── frontend/
     ├── src/               # React components, contexts, and hooks
+    ├── package.json       # Frontend tracking dependencies
+    └── tailwind.config.js # Tailwind CSS configuration
+ 
+<!-- rev 0 -->
+<!-- rev 1 -->
+<!-- rev 2 -->
+<!-- rev 3 -->
+<!-- rev 4 -->
+<!-- rev 5 -->
+<!-- rev 6 -->
+<!-- rev 7 -->
+<!-- rev 8 -->
+<!-- rev 9 -->
+<!-- rev 10 -->
+<!-- rev 11 -->
+<!-- rev 12 -->
+<!-- rev 13 -->
+<!-- rev 14 -->
+<!-- rev 15 -->
+<!-- rev 16 -->
+<!-- rev 17 -->
+<!-- rev 18 -->
+<!-- rev 19 -->
+<!-- rev 20 -->
+<!-- rev 21 -->
+<!-- rev 22 -->
+<!-- rev 23 -->
+<!-- rev 24 -->
+<!-- rev 25 -->
+<!-- rev 26 -->
+<!-- rev 27 -->
+<!-- rev 28 -->
+<!-- rev 29 -->
+<!-- rev 30 -->
+<!-- rev 31 -->
+<!-- rev 32 -->
+<!-- rev 33 -->
+<!-- rev 34 -->
+<!-- rev 35 -->
+<!-- rev 36 -->
+<!-- rev 37 -->
+<!-- rev 38 -->
+<!-- rev 39 -->
+<!-- rev 40 -->
+<!-- rev 41 -->
+<!-- rev 42 -->
+<!-- rev 43 -->
+<!-- rev 44 -->
+<!-- rev 45 -->
+<!-- rev 46 -->
+<!-- rev 47 -->
