@@ -100,3 +100,54 @@ const AIAnalysisWidget = ({ product }) => {
   };
   const currentPrice = priceConfig[priceVerdict] || priceConfig.unknown;
 
+  // Market meter bar (where does the listing price sit between low and high?)
+  const meterPct = market?.low && market?.high
+    ? Math.min(100, Math.max(0, ((product.price - market.low) / (market.high - market.low)) * 100))
+    : null;
+
+  return (
+    <div className="bg-gradient-to-br from-primary-50 to-accent-50 dark:from-primary-900/10 dark:to-accent-900/10 rounded-2xl p-5 border border-primary-100 dark:border-primary-800/30 shadow-sm relative overflow-hidden">
+      <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-gradient-to-br from-primary-400/20 to-accent-400/20 rounded-full blur-xl pointer-events-none"></div>
+
+      <div className="flex items-center gap-2 mb-4">
+        <HiOutlineSparkles className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+        <h3 className="font-bold text-surface-900 dark:text-white">AI Analysis & Insights</h3>
+      </div>
+
+      <p className="text-sm text-surface-700 dark:text-surface-300 leading-relaxed mb-4 italic border-l-2 border-primary-300 dark:border-primary-700 pl-3">
+        "{aiSummary}"
+      </p>
+
+      {/* Market Price Range Meter */}
+      {market?.avg && (
+        <div className="mb-4 bg-white/60 dark:bg-surface-800/50 rounded-xl p-3 border border-white/40 dark:border-surface-700/50">
+          <div className="flex items-center gap-1.5 mb-2">
+            <HiOutlineArrowTrendingUp className="w-4 h-4 text-primary-500" />
+            <span className="text-xs font-bold text-surface-700 dark:text-surface-300 uppercase tracking-wide">Market Price Range</span>
+          </div>
+          <div className="flex justify-between text-xs text-surface-500 mb-1.5">
+            <span>{formatPrice(market.low)}</span>
+            <span className="font-bold text-surface-700 dark:text-surface-200">Avg: {formatPrice(market.avg)}</span>
+            <span>{formatPrice(market.high)}</span>
+          </div>
+          <div className="relative h-2 bg-surface-200 dark:bg-surface-700 rounded-full">
+            <div className="absolute h-full bg-gradient-to-r from-success-400 via-primary-400 to-danger-400 rounded-full opacity-50 w-full"></div>
+            {meterPct !== null && (
+              <div
+                className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white dark:bg-surface-900 border-2 border-primary-500 rounded-full shadow-lg transition-all duration-700"
+                style={{ left: `calc(${meterPct}% - 8px)` }}
+              />
+            )}
+          </div>
+          <p className={`text-xs font-bold mt-2 text-center ${currentPrice.color}`}>{currentPrice.text}</p>
+        </div>
+      )}
+
+      <div className="grid grid-cols-2 gap-3 mb-4">
+        {/* Scam Risk */}
+        <div className={`flex flex-col items-center justify-center p-3 rounded-xl border border-white/50 dark:border-surface-700/50 ${currentScam.bg}`}>
+          <ScamIcon className={`w-6 h-6 mb-1 ${currentScam.color}`} />
+          <span className="text-xs font-semibold text-surface-600 dark:text-surface-400 uppercase tracking-wide">Scam Risk</span>
+          <span className={`text-sm font-bold ${currentScam.color}`}>{currentScam.text}</span>
+        </div>
+

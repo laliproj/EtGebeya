@@ -50,3 +50,29 @@ try {
         $goodPricing = $competitiveness['great_deal'] + $competitiveness['fair_price'];
         $compScore = round(($goodPricing / $totalActive) * 100);
     }
+
+    // 3. Conversion Rate / Views
+    $viewsStmt = $db->prepare("
+        SELECT SUM(views) as total_views, 
+               SUM(CASE WHEN status = 'sold' THEN 1 ELSE 0 END) as total_sold,
+               COUNT(*) as total_listings
+        FROM products WHERE sellerId = :uid");
+    $viewsStmt->execute([':uid' => $userId]);
+    $stats = $viewsStmt->fetch(PDO::FETCH_ASSOC);
+    
+    $totalViews = (int)$stats['total_views'];
+    $totalSold = (int)$stats['total_sold'];
+    $conversionRate = $totalViews > 0 ? round(($totalSold / $totalViews) * 100, 2) : 0;
+
+    // 4. Generate AI Suggestion Text
+    $aiSuggestions = [];
+    if ($compScore < 50 && $totalActive > 0) {
+        $aiSuggestions[] = "Over {$competitiveness['overpriced']} of your products are priced above the market average. Consider lowering prices to sell faster.";
+    } elseif ($compScore >= 80) {
+        $aiSuggestions[] = "Your pricing strategy is excellent! Most of your products are highly competitive.";
+    }
+
+    if ($trust['score'] < 60) {
+        $aiSuggestions[] = "Your trust score is low. Try to get more successful sales and ask buyers to leave 5-star reviews.";
+    } elseif ($trust['level'] === 'platinum') {
+        $aiSuggestions[] = "You are a Platinum Trusted Seller! This gives your listings priority visibility.";
