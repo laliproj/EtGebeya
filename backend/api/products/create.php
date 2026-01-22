@@ -91,3 +91,34 @@ try {
 
     $productId = $db->lastInsertId();
 
+    // 2. Insert images
+    $imgQuery = "INSERT INTO product_images (product_id, image_url, is_cover) VALUES (:pid, :url, :cover)";
+    $imgStmt = $db->prepare($imgQuery);
+    foreach ($imageUrls as $index => $url) {
+        $imgStmt->execute([
+            ':pid' => $productId,
+            ':url' => $url,
+            ':cover' => ($index === 0) ? 1 : 0
+        ]);
+    }
+
+    // 3. Insert specs
+    if (!empty($specs) && is_array($specs)) {
+        $specQuery = "INSERT INTO product_specs (product_id, spec_key, spec_value) VALUES (:pid, :key, :val)";
+        $specStmt = $db->prepare($specQuery);
+        foreach ($specs as $key => $value) {
+            $specStmt->execute([
+                ':pid' => $productId,
+                ':key' => Validator::sanitize($key),
+                ':val' => Validator::sanitize($value)
+            ]);
+        }
+    }
+
+    // 4. Insert features
+    if (!empty($features) && is_array($features)) {
+        $featQuery = "INSERT INTO product_features (product_id, feature) VALUES (:pid, :feat)";
+        $featStmt = $db->prepare($featQuery);
+        foreach ($features as $feature) {
+            $featStmt->execute([
+                ':pid' => $productId,
