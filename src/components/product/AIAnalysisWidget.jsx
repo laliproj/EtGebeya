@@ -49,3 +49,54 @@ const AIAnalysisWidget = ({ product }) => {
             </div>
           </div>
           <div className="text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0">
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+      </button>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="bg-primary-50 dark:bg-primary-900/10 rounded-2xl p-5 border border-primary-100 dark:border-primary-800/30 animate-pulse">
+        <div className="flex items-center gap-2 mb-3">
+          <HiOutlineSparkles className="w-5 h-5 text-primary-400" />
+          <div className="h-5 bg-primary-200 dark:bg-primary-800 rounded w-1/3"></div>
+        </div>
+        <div className="space-y-2">
+          <div className="h-4 bg-primary-200 dark:bg-primary-800 rounded w-full"></div>
+          <div className="h-4 bg-primary-200 dark:bg-primary-800 rounded w-5/6"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!analysis) {
+    return (
+      <div className="bg-surface-50 dark:bg-surface-800/50 rounded-2xl p-5 border border-surface-200 dark:border-surface-700 text-center">
+        <p className="text-sm text-surface-500">AI analysis failed to load. Please try again later.</p>
+        <button onClick={handleReveal} className="mt-2 text-xs text-primary-600 font-bold hover:underline">Retry</button>
+      </div>
+    );
+  }
+
+  const { scamRisk, priceVerdict, aiSummary, health, market } = analysis;
+
+  const scamConfig = {
+    low:    { color: 'text-success-600', bg: 'bg-success-50 dark:bg-success-900/20', icon: HiOutlineShieldCheck, text: 'Low Risk' },
+    medium: { color: 'text-warning-600', bg: 'bg-warning-50 dark:bg-warning-900/20', icon: HiOutlineExclamationTriangle, text: 'Medium Risk' },
+    high:   { color: 'text-danger-600',  bg: 'bg-danger-50 dark:bg-danger-900/20',   icon: HiOutlineExclamationTriangle, text: 'High Risk' }
+  };
+  const currentScam = scamConfig[scamRisk] || scamConfig.low;
+  const ScamIcon = currentScam.icon;
+
+  const priceConfig = {
+    great_deal: { text: 'Great Deal 🔥', color: 'text-success-600', barColor: 'bg-success-500' },
+    fair_price: { text: 'Fair Price ✓',  color: 'text-primary-600', barColor: 'bg-primary-500' },
+    overpriced: { text: 'Overpriced ⚠',  color: 'text-danger-600',  barColor: 'bg-danger-500' },
+    unknown:    { text: 'New to Market', color: 'text-surface-500',  barColor: 'bg-surface-400' },
+  };
+  const currentPrice = priceConfig[priceVerdict] || priceConfig.unknown;
+

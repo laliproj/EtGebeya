@@ -24,3 +24,29 @@ try {
     $trust = $trustStmt->fetch(PDO::FETCH_ASSOC) ?: ['score' => 50, 'level' => 'bronze'];
 
     // 2. Pricing Competitiveness (How many of their active listings are "great_deal" or "fair_price")
+    $compStmt = $db->prepare("
+        SELECT a.price_verdict, COUNT(*) as count 
+        FROM ai_product_analysis a
+        JOIN products p ON a.product_id = p.id
+        WHERE p.sellerId = :uid AND p.status = 'active'
+        GROUP BY a.price_verdict");
+    $compStmt->execute([':uid' => $userId]);
+    $verdicts = $compStmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    $competitiveness = [
+        'great_deal' => 0,
+        'fair_price' => 0,
+        'overpriced' => 0,
+        'unknown'    => 0
+    ];
+    $totalActive = 0;
+    foreach ($verdicts as $v) {
+        $competitiveness[$v['price_verdict']] = (int)$v['count'];
+        $totalActive += (int)$v['count'];
+    }
+
+    $compScore = 0;
+    if ($totalActive > 0) {
+        $goodPricing = $competitiveness['great_deal'] + $competitiveness['fair_price'];
+        $compScore = round(($goodPricing / $totalActive) * 100);
+    }
