@@ -46,3 +46,12 @@ const RecentProducts = () => {
           {loading
             ? [...Array(8)].map((_, i) => <ProductCardSkeleton key={i} />)
             : products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default RecentProducts;

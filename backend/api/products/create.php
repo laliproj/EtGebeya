@@ -60,3 +60,34 @@ $features = isset($_POST['features']) ? json_decode($_POST['features'], true) : 
 if (!isset($_FILES['images']) || empty($_FILES['images']['name'][0])) {
     jsonResponse(false, "At least one image is required", null, 400);
 }
+
+$uploader = new Uploader();
+$uploadResult = $uploader->uploadImages($_FILES['images']);
+
+if (!$uploadResult['success']) {
+    jsonResponse(false, $uploadResult['message'], null, 400);
+}
+
+$imageUrls = $uploadResult['urls'];
+
+try {
+    $db->beginTransaction();
+
+    // 1. Insert product (status = 'pending' — awaits admin approval)
+    $query = "INSERT INTO products (sellerId, title, description, price, category, brand, model, `condition`, location, status)
+              VALUES (:sellerId, :title, :description, :price, :category, :brand, :model, :condition, :location, 'pending')";
+    $stmt = $db->prepare($query);
+    $stmt->execute([
+        ':sellerId'    => $sellerId,
+        ':title'       => $title,
+        ':description' => $description,
+        ':price'       => $price,
+        ':category'    => $category,
+        ':brand'       => $brand,
+        ':model'       => $model,
+        ':condition'   => $condition,
+        ':location'    => $location
+    ]);
+
+    $productId = $db->lastInsertId();
+
