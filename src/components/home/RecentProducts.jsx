@@ -34,3 +34,15 @@ const RecentProducts = () => {
             </h2>
             <p className="text-sm text-surface-500 mt-1">Fresh listings from our community</p>
           </div>
+          <Link 
+            to="/products?sort=newest" 
+            className="text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
+          >
+            View All
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {loading
+            ? [...Array(8)].map((_, i) => <ProductCardSkeleton key={i} />)
+            : products.map((product) => (
