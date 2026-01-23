@@ -122,3 +122,30 @@ try {
         foreach ($features as $feature) {
             $featStmt->execute([
                 ':pid' => $productId,
+                ':feat' => Validator::sanitize($feature)
+            ]);
+        }
+    }
+
+    $db->commit();
+
+    // 5. Notify Admins
+    try {
+        $adminQ = $db->query("SELECT id FROM users WHERE isAdmin = 1");
+        $admins = $adminQ->fetchAll(PDO::FETCH_ASSOC);
+        $notifQuery = "INSERT INTO notifications (user_id, type, title, message, icon) VALUES (:uid, 'pending_product', 'New Listing Request', 'A new product is awaiting approval: $title', '📦')";
+        $nStmt = $db->prepare($notifQuery);
+        foreach ($admins as $adminRow) {
+            $nStmt->execute([':uid' => $adminRow['id']]);
+        }
+    } catch(Exception $ex) {
+        // Ignore notification errors
+    }
+
+    jsonResponse(true, "Product created successfully", ['id' => $productId], 201);
+
+} catch(Exception $e) {
+    $db->rollBack();
+    jsonResponse(false, "Failed to create product: " . $e->getMessage(), null, 500);
+}
+?>
