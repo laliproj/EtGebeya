@@ -151,3 +151,51 @@ const AIAnalysisWidget = ({ product }) => {
           <span className={`text-sm font-bold ${currentScam.color}`}>{currentScam.text}</span>
         </div>
 
+        {/* Valuation */}
+        <div className="flex flex-col items-center justify-center p-3 rounded-xl border border-white/50 dark:border-surface-700/50 bg-white/50 dark:bg-surface-800/50">
+          <HiOutlineCurrencyDollar className={`w-6 h-6 mb-1 ${currentPrice.color}`} />
+          <span className="text-xs font-semibold text-surface-600 dark:text-surface-400 uppercase tracking-wide">Valuation</span>
+          <span className={`text-sm font-bold ${currentPrice.color}`}>{currentPrice.text}</span>
+        </div>
+      </div>
+
+      {/* Electronics Health */}
+      {health?.battery && (
+        <div className="mt-4 pt-4 border-t border-primary-200/50 dark:border-primary-800/50 flex items-start gap-3">
+          <div className="bg-success-100 dark:bg-success-900/30 p-2 rounded-lg text-success-600 dark:text-success-400 shrink-0">
+            <HiOutlineHeart className="w-5 h-5" />
+          </div>
+          <div>
+            <h4 className="text-sm font-bold text-surface-900 dark:text-white">Health Prediction</h4>
+            <div className="flex items-center gap-4 mt-1">
+              <div>
+                <p className="text-xs text-surface-500">Est. Battery</p>
+                <p className="text-sm font-semibold text-success-600 dark:text-success-400">~{health.battery}%</p>
+              </div>
+              <div>
+                <p className="text-xs text-surface-500">Expected Lifespan</p>
+                <p className="text-sm font-semibold text-surface-700 dark:text-surface-300">{health.lifespan}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Warning Flags */}
+      {analysis.flags?.length > 0 && (
+        <div className="mt-4 bg-danger-50 dark:bg-danger-900/10 p-3 rounded-xl border border-danger-100 dark:border-danger-800/30">
+          <p className="text-xs font-bold text-danger-700 dark:text-danger-400 mb-2 flex items-center gap-1">
+            <HiOutlineExclamationTriangle className="w-4 h-4" /> AI Warnings Detected:
+          </p>
+          <ul className="text-xs text-danger-600 dark:text-danger-400 space-y-1 list-disc list-inside">
+            {analysis.flags.map((flag, idx) => (
+              <li key={idx}>{flag}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AIAnalysisWidget;
