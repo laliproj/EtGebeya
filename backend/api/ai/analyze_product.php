@@ -244,3 +244,126 @@ if ($marketAvg && $marketLow && $marketHigh) {
     }
 }
 
+// ─── 3. SCAM DETECTION ──────────────────────────────────────────────────────
+$scamScore = 0; // 0 = clean, accumulate to determine risk
+$flags = [];
+
+// 3a. Suspiciously low price
+if ($marketAvg && $price < $marketAvg * 0.4) {
+    $scamScore += 40;
+    $flags[] = "Price is suspiciously low compared to market average.";
+}
+// 3b. Very short/vague description
+if (mb_strlen($description) < 30) {
+    $scamScore += 20;
+    $flags[] = "Description is too short and lacks detail.";
+}
+// 3c. Common scam phrases in description
+$scamPhrases = ['whatsapp only', 'contact me on telegram', 'outside the platform', 
+    'pay before viewing', 'western union', 'money transfer first', 'i am abroad',
+    'send money', 'gift card', 'wire transfer'];
+foreach ($scamPhrases as $phrase) {
+    if (stripos($description, $phrase) !== false || stripos($title, $phrase) !== false) {
+        $scamScore += 35;
+        $flags[] = "Suspicious phrase detected: \"$phrase\"";
+        break;
+    }
+}
+// 3d. Title/brand mismatch
+$knownBrands = ['Apple','Samsung','Dell','HP','Lenovo','Sony','LG','Asus','Acer','Huawei',
+    'Xiaomi','OnePlus','Google','Microsoft','Nintendo','PlayStation','Xbox','Canon',
+    'Nikon','DJI','Bose','JBL'];
+$titleHasBrand = false;
+foreach ($knownBrands as $kb) {
+    if (stripos($title, $kb) !== false) { $titleHasBrand = true; break; }
+}
+if (!empty($brand) && !in_array($brand, $knownBrands) && $titleHasBrand) {
+    $scamScore += 15;
+    $flags[] = "Brand name does not match recognized brand list.";
+}
+// 3e. Check for duplicate similar titles from different sellers
+if ($productId) {
+    $dupStmt = $db->prepare("SELECT COUNT(*) FROM products 
+        WHERE title LIKE :title AND sellerId != :uid AND status IN ('active','pending') AND id != :pid");
+    $dupStmt->execute([':title' => '%' . substr($title, 0, 20) . '%', ':uid' => $userId, ':pid' => $productId]);
+} else {
+    $dupStmt = $db->prepare("SELECT COUNT(*) FROM products 
+        WHERE title LIKE :title AND sellerId != :uid AND status IN ('active','pending')");
+    $dupStmt->execute([':title' => '%' . substr($title, 0, 20) . '%', ':uid' => $userId]);
+}
+$dupCount = (int)$dupStmt->fetchColumn();
+if ($dupCount >= 3) {
+    $scamScore += 15;
+    $flags[] = "Similar listing exists from $dupCount other sellers — verify authenticity.";
+}
+// 3f. Seller warning check
+$warnStmt = $db->prepare("SELECT warnings, isBanned FROM users WHERE id = :uid");
+$warnStmt->execute([':uid' => $userId]);
+$sellerMeta = $warnStmt->fetch(PDO::FETCH_ASSOC);
+if ($sellerMeta && $sellerMeta['warnings'] >= 2) {
+    $scamScore += 20;
+    $flags[] = "Seller has received multiple warnings on the platform.";
+}
+
+// Determine final scam risk level
+if ($scamScore >= 50)      $scamRisk = 'high';
+elseif ($scamScore >= 25)  $scamRisk = 'medium';
+else                       $scamRisk = 'low';
+
+// Authenticity score: inverse of scam score, min 20
+$authenticityScore = max(20, 100 - ($scamScore * 1.5));
+
+// ─── 4. SPEC EXTRACTION (Rule-based NLP) ─────────────────────────────────────
+$fullText = strtolower($title . ' ' . $description);
+$extractedSpecs = [];
+
+$patterns = [
+    'storage'   => ['/(\d+)\s*(?:gb|tb)\s+(?:storage|ssd|hdd|emmc|ufs|nvme|rom|internal)/i',
+                    '/storage[:\s]+(\d+\s*(?:gb|tb))/i', '/(\d+(?:gb|tb))\s+(?:ssd|hdd|rom)/i'],
+    'ram'       => ['/(\d+)\s*gb\s+(?:ram|memory|lpddr\d*)/i', '/ram[:\s]+(\d+\s*gb)/i',
+                    '/(\d+)gb\s+ram/i'],
+    'processor' => ['/(?:intel|amd|apple|snapdragon|mediatek|exynos|dimensity)\s+[\w\d\s]+(?:i\d|m\d|ryzen|core|pro)/i',
+                    '/(?:intel|amd)\s+(core\s+i\d[-\s]\d+\w*)/i',
+                    '/(snapdragon\s+\d+\w*|mediatek\s+\w+|apple\s+m\d\w*|apple\s+a\d+)/i'],
+    'camera'    => ['/(\d+(?:\+\d+)*)\s*mp\s+(?:camera|rear|main)/i', '/main\s+camera[:\s]+(\d+\s*mp)/i'],
+    'battery'   => ['/(\d{3,5})\s*m?ah\s*(?:battery)?/i', '/battery[:\s]+(\d{3,5})\s*m?ah/i'],
+    'screen'    => ['/(\d+(?:\.\d+)?)["\s-]*inch/i', '/display[:\s]+(\d+(?:\.\d+)?)\s*(?:inch|")/i'],
+    'refresh_rate' => ['/(\d+)\s*hz/i', '/refresh rate[:\s]+(\d+\s*hz)/i'],
+    'gpu'       => ['/(rtx\s*\d+\w*|gtx\s*\d+\w*|radeon\s+rx\s*\d+\w*|apple\s+m\d\s+\d+-core\s+gpu)/i'],
+    'os'        => ['/(windows\s+\d+|macos\s+\w+|android\s+\d+|ios\s+\d+|chrome\s*os)/i'],
+    'color'     => ['/(space\s+gray|natural\s+titanium|black\s+titanium|midnight|starlight|silver|gold|graphite|blue|black|white|red|green|purple|yellow)/i'],
+    'weight'    => ['/(\d+(?:\.\d+)?)\s*(?:kg|g)\s+(?:weight|heavy)/i', '/weight[:\s]+(\d+(?:\.\d+)?)\s*(?:kg|g)/i'],
+];
+
+foreach ($patterns as $spec => $patternList) {
+    foreach ($patternList as $pattern) {
+        if (preg_match($pattern, $fullText, $match)) {
+            $extractedSpecs[$spec] = trim($match[1] ?? $match[0]);
+            break;
+        }
+    }
+}
+
+// ─── 5. AI SUMMARY GENERATION (Rule-based template) ───────────────────────────
+$conditionText = strtolower($condition) === 'new' ? 'brand new' : 'pre-owned';
+$specList = [];
+if (!empty($extractedSpecs['ram']))       $specList[] = $extractedSpecs['ram'] . ' RAM';
+if (!empty($extractedSpecs['storage']))   $specList[] = $extractedSpecs['storage'] . ' storage';
+if (!empty($extractedSpecs['processor'])) $specList[] = $extractedSpecs['processor'] . ' processor';
+if (!empty($extractedSpecs['camera']))    $specList[] = $extractedSpecs['camera'] . ' camera';
+if (!empty($extractedSpecs['battery']))   $specList[] = $extractedSpecs['battery'] . ' mAh battery';
+if (!empty($extractedSpecs['screen']))    $specList[] = $extractedSpecs['screen'] . '" display';
+
+$use_cases = [
+    'phones'    => 'communication, photography, and everyday use',
+    'laptops'   => 'work, development, and multimedia tasks',
+    'tablets'   => 'reading, browsing, and media consumption',
+    'cameras'   => 'photography and videography',
+    'gaming'    => 'gaming and entertainment',
+    'audio'     => 'music listening and audio entertainment',
+    'tvs'       => 'entertainment and media viewing',
+    'consoles'  => 'gaming and entertainment',
+];
+$useCase = $use_cases[$category] ?? 'everyday use';
+
+if (!empty($specList)) {

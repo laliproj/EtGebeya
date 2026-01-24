@@ -16,3 +16,12 @@ const SimilarProducts = ({ productId }) => {
         console.error('Failed to fetch similar products', error);
       } finally {
         setLoading(false);
+      }
+    };
+    if (productId) {
+      fetchSimilar();
+    }
+  }, [productId]);
+
+  if (!loading && products.length === 0) return null;
+
