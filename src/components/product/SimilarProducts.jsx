@@ -34,3 +34,11 @@ const SimilarProducts = ({ productId }) => {
         {loading
           ? [...Array(4)].map((_, i) => <ProductCardSkeleton key={i} />)
           : products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+      </div>
+    </div>
+  );
+};
+
+export default SimilarProducts;

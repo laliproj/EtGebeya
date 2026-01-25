@@ -58,3 +58,62 @@ try {
         $rawScore += (int)($approvalRate * 10); // up to +10 pts
     }
 
+    // Rating count bonus (credibility from many ratings)
+    if ($seller['totalRatings'] >= 10) $rawScore += 5;
+    if ($seller['totalRatings'] >= 25) $rawScore += 5;
+
+    // Cap the score
+    $score = max(0, min(100, (int)$rawScore));
+    if ($seller['isBanned']) $score = min(10, $score);
+
+    // Trust levels
+    if ($score >= 85)      $level = 'platinum';
+    elseif ($score >= 70)  $level = 'gold';
+    elseif ($score >= 50)  $level = 'silver';
+    else                   $level = 'bronze';
+
+    // Level labels and icons
+    $levelConfig = [
+        'bronze'   => ['label' => 'Bronze Seller',          'icon' => '🥉', 'color' => 'text-amber-700'],
+        'silver'   => ['label' => 'Silver Seller',          'icon' => '🥈', 'color' => 'text-gray-500'],
+        'gold'     => ['label' => 'Gold Trusted Seller',    'icon' => '🥇', 'color' => 'text-yellow-500'],
+        'platinum' => ['label' => 'Platinum Trusted Seller','icon' => '💎', 'color' => 'text-primary-500'],
+    ];
+
+    // Save / update trust score
+    $upsertStmt = $db->prepare("INSERT INTO seller_trust_scores 
+        (seller_id, score, level, sales_points, rating_points, warning_deductions)
+        VALUES (:sid, :score, :level, :sp, :rp, :wd)
+        ON DUPLICATE KEY UPDATE
+            score = VALUES(score),
+            level = VALUES(level),
+            sales_points = VALUES(sales_points),
+            rating_points = VALUES(rating_points),
+            warning_deductions = VALUES(warning_deductions),
+            updated_at = CURRENT_TIMESTAMP");
+    $upsertStmt->execute([
+        ':sid'   => $sellerId,
+        ':score' => $score,
+        ':level' => $level,
+        ':sp'    => $salesPoints,
+        ':rp'    => $ratingPoints,
+        ':wd'    => $warnDeduct,
+    ]);
+
+    jsonResponse(true, "Trust score calculated", [
+        'score'       => $score,
+        'level'       => $level,
+        'levelConfig' => $levelConfig[$level],
+        'breakdown'   => [
+            'base'             => 50,
+            'salesPoints'      => $salesPoints,
+            'ratingPoints'     => round($ratingPoints, 1),
+            'agePoints'        => $agePoints,
+            'warningDeduction' => -$warnDeduct,
+        ],
+    ]);
+} catch (PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
+    
