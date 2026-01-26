@@ -19,3 +19,24 @@ if (!in_array($_SERVER['REQUEST_METHOD'], ['DELETE', 'POST'])) {
 }
 
 // Support product ID via query string (DELETE) or JSON body (POST)
+if (isset($_GET['id'])) {
+    $productId = (int)$_GET['id'];
+} else {
+    $body = json_decode(file_get_contents("php://input"), true);
+    $productId = (int)($body['productId'] ?? 0);
+}
+
+if (!$productId) {
+    jsonResponse(false, "Product ID is required", null, 400);
+}
+
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    // Verify ownership
+    $checkStmt = $db->prepare("SELECT sellerId FROM products WHERE id = :id");
+    $checkStmt->execute([':id' => $productId]);
+    if ($checkStmt->rowCount() === 0) {
+        jsonResponse(false, "Product not found", null, 404);
+    }
