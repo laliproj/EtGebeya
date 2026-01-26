@@ -54,3 +54,59 @@ const AIChatbot = () => {
   }, [isOpen]);
 
   useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const sendMessage = async (text) => {
+    const userText = text || input.trim();
+    if (!userText || loading) return;
+
+    setInput('');
+    setQuickReplies([]);
+    setMessages(prev => [...prev, { role: 'user', text: userText }]);
+    setLoading(true);
+
+    // Typing indicator
+    setMessages(prev => [...prev, { role: 'bot', text: '...', isTyping: true }]);
+
+    try {
+      // Filter out typing placeholders so they are never sent to the backend
+      const cleanHistory = messages
+        .filter(m => !m.isTyping)
+        .map(m => ({ role: m.role, text: m.text }));
+
+      const response = await api.post(
+        '/ai/chatbot.php',
+        { message: userText, history: cleanHistory },
+        { timeout: 25000 } // Gemini + DB query can take up to ~15 s
+      );
+
+      const { reply, quickReplies: qr } = response.data.data;
+      setMessages(prev => [
+        ...prev.filter(m => !m.isTyping),
+        { role: 'bot', text: reply },
+      ]);
+      if (qr?.length) setQuickReplies(qr);
+
+      if (!isOpen) setUnread(u => u + 1);
+    } catch (err) {
+      // Try to surface any reply the backend included in an error response
+      const fallbackReply =
+        err?.response?.data?.data?.reply ||
+        "😔 Sorry, I'm having trouble connecting. Please try again or contact admin at **admin@etgebeya.com**.";
+      setMessages(prev => [
+        ...prev.filter(m => !m.isTyping),
+        { role: 'bot', text: fallbackReply },
+      ]);
+      setQuickReplies(['Try again', 'Contact admin']);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      {/* Floating Button */}
+      <button
+        onClick={() => setIsOpen(o => !o)}
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-br from-primary-600 to-accent-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-200 group"
