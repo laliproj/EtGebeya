@@ -46,3 +46,50 @@ const ProductGallery = ({ images, title }) => {
             >
               <HiOutlineChevronLeft className="w-6 h-6" />
             </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); handleNext(); }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/80 dark:bg-surface-900/80 backdrop-blur text-surface-900 dark:text-white opacity-0 group-hover:opacity-100 hover:scale-110 transition-all shadow-lg"
+            >
+              <HiOutlineChevronRight className="w-6 h-6" />
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* Thumbnails */}
+      {safeImages.length > 1 && (
+        <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2 snap-x">
+          {safeImages.map((img, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`relative shrink-0 w-20 h-20 rounded-xl overflow-hidden snap-start transition-all ${
+                currentIndex === index
+                  ? 'ring-2 ring-primary-500 opacity-100'
+                  : 'opacity-60 hover:opacity-100'
+              }`}
+            >
+              <img src={img} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Fullscreen Zoom Modal (Simple implementation) */}
+      {isZoomed && (
+        <div 
+          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 sm:p-8 cursor-zoom-out"
+          onClick={() => setIsZoomed(false)}
+        >
+          <img
+            src={images[currentIndex]}
+            alt={`${title} - Fullscreen`}
+            className="max-w-full max-h-full object-contain"
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ProductGallery;

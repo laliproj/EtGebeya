@@ -13,3 +13,18 @@ require_once __DIR__ . '/../../helpers/response.php';
 require_once __DIR__ . '/../../middleware/auth.php';
 
 $userId = AuthMiddleware::authenticate();
+$data = json_decode(file_get_contents("php://input"), true);
+
+$action    = $data['action'] ?? 'view';
+$productId = $data['productId'] ?? null;
+$category  = $data['category'] ?? null;
+$brand     = $data['brand'] ?? null;
+
+if (!in_array($action, ['view', 'wishlist', 'search'])) {
+    jsonResponse(false, "Invalid action", null, 400);
+}
+
+$database = new Database();
+$db = $database->getConnection();
+
+try {
