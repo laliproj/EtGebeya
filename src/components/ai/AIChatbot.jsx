@@ -166,3 +166,56 @@ const AIChatbot = () => {
                 </div>
               ) : (
                 <MessageBubble key={idx} msg={msg} />
+              )
+            ))}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Quick Replies */}
+          {quickReplies.length > 0 && (
+            <div className="px-4 py-2 flex flex-wrap gap-1.5 border-t border-surface-100 dark:border-surface-800 bg-white dark:bg-surface-900">
+              {quickReplies.map((qr, i) => (
+                <button
+                  key={i}
+                  onClick={() => sendMessage(qr)}
+                  className="px-3 py-1.5 bg-primary-50 dark:bg-primary-900/30 hover:bg-primary-100 dark:hover:bg-primary-900/50 text-primary-700 dark:text-primary-300 text-xs font-medium rounded-full border border-primary-200 dark:border-primary-800/50 transition-colors flex items-center gap-1"
+                >
+                  {qr === 'Contact admin' && <HiOutlineArrowTopRightOnSquare className="w-3 h-3" />}
+                  {qr}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Input */}
+          <div className="px-4 py-3 border-t border-surface-100 dark:border-surface-800 bg-white dark:bg-surface-900 flex items-center gap-2">
+            <input
+              ref={inputRef}
+              type="text"
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && !e.shiftKey && sendMessage()}
+              placeholder="Ask anything about EtGebeya..."
+              className="flex-1 bg-surface-100 dark:bg-surface-800 border-0 rounded-xl px-4 py-2.5 text-sm text-surface-900 dark:text-white placeholder:text-surface-400 focus:outline-none focus:ring-2 focus:ring-primary-500/30 transition-all"
+              disabled={loading}
+            />
+            <button
+              onClick={() => sendMessage()}
+              disabled={loading || !input.trim()}
+              className="w-10 h-10 bg-gradient-to-br from-primary-600 to-accent-600 disabled:opacity-40 text-white rounded-xl flex items-center justify-center hover:opacity-90 active:scale-95 transition-all shrink-0"
+            >
+              <HiOutlinePaperAirplane className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Powered by footer */}
+          <div className="px-4 pb-2 text-center">
+            <p className="text-[10px] text-surface-400">Powered by EtGebeya AI • v1.0</p>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default AIChatbot;
