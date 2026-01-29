@@ -28,3 +28,17 @@ $database = new Database();
 $db = $database->getConnection();
 
 try {
+    $stmt = $db->prepare("INSERT INTO user_behavior_logs (user_id, product_id, category, brand, action) 
+                          VALUES (:uid, :pid, :cat, :brand, :action)");
+    $stmt->execute([
+        ':uid'   => $userId,
+        ':pid'   => $productId,
+        ':cat'   => $category,
+        ':brand' => $brand,
+        ':action'=> $action
+    ]);
+    jsonResponse(true, "Behavior logged");
+} catch (PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
