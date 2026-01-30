@@ -51,3 +51,56 @@ const NegotiationModal = ({ product, onClose }) => {
           <button onClick={onClose} className="text-surface-400 hover:text-surface-700 dark:hover:text-surface-200 transition-colors">
             <HiOutlineXMark className="w-5 h-5" />
           </button>
+        </div>
+
+        {/* Product Info */}
+        <div className="flex items-center gap-3 p-3 bg-surface-50 dark:bg-surface-800 rounded-xl mb-5">
+          {product.images?.[0] && (
+            <img src={product.images[0]} alt={product.title} className="w-14 h-14 rounded-xl object-cover shrink-0" />
+          )}
+          <div className="min-w-0">
+            <p className="font-semibold text-surface-900 dark:text-white text-sm truncate">{product.title}</p>
+            <p className="text-lg font-bold text-primary-600 dark:text-primary-400">{formatPrice(product.price)}</p>
+          </div>
+        </div>
+
+        {!result ? (
+          <>
+            <div className="mb-5">
+              <label className="block text-sm font-semibold text-surface-700 dark:text-surface-300 mb-2">
+                Your Offer Price (ETB)
+              </label>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-surface-400">ETB</span>
+                <input
+                  type="number"
+                  value={offer}
+                  onChange={e => setOffer(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && handleSubmit()}
+                  placeholder="e.g. 45000"
+                  className="w-full pl-14 pr-4 py-3.5 bg-surface-50 dark:bg-surface-800 border-2 border-surface-200 dark:border-surface-700 rounded-2xl text-surface-900 dark:text-white text-lg font-bold focus:outline-none focus:border-primary-500 transition-colors"
+                  autoFocus
+                />
+              </div>
+              <p className="text-xs text-surface-400 mt-2">
+                Listed at {formatPrice(product.price)} • Our AI will evaluate your offer fairly
+              </p>
+            </div>
+
+            <button
+              onClick={handleSubmit}
+              disabled={loading || !offer}
+              className="w-full py-3.5 bg-gradient-to-r from-primary-600 to-accent-600 text-white font-bold rounded-2xl hover:opacity-90 active:scale-95 transition-all disabled:opacity-40 flex items-center justify-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  AI is evaluating...
+                </>
+              ) : (
+                <>
+                  <HiOutlineHandRaised className="w-5 h-5" />
+                  Submit Offer
+                </>
+              )}
+            </button>

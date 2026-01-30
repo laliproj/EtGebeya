@@ -22,3 +22,15 @@ try {
                                 ORDER BY count DESC LIMIT 5");
     $searchStmt->execute();
     $trendingSearches = $searchStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // 2. Trending Products (most viewed recently)
+    // In a real app we'd use behavior logs. Here we mock it by recent high views.
+    $productStmt = $db->prepare("
+        SELECT p.id, p.title, p.price, p.category, p.brand, p.views, u.name as sellerName, u.trustScore as sellerRating,
+            (SELECT image_url FROM product_images WHERE product_id = p.id AND is_cover = 1 LIMIT 1) as coverImage
+        FROM products p
+        LEFT JOIN users u ON p.sellerId = u.id
+        WHERE p.status = 'active'
+        ORDER BY p.views DESC, p.postedAt DESC LIMIT 6");
+    $productStmt->execute();
+    $trendingProductsRaw = $productStmt->fetchAll(PDO::FETCH_ASSOC);
