@@ -104,3 +104,55 @@ const NegotiationModal = ({ product, onClose }) => {
                 </>
               )}
             </button>
+          </>
+        ) : (
+          <div className={`rounded-2xl border p-5 ${verdictCfg.bg}`}>
+            <div className="flex items-center gap-3 mb-3">
+              <verdictCfg.icon className={`w-7 h-7 shrink-0 ${verdictCfg.color}`} />
+              <span className={`font-bold text-base ${verdictCfg.color}`}>
+                {result.verdict === 'accepted' ? 'Offer Accepted!' :
+                 result.verdict === 'pre_approved' ? 'Offer Forwarded to Seller' :
+                 result.verdict === 'counter' ? 'AI Counter-Offer' :
+                 result.verdict === 'rejected' ? 'Offer Rejected' : 'Error'}
+              </span>
+            </div>
+
+            <div
+              className="text-sm text-surface-700 dark:text-surface-300 leading-relaxed"
+              dangerouslySetInnerHTML={{
+                __html: result.message
+                  .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                  .replace(/\n/g, '<br/>')
+              }}
+            />
+
+            {result.counter && result.verdict === 'counter' && (
+              <div className="mt-4 flex items-center justify-center gap-3">
+                <div className="text-center">
+                  <p className="text-xs text-surface-500">Your Offer</p>
+                  <p className="font-bold text-surface-700 dark:text-surface-300 line-through">{formatPrice(parseFloat(offer))}</p>
+                </div>
+                <HiOutlineArrowsRightLeft className="text-warning-500 w-5 h-5" />
+                <div className="text-center">
+                  <p className="text-xs text-surface-500">AI Suggests</p>
+                  <p className="font-bold text-warning-600 dark:text-warning-400 text-lg">{formatPrice(result.counter)}</p>
+                </div>
+              </div>
+            )}
+
+            <div className="flex gap-3 mt-5">
+              <button onClick={() => setResult(null)} className="flex-1 py-2.5 rounded-xl border border-surface-200 dark:border-surface-700 text-surface-700 dark:text-surface-300 text-sm font-medium hover:bg-surface-50 dark:hover:bg-surface-800 transition-colors">
+                Try Again
+              </button>
+              <button onClick={onClose} className="flex-1 py-2.5 rounded-xl bg-surface-900 dark:bg-white text-white dark:text-surface-900 text-sm font-bold transition-colors">
+                Done
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default NegotiationModal;

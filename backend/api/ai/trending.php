@@ -34,3 +34,15 @@ try {
         ORDER BY p.views DESC, p.postedAt DESC LIMIT 6");
     $productStmt->execute();
     $trendingProductsRaw = $productStmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    $trendingProducts = array_map(function($p) {
+        return [
+            'id' => (int)$p['id'],
+            'title' => $p['title'],
+            'price' => (float)$p['price'],
+            'category' => $p['category'],
+            'brand' => $p['brand'],
+            'views' => (int)$p['views'],
+            'sellerName' => $p['sellerName'],
+            'sellerRating' => (float)$p['sellerRating'],
+            'images' => $p['coverImage'] ? [$p['coverImage']] : []
