@@ -22,3 +22,15 @@ const BottomNav = () => {
     { to: isAuthenticated ? '/profile' : '/login', icon: HiOutlineUser, label: 'Profile' },
   ];
 
+  return (
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 glass border-t border-surface-200/50 dark:border-surface-700/50">
+      <div className="flex items-center justify-around h-16 px-2">
+        {navItems.map((item) => (
+          <NavLink
+            key={item.label}
+            to={item.to}
+            className={({ isActive }) =>
+              `flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all duration-200 ${
+                item.isSpecial
+                  ? ''
+                  : isActive
