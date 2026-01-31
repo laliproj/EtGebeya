@@ -46,3 +46,14 @@ const BottomNav = () => {
             ) : (
               <item.icon className="w-6 h-6" />
             )}
+            <span className={`text-[10px] font-medium ${item.isSpecial ? 'mt-1 text-primary-600 dark:text-primary-400' : ''}`}>
+              {item.label}
+            </span>
+          </NavLink>
+        ))}
+      </div>
+    </nav>
+  );
+};
+
+export default BottomNav;
