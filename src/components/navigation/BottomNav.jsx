@@ -34,3 +34,15 @@ const BottomNav = () => {
                 item.isSpecial
                   ? ''
                   : isActive
+                  ? 'text-primary-600 dark:text-primary-400'
+                  : 'text-surface-400 dark:text-surface-500 hover:text-surface-600 dark:hover:text-surface-300'
+              }`
+            }
+          >
+            {item.isSpecial ? (
+              <div className="w-11 h-11 -mt-5 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl flex items-center justify-center shadow-lg shadow-primary-500/30 hover:shadow-primary-500/50 transition-all duration-200 hover:-translate-y-0.5">
+                <item.icon className="w-6 h-6 text-white" />
+              </div>
+            ) : (
+              <item.icon className="w-6 h-6" />
+            )}

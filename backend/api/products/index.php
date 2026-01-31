@@ -38,3 +38,43 @@ try {
         $query .= " AND p.price >= :priceMin";
         $params[':priceMin'] = (float)$_GET['priceMin'];
     }
+    if (isset($_GET['priceMax'])) {
+        $query .= " AND p.price <= :priceMax";
+        $params[':priceMax'] = (float)$_GET['priceMax'];
+    }
+
+    $query .= " ORDER BY p.postedAt DESC";
+
+    $stmt = $db->prepare($query);
+    $stmt->execute($params);
+
+    $products = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // Format product data to match frontend expectations
+        $product = [
+            'id' => (int)$row['id'],
+            'title' => $row['title'],
+            'description' => $row['description'],
+            'price' => (float)$row['price'],
+            'category' => $row['category'],
+            'brand' => $row['brand'],
+            'model' => $row['model'],
+            'condition' => $row['condition'],
+            'images' => $row['images'] ? explode(',', $row['images']) : [],
+            'sellerId' => (int)$row['sellerId'],
+            'sellerName' => $row['seller_name'],
+            'sellerRating' => (float)$row['seller_rating'],
+            'location' => $row['location'],
+            'postedAt' => date('c', strtotime($row['postedAt'])),
+            'views' => (int)$row['views'],
+            'isFeatured' => (bool)$row['isFeatured']
+        ];
+        $products[] = $product;
+    }
+
+    jsonResponse(true, "Products retrieved", $products);
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
