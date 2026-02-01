@@ -12,3 +12,17 @@ require_once __DIR__ . '/../../helpers/response.php';
 require_once __DIR__ . '/../../middleware/auth.php';
 
 $sellerId = AuthMiddleware::authenticate();
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    jsonResponse(false, "Method not allowed", null, 405);
+}
+
+$data = json_decode(file_get_contents("php://input"), true);
+$productId = (int)($data['productId'] ?? 0);
+
+if (!$productId) {
+    jsonResponse(false, "Product ID is required", null, 400);
+}
+
+$database = new Database();
+$db = $database->getConnection();
