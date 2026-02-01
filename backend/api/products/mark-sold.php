@@ -40,3 +40,16 @@ try {
         jsonResponse(false, "Unauthorized to update this product", null, 403);
     }
 
+    $stmt = $db->prepare("UPDATE products SET status = 'sold' WHERE id = :id");
+    $stmt->execute([':id' => $productId]);
+
+    // Update totalSold for the seller
+    $db->prepare("UPDATE users SET totalSold = totalSold + 1 WHERE id = :id")
+       ->execute([':id' => $sellerId]);
+
+    jsonResponse(true, "Product marked as sold.");
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
