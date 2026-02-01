@@ -157,3 +157,56 @@ const Navbar = () => {
                     <img
                       src={user?.avatar}
                       alt={user?.name}
+                      className="w-7 h-7 rounded-lg object-cover ring-2 ring-primary-500/20"
+                    />
+                  </button>
+
+                  {showUserMenu && (
+                    <div className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-surface-800 rounded-xl shadow-xl border border-surface-200 dark:border-surface-700 py-2 animate-scale-in origin-top-right">
+                      <div className="px-4 py-3 border-b border-surface-100 dark:border-surface-700">
+                        <p className="font-semibold text-surface-900 dark:text-white text-sm">{user?.name}</p>
+                        <p className="text-xs text-surface-500 mt-0.5">{user?.email}</p>
+                        {user?.isAdmin && (
+                          <span className="inline-flex items-center gap-1 mt-1.5 px-2 py-0.5 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 text-xs font-semibold rounded-full">
+                            <HiOutlineShieldCheck className="w-3 h-3" /> Admin
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Admin link — only visible to admins */}
+                      {user?.isAdmin && (
+                        <Link
+                          to="/admin"
+                          onClick={() => setShowUserMenu(false)}
+                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-primary-700 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors font-semibold"
+                        >
+                          <HiOutlineShieldCheck className="w-4 h-4" />
+                          የአስተዳዳሪ ፓነል — Admin Panel
+                        </Link>
+                      )}
+
+                      <Link
+                        to="/profile"
+                        onClick={() => setShowUserMenu(false)}
+                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-surface-700 transition-colors"
+                      >
+                        <HiOutlineUser className="w-4 h-4" />
+                        መግቢያ / My Profile
+                      </Link>
+                      <Link
+                        to="/dashboard"
+                        onClick={() => setShowUserMenu(false)}
+                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-surface-700 transition-colors"
+                      >
+                        <HiOutlineChartBarSquare className="w-4 h-4" />
+                        ዳሽቦርዴ / Dashboard
+                      </Link>
+                      <Link
+                        to="/wishlist"
+                        onClick={() => setShowUserMenu(false)}
+                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-surface-700 dark:text-surface-300 hover:bg-surface-50 dark:hover:bg-surface-700 transition-colors"
+                      >
+                        <HiOutlineHeart className="w-4 h-4" />
+                        ምርጦቼ / Wishlist
+                      </Link>
+                      <Link
