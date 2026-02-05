@@ -15,3 +15,20 @@ function App() {
     // Check authentication status on app load
     dispatch(checkAuth());
     
+    // Fetch user specific data if logged in
+    if (isAuthenticated) {
+      dispatch(fetchNotificationsAPI());
+      dispatch(fetchWishlist());
+    }
+  }, [dispatch, isAuthenticated]);
+
+  return (
+    <>
+      <AppRouter />
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          className: 'bg-white text-surface-900 dark:bg-surface-800 dark:text-white shadow-xl border border-surface-200 dark:border-surface-700',
+          success: {
+            iconTheme: {

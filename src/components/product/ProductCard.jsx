@@ -94,3 +94,33 @@ const ProductCard = ({ product }) => {
         </div>
 
         <h3 className="text-sm font-medium text-surface-800 dark:text-surface-100 line-clamp-2 mb-4 flex-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+          {product.title}
+        </h3>
+
+        <div className="mt-auto space-y-2">
+          <div className="flex items-center gap-1.5 text-xs text-surface-500 dark:text-surface-400">
+            <HiOutlineMapPin className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">{product.location}</span>
+          </div>
+          <div className="flex items-center justify-between text-xs text-surface-500 dark:text-surface-400">
+            <div className="flex items-center gap-1.5">
+              <HiOutlineClock className="w-3.5 h-3.5 shrink-0" />
+              <span>{timeAgo(product.postedAt)}</span>
+            </div>
+            <span className="font-medium text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wide">
+              {product.condition}
+            </span>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+};
+
+export default ProductCard;
+
+// 
+// 
+// 
+// 
+// 
