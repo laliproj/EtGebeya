@@ -39,3 +39,44 @@ const AIAnalysisWidget = ({ product }) => {
         <div className="bg-surface-900/60 backdrop-blur-md rounded-xl p-4 md:p-5 border border-white/10 flex items-center justify-between transition-all">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 p-0.5 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform shrink-0">
+               <div className="w-full h-full bg-surface-900 rounded-full flex items-center justify-center">
+                 <HiOutlineSparkles className="w-6 h-6 text-primary-400" />
+               </div>
+            </div>
+            <div>
+              <h3 className="font-bold text-white text-base md:text-lg mb-0.5">AI Analysis & Insights</h3>
+              <p className="text-xs md:text-sm text-surface-400">Tap to reveal price valuation & scam risk</p>
+            </div>
+          </div>
+          <div className="text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0">
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+      </button>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="bg-primary-50 dark:bg-primary-900/10 rounded-2xl p-5 border border-primary-100 dark:border-primary-800/30 animate-pulse">
+        <div className="flex items-center gap-2 mb-3">
+          <HiOutlineSparkles className="w-5 h-5 text-primary-400" />
+          <div className="h-5 bg-primary-200 dark:bg-primary-800 rounded w-1/3"></div>
+        </div>
+        <div className="space-y-2">
+          <div className="h-4 bg-primary-200 dark:bg-primary-800 rounded w-full"></div>
+          <div className="h-4 bg-primary-200 dark:bg-primary-800 rounded w-5/6"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!analysis) {
+    return (
+      <div className="bg-surface-50 dark:bg-surface-800/50 rounded-2xl p-5 border border-surface-200 dark:border-surface-700 text-center">
+        <p className="text-sm text-surface-500">AI analysis failed to load. Please try again later.</p>
+        <button onClick={handleReveal} className="mt-2 text-xs text-primary-600 font-bold hover:underline">Retry</button>
+      </div>
+    );

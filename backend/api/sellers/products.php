@@ -13,3 +13,18 @@ require_once __DIR__ . '/../../middleware/auth.php';
 
 if (!isset($_GET['id'])) {
     jsonResponse(false, "Seller ID is required", null, 400);
+}
+
+$sellerId = (int)$_GET['id'];
+$isOwn = isset($_GET['own']) && $_GET['own'] == '1';
+
+// If requesting own dashboard view, require authentication and verify ownership
+if ($isOwn) {
+    $authUserId = AuthMiddleware::authenticate();
+    if ($authUserId !== $sellerId) {
+        jsonResponse(false, "Unauthorized.", null, 403);
+    }
+}
+
+$database = new Database();
+$db = $database->getConnection();
