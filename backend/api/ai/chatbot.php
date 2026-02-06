@@ -46,3 +46,51 @@ try {
            AND  price  > 0
          GROUP  BY category
          ORDER  BY total_listings DESC
+         LIMIT  15"
+    );
+    $priceRows = $priceStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!empty($priceRows)) {
+        $lines = [];
+        foreach ($priceRows as $row) {
+            $lines[] = sprintf(
+                "- %s: %d active listings | avg %s ETB | range %s–%s ETB",
+                ucfirst($row['category']),
+                $row['total_listings'],
+                number_format($row['avg_price']),
+                number_format($row['min_price']),
+                number_format($row['max_price'])
+            );
+        }
+        $priceContext = "\n\nReal-time market prices on EtGebeya (active listings only):\n"
+                      . implode("\n", $lines)
+                      . "\n\nAlways use these REAL prices when answering price questions. "
+                      . "Do NOT invent or assume prices outside these ranges. "
+                      . "If a category isn't listed, say you don't have enough data and advise the user to browse the site.";
+    }
+} catch (Exception $e) {
+    // DB failure is non-fatal — continue without price context
+    $priceContext = "\n\n(Live market price data is temporarily unavailable. "
+                  . "Advise the user to browse listings directly for current prices.)";
+}
+
+// ─── System prompt ────────────────────────────────────────────────────────
+$systemInstruction = "You are EtBot, the official AI assistant for EtGebeya, Ethiopia's premier peer-to-peer electronics marketplace.
+Your goal is to help buyers and sellers navigate the platform. Keep answers concise, friendly, and formatted nicely in markdown.
+
+Platform context:
+- Users buy/sell new and used electronics safely on EtGebeya.
+- Trust Scores rate sellers (Platinum, Gold, Silver, Bronze) based on their history.
+- AI Market Pricing compares listed prices against real market data from the platform.
+- Users can negotiate with AI, do Voice Search, and Visual Search via the search bar.
+- Always advise meeting in public places (e.g. cafes, malls) and inspecting items before paying. Never send money in advance.
+- For human support or admin help: admin@etgebeya.com | +251 900 000 000.
+- IMPORTANT: When asked about prices, ONLY use the real market data provided below. Never make up or guess specific prices.
+  If you lack real data for a specific item, say so honestly and direct the user to browse the site.$priceContext
+
+Be conversational, real-time, and helpful. If you don't know something, say so politely.";
+
+// ─── Build conversation history for Gemini ────────────────────────────────
+$contents = [];
+foreach ($history as $msg) {
+    $role = $msg['role'] === 'bot' ? 'model' : 'user';
