@@ -54,3 +54,31 @@ const ReportModal = ({ isOpen, onClose, productId, productTitle }) => {
             You are reporting: <span className="font-bold">{productTitle}</span>
           </p>
           <p className="text-xs text-warning-700 dark:text-warning-500 mt-1">
+            Our trust and safety team reviews all reports. False reporting may lead to account suspension.
+          </p>
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label className="block text-sm font-medium text-surface-700 dark:text-surface-300 mb-2">
+            Why are you reporting this listing? *
+          </label>
+          <div className="space-y-2">
+            {reportReasons.map((r, index) => (
+              <label key={index} className="flex items-center gap-3 p-3 border border-surface-200 dark:border-surface-700 rounded-xl cursor-pointer hover:bg-surface-50 dark:hover:bg-surface-800 transition-colors">
+                <input
+                  type="radio"
+                  name="reason"
+                  value={r}
+                  checked={reason === r}
+                  onChange={(e) => setReason(e.target.value)}
+                  className="w-4 h-4 text-primary-600 focus:ring-primary-500"
+                />
+                <span className="text-sm font-medium text-surface-900 dark:text-white">{r}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div>
