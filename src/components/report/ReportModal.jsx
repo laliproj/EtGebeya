@@ -26,3 +26,31 @@ const ReportModal = ({ isOpen, onClose, productId, productTitle }) => {
       return;
     }
 
+    setIsSubmitting(true);
+    try {
+      await reportService.submitReport(
+        productId,
+        reason,
+        details
+      );
+      toast.success('Report submitted successfully. Thank you for keeping our community safe.');
+      onClose();
+      // Reset form
+      setReason('');
+      setDetails('');
+    } catch (error) {
+      toast.error('Failed to submit report. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} title="Report Listing">
+      <div className="mb-6 bg-warning-50 dark:bg-warning-900/20 p-4 rounded-xl border border-warning-200 dark:border-warning-800/50 flex gap-3">
+        <HiOutlineExclamationTriangle className="w-6 h-6 text-warning-600 dark:text-warning-500 shrink-0" />
+        <div>
+          <p className="text-sm text-warning-800 dark:text-warning-400 font-medium">
+            You are reporting: <span className="font-bold">{productTitle}</span>
+          </p>
+          <p className="text-xs text-warning-700 dark:text-warning-500 mt-1">
