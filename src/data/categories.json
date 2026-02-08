@@ -23,3 +23,28 @@
     "image": "/categories/tablets.jpg",
     "count": 432
   },
+  {
+    "id": 4,
+    "name": "Headphones",
+    "slug": "headphones",
+    "icon": "🎧",
+    "image": "/categories/headphones.jpg",
+    "count": 689
+  },
+  {
+    "id": 5,
+    "name": "Cameras",
+    "slug": "cameras",
+    "icon": "📷",
+    "image": "/categories/cameras.jpg",
+    "count": 234
+  },
+  {
+    "id": 6,
+    "name": "Accessories",
+    "slug": "accessories",
+    "icon": "🔌",
+    "image": "/categories/accessories.jpg",
+    "count": 1567
+  }
+]
