@@ -28,3 +28,18 @@ if ($isOwn) {
 
 $database = new Database();
 $db = $database->getConnection();
+
+try {
+    // For public profile: only show active products
+    // For owner dashboard: show all statuses
+    $statusFilter = $isOwn ? "" : "AND p.status = 'active'";
+
+    $query = "SELECT p.*, u.name as seller_name, u.avatar as seller_avatar, u.trustScore as seller_rating,
+              (SELECT GROUP_CONCAT(image_url) FROM product_images WHERE product_id = p.id) as images
+              FROM products p
+              JOIN users u ON p.sellerId = u.id
+              WHERE p.sellerId = :id $statusFilter
+              ORDER BY p.postedAt DESC";
+    
+    $stmt = $db->prepare($query);
+    $stmt->execute([':id' => $sellerId]);

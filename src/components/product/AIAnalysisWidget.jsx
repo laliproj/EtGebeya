@@ -80,3 +80,44 @@ const AIAnalysisWidget = ({ product }) => {
         <button onClick={handleReveal} className="mt-2 text-xs text-primary-600 font-bold hover:underline">Retry</button>
       </div>
     );
+  }
+
+  const { scamRisk, priceVerdict, aiSummary, health, market } = analysis;
+
+  const scamConfig = {
+    low:    { color: 'text-success-600', bg: 'bg-success-50 dark:bg-success-900/20', icon: HiOutlineShieldCheck, text: 'Low Risk' },
+    medium: { color: 'text-warning-600', bg: 'bg-warning-50 dark:bg-warning-900/20', icon: HiOutlineExclamationTriangle, text: 'Medium Risk' },
+    high:   { color: 'text-danger-600',  bg: 'bg-danger-50 dark:bg-danger-900/20',   icon: HiOutlineExclamationTriangle, text: 'High Risk' }
+  };
+  const currentScam = scamConfig[scamRisk] || scamConfig.low;
+  const ScamIcon = currentScam.icon;
+
+  const priceConfig = {
+    great_deal: { text: 'Great Deal 🔥', color: 'text-success-600', barColor: 'bg-success-500' },
+    fair_price: { text: 'Fair Price ✓',  color: 'text-primary-600', barColor: 'bg-primary-500' },
+    overpriced: { text: 'Overpriced ⚠',  color: 'text-danger-600',  barColor: 'bg-danger-500' },
+    unknown:    { text: 'New to Market', color: 'text-surface-500',  barColor: 'bg-surface-400' },
+  };
+  const currentPrice = priceConfig[priceVerdict] || priceConfig.unknown;
+
+  // Market meter bar (where does the listing price sit between low and high?)
+  const meterPct = market?.low && market?.high
+    ? Math.min(100, Math.max(0, ((product.price - market.low) / (market.high - market.low)) * 100))
+    : null;
+
+  return (
+    <div className="bg-gradient-to-br from-primary-50 to-accent-50 dark:from-primary-900/10 dark:to-accent-900/10 rounded-2xl p-5 border border-primary-100 dark:border-primary-800/30 shadow-sm relative overflow-hidden">
+      <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-gradient-to-br from-primary-400/20 to-accent-400/20 rounded-full blur-xl pointer-events-none"></div>
+
+      <div className="flex items-center gap-2 mb-4">
+        <HiOutlineSparkles className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+        <h3 className="font-bold text-surface-900 dark:text-white">AI Analysis & Insights</h3>
+      </div>
+
+      <p className="text-sm text-surface-700 dark:text-surface-300 leading-relaxed mb-4 italic border-l-2 border-primary-300 dark:border-primary-700 pl-3">
+        "{aiSummary}"
+      </p>
+
+      {/* Market Price Range Meter */}
+      {market?.avg && (
+        <div className="mb-4 bg-white/60 dark:bg-surface-800/50 rounded-xl p-3 border border-white/40 dark:border-surface-700/50">
