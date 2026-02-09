@@ -121,3 +121,44 @@ const AIAnalysisWidget = ({ product }) => {
       {/* Market Price Range Meter */}
       {market?.avg && (
         <div className="mb-4 bg-white/60 dark:bg-surface-800/50 rounded-xl p-3 border border-white/40 dark:border-surface-700/50">
+          <div className="flex items-center gap-1.5 mb-2">
+            <HiOutlineArrowTrendingUp className="w-4 h-4 text-primary-500" />
+            <span className="text-xs font-bold text-surface-700 dark:text-surface-300 uppercase tracking-wide">Market Price Range</span>
+          </div>
+          <div className="flex justify-between text-xs text-surface-500 mb-1.5">
+            <span>{formatPrice(market.low)}</span>
+            <span className="font-bold text-surface-700 dark:text-surface-200">Avg: {formatPrice(market.avg)}</span>
+            <span>{formatPrice(market.high)}</span>
+          </div>
+          <div className="relative h-2 bg-surface-200 dark:bg-surface-700 rounded-full">
+            <div className="absolute h-full bg-gradient-to-r from-success-400 via-primary-400 to-danger-400 rounded-full opacity-50 w-full"></div>
+            {meterPct !== null && (
+              <div
+                className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white dark:bg-surface-900 border-2 border-primary-500 rounded-full shadow-lg transition-all duration-700"
+                style={{ left: `calc(${meterPct}% - 8px)` }}
+              />
+            )}
+          </div>
+          <p className={`text-xs font-bold mt-2 text-center ${currentPrice.color}`}>{currentPrice.text}</p>
+        </div>
+      )}
+
+      <div className="grid grid-cols-2 gap-3 mb-4">
+        {/* Scam Risk */}
+        <div className={`flex flex-col items-center justify-center p-3 rounded-xl border border-white/50 dark:border-surface-700/50 ${currentScam.bg}`}>
+          <ScamIcon className={`w-6 h-6 mb-1 ${currentScam.color}`} />
+          <span className="text-xs font-semibold text-surface-600 dark:text-surface-400 uppercase tracking-wide">Scam Risk</span>
+          <span className={`text-sm font-bold ${currentScam.color}`}>{currentScam.text}</span>
+        </div>
+
+        {/* Valuation */}
+        <div className="flex flex-col items-center justify-center p-3 rounded-xl border border-white/50 dark:border-surface-700/50 bg-white/50 dark:bg-surface-800/50">
+          <HiOutlineCurrencyDollar className={`w-6 h-6 mb-1 ${currentPrice.color}`} />
+          <span className="text-xs font-semibold text-surface-600 dark:text-surface-400 uppercase tracking-wide">Valuation</span>
+          <span className={`text-sm font-bold ${currentPrice.color}`}>{currentPrice.text}</span>
+        </div>
+      </div>
+
+      {/* Electronics Health */}
+      {health?.battery && (
+        <div className="mt-4 pt-4 border-t border-primary-200/50 dark:border-primary-800/50 flex items-start gap-3">

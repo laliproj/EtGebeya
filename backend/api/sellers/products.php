@@ -43,3 +43,18 @@ try {
     
     $stmt = $db->prepare($query);
     $stmt->execute([':id' => $sellerId]);
+
+    $products = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $products[] = [
+            'id'          => (int)$row['id'],
+            'title'       => $row['title'],
+            'description' => $row['description'],
+            'price'       => (float)$row['price'],
+            'category'    => $row['category'],
+            'brand'       => $row['brand'],
+            'model'       => $row['model'] ?? '',
+            'condition'   => $row['condition'],
+            'location'    => $row['location'],
+            'images'      => $row['images'] ? explode(',', $row['images']) : [],
+            'sellerId'    => (int)$row['sellerId'],
