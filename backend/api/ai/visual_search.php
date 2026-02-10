@@ -58,3 +58,63 @@ foreach ($brandMap as $kw => $brand) {
 $categoryMap = [
     'phones'  => ['phone', 'iphone', 'galaxy', 'pixel', 'redmi', 'xiaomi', 'mobile', 'smartphone'],
     'laptops' => ['laptop', 'macbook', 'notebook', 'thinkpad', 'inspiron', 'xps', 'chromebook'],
+    'tablets' => ['ipad', 'tablet', 'tab'],
+    'audio'   => ['airpods', 'headphone', 'earphone', 'earbud', 'speaker', 'jbl', 'bose', 'wh', 'wf'],
+    'gaming'  => ['playstation', 'xbox', 'nintendo', 'console', 'ps5', 'ps4', 'switch'],
+    'cameras' => ['camera', 'canon', 'nikon', 'dslr', 'mirrorless', 'lens', 'dji', 'drone'],
+    'tvs'     => ['tv', 'television', 'monitor', 'display', 'oled', 'qled', 'smart'],
+];
+
+foreach ($categoryMap as $cat => $keywords) {
+    foreach ($keywords as $kw) {
+        if (strpos($filename, $kw) !== false) {
+            $detectedCategory = $cat;
+            $detectedKeywords[] = $kw;
+            break 2;
+        }
+    }
+}
+
+// 2. EXIF data for additional hints (camera make = camera category likely)
+if (function_exists('exif_read_data') && in_array($mimeType, ['image/jpeg'])) {
+    $exif = @exif_read_data($tmpPath);
+    if ($exif) {
+        // If photo taken with a specific phone brand
+        $make = strtolower($exif['Make'] ?? '');
+        if (strpos($make, 'apple') !== false)   { $detectedBrand = $detectedBrand ?? 'Apple'; }
+        if (strpos($make, 'samsung') !== false) { $detectedBrand = $detectedBrand ?? 'Samsung'; }
+        if (strpos($make, 'huawei') !== false)  { $detectedBrand = $detectedBrand ?? 'Huawei'; }
+        // A product photo taken with a dedicated DSLR → likely camera category
+        if (!empty($exif['FocalLength']) && !$detectedCategory) {
+            // high focal length = likely product photography of a larger item
+        }
+    }
+}
+
+// 3. Fallback: use image dimensions as hints
+$imgInfo = @getimagesize($tmpPath);
+if ($imgInfo) {
+    $width = $imgInfo[0];
+    $height = $imgInfo[1];
+    $ratio = $width / max($height, 1);
+    // Tall portrait images = likely a phone
+    if ($ratio < 0.7 && !$detectedCategory) {
+        $detectedCategory = 'phones';
+        $detectedKeywords[] = 'phone';
+    }
+    // Wider landscape images = likely laptop or TV
+    if ($ratio > 1.6 && !$detectedCategory) {
+        $detectedCategory = 'laptops';
+        $detectedKeywords[] = 'laptop';
+    }
+}
+
+// 4. Final fallback — general electronics
+if (!$detectedCategory) {
+    $detectedCategory = null;
+    $detectedKeywords[] = 'electronics';
+}
+
+// ─── Database Query ───────────────────────────────────────────────────────────
+$database = new Database();
+$db = $database->getConnection();

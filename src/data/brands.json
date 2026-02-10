@@ -8,3 +8,13 @@
     { "id": 6, "name": "Generic", "logo": "📱", "models": [] }
   ],
   "laptops": [
+    { "id": 7, "name": "Apple", "logo": "🍎", "models": ["MacBook Pro 16\" M4 Max", "MacBook Pro 14\" M4 Pro", "MacBook Air 15\" M4", "MacBook Air 13\" M4"] },
+    { "id": 8, "name": "Dell", "logo": "💎", "models": ["XPS 16", "XPS 14", "XPS 13", "Inspiron 16", "Inspiron 15", "Latitude 7450", "Alienware m18"] },
+    { "id": 9, "name": "Lenovo", "logo": "🟦", "models": ["ThinkPad X1 Carbon", "ThinkPad T14s", "IdeaPad Pro 5", "IdeaPad Slim 5", "Legion Pro 7", "Yoga 9i"] },
+    { "id": 10, "name": "HP", "logo": "🔷", "models": ["Spectre x360 16", "Spectre x360 14", "Envy 16", "Pavilion Plus 14", "EliteBook 840", "OMEN 16"] },
+    { "id": 11, "name": "ASUS", "logo": "🟡", "models": ["ROG Zephyrus G16", "ROG Strix G16", "Zenbook 14 OLED", "Vivobook S 15", "TUF Gaming A15"] },
+    { "id": 12, "name": "Generic", "logo": "💻", "models": [] }
+  ],
+  "tablets": [
+    { "id": 13, "name": "Apple", "logo": "🍎", "models": ["iPad Pro 13\" M4", "iPad Pro 11\" M4", "iPad Air 13\" M3", "iPad Air 11\" M3", "iPad 10th Gen", "iPad mini 7"] },
+    { "id": 14, "name": "Samsung", "logo": "🔷", "models": ["Galaxy Tab S10 Ultra", "Galaxy Tab S10+", "Galaxy Tab S10", "Galaxy Tab A9+", "Galaxy Tab A9"] },
