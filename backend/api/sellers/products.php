@@ -58,3 +58,18 @@ try {
             'location'    => $row['location'],
             'images'      => $row['images'] ? explode(',', $row['images']) : [],
             'sellerId'    => (int)$row['sellerId'],
+            'sellerName'  => $row['seller_name'],
+            'sellerRating'=> (float)$row['seller_rating'],
+            'postedAt'    => date('c', strtotime($row['postedAt'])),
+            'isFeatured'  => (bool)$row['isFeatured'],
+            'status'      => $row['status'] ?? 'active',
+            'views'       => (int)$row['views'],
+        ];
+    }
+
+    jsonResponse(true, "Seller products retrieved", $products);
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
