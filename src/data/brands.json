@@ -18,3 +18,13 @@
   "tablets": [
     { "id": 13, "name": "Apple", "logo": "🍎", "models": ["iPad Pro 13\" M4", "iPad Pro 11\" M4", "iPad Air 13\" M3", "iPad Air 11\" M3", "iPad 10th Gen", "iPad mini 7"] },
     { "id": 14, "name": "Samsung", "logo": "🔷", "models": ["Galaxy Tab S10 Ultra", "Galaxy Tab S10+", "Galaxy Tab S10", "Galaxy Tab A9+", "Galaxy Tab A9"] },
+    { "id": 15, "name": "Lenovo", "logo": "🟦", "models": ["Tab P12 Pro", "Tab P11 Pro", "Tab M11", "Tab M10 Plus"] },
+    { "id": 16, "name": "Generic", "logo": "📟", "models": [] }
+  ],
+  "headphones": [
+    { "id": 17, "name": "Apple", "logo": "🍎", "models": ["AirPods Pro 2", "AirPods 4", "AirPods Max 2", "AirPods Max"] },
+    { "id": 18, "name": "Sony", "logo": "🎵", "models": ["WH-1000XM5", "WH-1000XM4", "WF-1000XM5", "LinkBuds S", "LinkBuds Open"] },
+    { "id": 19, "name": "Samsung", "logo": "🔷", "models": ["Galaxy Buds 3 Pro", "Galaxy Buds 3", "Galaxy Buds FE"] },
+    { "id": 20, "name": "Bose", "logo": "🅱️", "models": ["QuietComfort Ultra", "QuietComfort 45", "Sport Earbuds", "700"] },
+    { "id": 21, "name": "JBL", "logo": "🟧", "models": ["Tour One M2", "Tune 770NC", "Live Pro 2", "Vibe 200TWS"] },
+    { "id": 22, "name": "Generic", "logo": "🎧", "models": [] }
