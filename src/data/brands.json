@@ -28,3 +28,13 @@
     { "id": 20, "name": "Bose", "logo": "🅱️", "models": ["QuietComfort Ultra", "QuietComfort 45", "Sport Earbuds", "700"] },
     { "id": 21, "name": "JBL", "logo": "🟧", "models": ["Tour One M2", "Tune 770NC", "Live Pro 2", "Vibe 200TWS"] },
     { "id": 22, "name": "Generic", "logo": "🎧", "models": [] }
+  ],
+  "cameras": [
+    { "id": 23, "name": "Canon", "logo": "📸", "models": ["EOS R5 Mark II", "EOS R6 Mark III", "EOS R8", "EOS R100", "PowerShot V10"] },
+    { "id": 24, "name": "Sony", "logo": "🎵", "models": ["A7R V", "A7 IV", "A7C II", "ZV-E10 II", "RX100 VII"] },
+    { "id": 25, "name": "Nikon", "logo": "🟡", "models": ["Z8", "Z6 III", "Z5", "Zf", "Z30"] },
+    { "id": 26, "name": "Fujifilm", "logo": "🟢", "models": ["X-T5", "X-H2S", "X-S20", "X100VI"] },
+    { "id": 27, "name": "Generic", "logo": "📷", "models": [] }
+  ],
+  "accessories": [
+    { "id": 28, "name": "Apple", "logo": "🍎", "models": [] },

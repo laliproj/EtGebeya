@@ -10,3 +10,15 @@ import sellersData from '../data/sellers.json';
  * - GET /api/sellers/:id/products
  * - GET /api/sellers/:id/reviews
  * - PUT /api/sellers/:id/report
+ */
+
+const initialState = {
+  sellers: sellersData,
+  currentSeller: null,
+  loading: false,
+  error: null,
+};
+
+const sellerSlice = createSlice({
+  name: 'sellers',
+  initialState,
