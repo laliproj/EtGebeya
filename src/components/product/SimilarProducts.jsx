@@ -9,3 +9,14 @@ const SimilarProducts = ({ productId }) => {
 
   useEffect(() => {
     const fetchSimilar = async () => {
+      try {
+        const data = await productService.getSimilar(productId);
+        setProducts(data);
+      } catch (error) {
+        console.error('Failed to fetch similar products', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (productId) {
+      fetchSimilar();
