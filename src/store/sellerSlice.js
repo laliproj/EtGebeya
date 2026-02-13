@@ -34,3 +34,13 @@ const sellerSlice = createSlice({
       if (seller) {
         seller.warnings += 1;
         if (seller.warnings >= 3) {
+          seller.isBanned = true;
+        }
+      }
+    },
+  },
+});
+
+export const { setCurrentSeller, setLoading: setSellerLoading, addWarning } = sellerSlice.actions;
+
+export default sellerSlice.reducer;
