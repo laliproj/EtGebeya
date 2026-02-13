@@ -70,3 +70,27 @@ if ($offerRatio < 0.50) {
     $verdict  = 'pre_approved';
     $counter  = $offerPrice;
     $message  = "✅ **Great Offer! Forwarding to Seller...**\n\nYour offer of **" . number_format($offerPrice) . " ETB** is a reasonable " . round((1 - $offerRatio) * 100) . "% below the listed price.\n\nThis is within a fair negotiation range — our AI has **pre-approved** this offer and will notify the seller immediately.\n\n💬 *The seller will respond via the messaging system.*";
+    $accepted = false;
+    $notifySellerMsg = "🔔 A buyer has offered " . number_format($offerPrice) . " ETB for your listing \"" . $product['title'] . "\". This is a fair offer — consider accepting it!";
+
+} else {
+    // 95%+ of listing — just accept (why negotiate?)
+    $verdict  = 'accepted';
+    $accepted = true;
+    $message  = "🎉 **Excellent!** Your offer of **" . number_format($offerPrice) . " ETB** is very close to the asking price. The seller will very likely accept!\n\n📱 Contact the seller now to finalize the deal. Remember to meet in a public place and inspect the item before paying.";
+    $notifySellerMsg = "🔔 A buyer is very interested in \"" . $product['title'] . "\" and offered " . number_format($offerPrice) . " ETB (listed at " . number_format($listingPrice) . "). They are ready to buy!";
+}
+
+// Save negotiation record
+try {
+    $insertStmt = $db->prepare("INSERT INTO negotiations (product_id, buyer_id, offer_price, counter_price, verdict, created_at)
+        VALUES (:pid, :uid, :offer, :counter, :verdict, NOW())
+        ON DUPLICATE KEY UPDATE offer_price = :offer, counter_price = :counter, verdict = :verdict, created_at = NOW()");
+    $insertStmt->execute([
+        ':pid'     => $productId,
+        ':uid'     => $userId,
+        ':offer'   => $offerPrice,
+        ':counter' => $counter,
+        ':verdict' => $verdict,
+    ]);
+} catch (PDOException $e) {
