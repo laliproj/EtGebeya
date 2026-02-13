@@ -22,3 +22,27 @@ if (!$productId || $offerPrice <= 0) {
 }
 
 $database = new Database();
+$db = $database->getConnection();
+
+// Fetch product details
+$stmt = $db->prepare("SELECT p.id, p.title, p.price, p.category, p.brand, p.condition, p.sellerId,
+    a.market_low, a.market_high, a.market_avg
+    FROM products p
+    LEFT JOIN ai_product_analysis a ON a.product_id = p.id
+    WHERE p.id = :id AND p.status = 'active'");
+$stmt->execute([':id' => $productId]);
+$product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$product) {
+    jsonResponse(false, "Product not found", null, 404);
+}
+if ((int)$product['sellerId'] === $userId) {
+    jsonResponse(false, "You cannot negotiate on your own listing", null, 403);
+}
+
+$listingPrice = (float)$product['price'];
+$marketAvg    = $product['market_avg'] ? (float)$product['market_avg'] : $listingPrice;
+$offerRatio   = $offerPrice / $listingPrice;  // ratio of offer vs listed price
+
+// ─── Negotiation Logic ────────────────────────────────────────────────────────
+$verdict  = '';

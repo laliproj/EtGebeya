@@ -38,3 +38,9 @@
   ],
   "accessories": [
     { "id": 28, "name": "Apple", "logo": "🍎", "models": [] },
+    { "id": 29, "name": "Samsung", "logo": "🔷", "models": [] },
+    { "id": 30, "name": "Anker", "logo": "🔋", "models": [] },
+    { "id": 31, "name": "Belkin", "logo": "🔌", "models": [] },
+    { "id": 32, "name": "Generic", "logo": "🔌", "models": [] }
+  ]
+}

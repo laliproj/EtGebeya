@@ -22,3 +22,15 @@ const initialState = {
 const sellerSlice = createSlice({
   name: 'sellers',
   initialState,
+  reducers: {
+    setCurrentSeller(state, action) {
+      state.currentSeller = action.payload;
+    },
+    setLoading(state, action) {
+      state.loading = action.payload;
+    },
+    addWarning(state, action) {
+      const seller = state.sellers.find(s => s.id === action.payload);
+      if (seller) {
+        seller.warnings += 1;
+        if (seller.warnings >= 3) {
