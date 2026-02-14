@@ -22,3 +22,15 @@ try {
               JOIN users u ON r.buyer_id = u.id
               WHERE r.seller_id = :id
               ORDER BY r.created_at DESC";
+    
+    $stmt = $db->prepare($query);
+    $stmt->execute([':id' => $sellerId]);
+
+    $reviews = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $reviews[] = [
+            'id' => (int)$row['id'],
+            'rating' => (int)$row['rating'],
+            'comment' => $row['comment'],
+            'author' => $row['author'],
+            'date' => date('Y-m-d', strtotime($row['date']))
