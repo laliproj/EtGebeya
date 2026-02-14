@@ -4,3 +4,9 @@ import productReducer from './productSlice';
 import wishlistReducer from './wishlistSlice';
 import notificationReducer from './notificationSlice';
 import sellerReducer from './sellerSlice';
+import uiReducer from './uiSlice';
+
+/**
+ * Redux Store Configuration
+ * 
+ * BACKEND INTEGRATION NOTE:

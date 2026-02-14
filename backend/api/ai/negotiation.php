@@ -94,3 +94,27 @@ try {
         ':verdict' => $verdict,
     ]);
 } catch (PDOException $e) {
+    // Negotiations table might not exist yet — non-fatal
+}
+
+// If seller should be notified, insert a notification
+if ($notifySellerMsg && $product['sellerId']) {
+    try {
+        $notifStmt = $db->prepare("INSERT INTO notifications (user_id, type, message, is_read, created_at)
+            VALUES (:uid, 'negotiation', :msg, 0, NOW())");
+        $notifStmt->execute([':uid' => $product['sellerId'], ':msg' => $notifySellerMsg]);
+    } catch (PDOException $e) {
+        // Silently fail if table schema differs
+    }
+}
+
+jsonResponse(true, "Negotiation evaluated", [
+    'verdict'     => $verdict,
+    'message'     => $message,
+    'counter'     => $counter,
+    'accepted'    => $accepted,
+    'rejected'    => $rejected,
+    'listingPrice' => $listingPrice,
+    'offerRatio'  => round($offerRatio * 100),
+]);
+?>
