@@ -31,3 +31,14 @@ const SimilarProducts = ({ productId }) => {
         Similar Products
       </h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {loading
+          ? [...Array(4)].map((_, i) => <ProductCardSkeleton key={i} />)
+          : products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+      </div>
+    </div>
+  );
+};
+
+export default SimilarProducts;
