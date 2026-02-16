@@ -11,3 +11,16 @@ function App() {
 
   const { isAuthenticated } = useSelector((state) => state.auth);
 
+  useEffect(() => {
+    // Check authentication status on app load
+    dispatch(checkAuth());
+    
+    // Fetch user specific data if logged in
+    if (isAuthenticated) {
+      dispatch(fetchNotificationsAPI());
+      dispatch(fetchWishlist());
+    }
+  }, [dispatch, isAuthenticated]);
+
+  return (
+    <>
