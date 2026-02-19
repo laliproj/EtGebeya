@@ -27,3 +27,32 @@ $missing = Validator::checkRequired($data, ['sellerId', 'rating']);
 if (!empty($missing)) {
     jsonResponse(false, "Missing required fields: " . implode(', ', $missing), null, 400);
 }
+
+$sellerId = (int)$data['sellerId'];
+$rating = (int)$data['rating'];
+$comment = isset($data['comment']) ? Validator::sanitize($data['comment']) : null;
+
+if ($rating < 1 || $rating > 5) {
+    jsonResponse(false, "Rating must be between 1 and 5", null, 400);
+}
+
+if ($sellerId === $userId) {
+    jsonResponse(false, "You cannot rate yourself", null, 400);
+}
+
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    $db->beginTransaction();
+
+    // Insert rating
+    $query = "INSERT INTO seller_ratings (seller_id, buyer_id, rating, comment) VALUES (:seller, :buyer, :rating, :comment)";
+    $stmt = $db->prepare($query);
+    $stmt->execute([
+        ':seller' => $sellerId,
+        ':buyer' => $userId,
+        ':rating' => $rating,
+        ':comment' => $comment
+    ]);
+

@@ -24,3 +24,16 @@ function App() {
 
   return (
     <>
+      <AppRouter />
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          className: 'bg-white text-surface-900 dark:bg-surface-800 dark:text-white shadow-xl border border-surface-200 dark:border-surface-700',
+          success: {
+            iconTheme: {
+              primary: '#10B981',
+              secondary: '#fff',
+            },
+          },
+          error: {

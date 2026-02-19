@@ -30,3 +30,35 @@ const ProductGallery = ({ images, title }) => {
       <div 
         className="relative aspect-square md:aspect-[4/3] bg-surface-100 dark:bg-surface-800 rounded-2xl overflow-hidden group cursor-zoom-in"
         onClick={() => setIsZoomed(true)}
+      >
+        <img
+          src={safeImages[currentIndex]}
+          alt={`${title} - Image ${currentIndex + 1}`}
+          className="w-full h-full object-cover"
+        />
+        
+        {/* Navigation Arrows (Desktop overlay) */}
+        {safeImages.length > 1 && (
+          <>
+            <button
+              onClick={(e) => { e.stopPropagation(); handlePrevious(); }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/80 dark:bg-surface-900/80 backdrop-blur text-surface-900 dark:text-white opacity-0 group-hover:opacity-100 hover:scale-110 transition-all shadow-lg"
+            >
+              <HiOutlineChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); handleNext(); }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/80 dark:bg-surface-900/80 backdrop-blur text-surface-900 dark:text-white opacity-0 group-hover:opacity-100 hover:scale-110 transition-all shadow-lg"
+            >
+              <HiOutlineChevronRight className="w-6 h-6" />
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* Thumbnails */}
+      {safeImages.length > 1 && (
+        <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2 snap-x">
+          {safeImages.map((img, index) => (
+            <button
+              key={index}
