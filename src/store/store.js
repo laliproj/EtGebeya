@@ -16,3 +16,9 @@ import uiReducer from './uiSlice';
  * API calls in the slice thunks.
  */
 const store = configureStore({
+  reducer: {
+    auth: authReducer,
+    products: productReducer,
+    wishlist: wishlistReducer,
+    notifications: notificationReducer,
+    sellers: sellerReducer,

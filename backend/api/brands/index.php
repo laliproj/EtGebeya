@@ -30,3 +30,34 @@ try {
         $modelStmt = $db->prepare($modelQuery);
         $modelStmt->execute([':brand_id' => $row['id']]);
         
+        $models = [];
+        while ($mRow = $modelStmt->fetch(PDO::FETCH_ASSOC)) {
+            $models[] = $mRow['name'];
+        }
+
+        $brands[] = [
+            'id' => (int)$row['id'],
+            'name' => $row['name'],
+            'logo' => $row['logo'],
+            'models' => $models,
+            'category' => $row['category_slug']
+        ];
+    }
+
+    // Since frontend expects an object grouped by category if no category is passed:
+    if (!isset($_GET['category'])) {
+        $grouped = [];
+        foreach ($brands as $brand) {
+            $cat = $brand['category'];
+            unset($brand['category']);
+            $grouped[$cat][] = $brand;
+        }
+        jsonResponse(true, "All brands retrieved", $grouped);
+    } else {
+        jsonResponse(true, "Brands retrieved", $brands);
+    }
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
