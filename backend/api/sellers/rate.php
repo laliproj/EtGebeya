@@ -56,3 +56,30 @@ try {
         ':comment' => $comment
     ]);
 
+    // Update seller's average rating and total ratings
+    $avgQuery = "SELECT AVG(rating) as avg_rating, COUNT(id) as total FROM seller_ratings WHERE seller_id = :seller";
+    $avgStmt = $db->prepare($avgQuery);
+    $avgStmt->execute([':seller' => $sellerId]);
+    $stats = $avgStmt->fetch(PDO::FETCH_ASSOC);
+
+    $updateSeller = "UPDATE users SET trustScore = :score, totalRatings = :total WHERE id = :seller";
+    $updateStmt = $db->prepare($updateSeller);
+    $updateStmt->execute([
+        ':score' => round($stats['avg_rating'], 1),
+        ':total' => $stats['total'],
+        ':seller' => $sellerId
+    ]);
+
+    // Add notification to seller
+    $notifQuery = "INSERT INTO notifications (user_id, type, title, message, icon) VALUES (:seller, 'rating', 'New Review', 'Someone left a new review on your profile.', '⭐')";
+    $db->prepare($notifQuery)->execute([':seller' => $sellerId]);
+
+    $db->commit();
+    jsonResponse(true, "Rating submitted successfully");
+
+} catch(PDOException $e) {
+    $db->rollBack();
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
+      

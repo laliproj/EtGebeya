@@ -37,3 +37,15 @@ function App() {
             },
           },
           error: {
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: '#fff',
+            },
+          },
+        }}
+      />
+    </>
+  );
+}
+
+export default App;

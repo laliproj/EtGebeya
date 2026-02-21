@@ -62,3 +62,34 @@ const ProductGallery = ({ images, title }) => {
           {safeImages.map((img, index) => (
             <button
               key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`relative shrink-0 w-20 h-20 rounded-xl overflow-hidden snap-start transition-all ${
+                currentIndex === index
+                  ? 'ring-2 ring-primary-500 opacity-100'
+                  : 'opacity-60 hover:opacity-100'
+              }`}
+            >
+              <img src={img} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Fullscreen Zoom Modal (Simple implementation) */}
+      {isZoomed && (
+        <div 
+          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 sm:p-8 cursor-zoom-out"
+          onClick={() => setIsZoomed(false)}
+        >
+          <img
+            src={images[currentIndex]}
+            alt={`${title} - Fullscreen`}
+            className="max-w-full max-h-full object-contain"
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ProductGallery;
