@@ -302,3 +302,155 @@
     "location": "Chicago, IL",
     "postedAt": "2026-05-22T20:00:00Z",
     "views": 321,
+    "isFeatured": false
+  },
+  {
+    "id": 11,
+    "title": "Samsung Galaxy Tab S10 Ultra - 512GB",
+    "description": "Flagship Samsung tablet with massive 14.6-inch AMOLED display. Snapdragon 8 Gen 3, 16GB RAM, 512GB storage. Comes with S Pen, Book Cover Keyboard, and original box. Barely used.",
+    "price": 999,
+    "category": "tablets",
+    "brand": "Samsung",
+    "model": "Galaxy Tab S10 Ultra",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1561154464-82e9aeb8d8be?w=800",
+      "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800",
+      "https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=800",
+      "https://images.unsplash.com/photo-1623126908029-58cb08a2b272?w=800",
+      "https://images.unsplash.com/photo-1542751110-97427bbecf20?w=800"
+    ],
+    "specs": {
+      "storage": "512GB",
+      "ram": "16GB",
+      "processor": "Snapdragon 8 Gen 3",
+      "screenSize": "14.6\"",
+      "camera": "13MP + 8MP",
+      "battery": "11200mAh"
+    },
+    "features": ["S Pen", "DeX Mode", "AMOLED 120Hz", "IP68", "Wi-Fi 7", "8K Video"],
+    "sellerId": 4,
+    "location": "Austin, TX",
+    "postedAt": "2026-05-21T16:00:00Z",
+    "views": 187,
+    "isFeatured": true
+  },
+  {
+    "id": 12,
+    "title": "Anker 737 Power Bank 24,000mAh",
+    "description": "High-capacity portable charger with 140W output. Powers laptops, tablets, and phones. Smart temperature monitoring, bi-directional charging. Perfect travel companion. Brand new, unopened.",
+    "price": 109,
+    "category": "accessories",
+    "brand": "Anker",
+    "model": "737 PowerCore",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=800",
+      "https://images.unsplash.com/photo-1585338107529-13afc25806f9?w=800",
+      "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800",
+      "https://images.unsplash.com/photo-1625315714730-0d25cf609a56?w=800",
+      "https://images.unsplash.com/photo-1618577608401-46f4a95be7df?w=800"
+    ],
+    "specs": {
+      "capacity": "24000mAh",
+      "output": "140W Max",
+      "ports": "2 USB-C, 1 USB-A",
+      "weight": "640g"
+    },
+    "features": ["140W", "PD 3.1", "Laptop Charging", "LED Display", "Smart Temp Control"],
+    "sellerId": 6,
+    "location": "Miami, FL",
+    "postedAt": "2026-05-23T06:00:00Z",
+    "views": 89,
+    "isFeatured": false
+  },
+  {
+    "id": 13,
+    "title": "Sony A7C II Full-Frame Mirrorless Camera",
+    "description": "Compact full-frame mirrorless with 33MP sensor, 4K 60p video, advanced AI autofocus. World's smallest full-frame camera. Shutter count under 2000. Includes 28-60mm kit lens, extra battery, and camera bag.",
+    "price": 1899,
+    "category": "cameras",
+    "brand": "Sony",
+    "model": "A7C II",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800",
+      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800",
+      "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?w=800",
+      "https://images.unsplash.com/photo-1495707902641-75cac588d2e9?w=800",
+      "https://images.unsplash.com/photo-1452780212940-6f5c0d14d848?w=800"
+    ],
+    "specs": {
+      "sensor": "33MP Full-Frame",
+      "video": "4K 60p",
+      "iso": "100-51200",
+      "fps": "10fps",
+      "weight": "514g"
+    },
+    "features": ["IBIS", "AI AF", "4K 60p", "S-Cinetone", "USB-C Streaming", "Compact Body"],
+    "sellerId": 1,
+    "location": "New York, NY",
+    "postedAt": "2026-05-20T11:00:00Z",
+    "views": 198,
+    "isFeatured": false
+  },
+  {
+    "id": 14,
+    "title": "ASUS ROG Zephyrus G16 - RTX 4090 Gaming Laptop",
+    "description": "Ultimate gaming laptop with Intel Core Ultra 9, RTX 4090 16GB, 32GB DDR5, 2TB SSD. 16-inch 240Hz OLED display with 0.2ms response. ROG Nebula HDR display. Less than 50 hours of gaming use.",
+    "price": 2499,
+    "category": "laptops",
+    "brand": "ASUS",
+    "model": "ROG Zephyrus G16",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800",
+      "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=800",
+      "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=800",
+      "https://images.unsplash.com/photo-1629131726692-1accd0c53ce0?w=800",
+      "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800"
+    ],
+    "specs": {
+      "storage": "2TB SSD",
+      "ram": "32GB DDR5",
+      "processor": "Core Ultra 9",
+      "screenSize": "16\"",
+      "camera": "1080p IR",
+      "battery": "90Wh",
+      "gpu": "RTX 4090 16GB"
+    },
+    "features": ["240Hz OLED", "RTX 4090", "MUX Switch", "CNC Aluminum", "Thunderbolt 4", "Wi-Fi 7"],
+    "sellerId": 2,
+    "location": "Los Angeles, CA",
+    "postedAt": "2026-05-22T09:00:00Z",
+    "views": 456,
+    "isFeatured": true
+  },
+  {
+    "id": 15,
+    "title": "Bose QuietComfort Ultra Headphones - Smoke White",
+    "description": "Premium wireless headphones with world-class noise cancellation and Immersive Audio. CustomTune sound calibration. Luxurious protein leather cushions. Used gently for 6 months, in excellent condition.",
+    "price": 329,
+    "category": "headphones",
+    "brand": "Bose",
+    "model": "QuietComfort Ultra",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800",
+      "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=800",
+      "https://images.unsplash.com/photo-1545127398-14699f92334b?w=800",
+      "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800",
+      "https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=800"
+    ],
+    "specs": {
+      "battery": "24 hours",
+      "connectivity": "Bluetooth 5.3",
+      "driver": "35mm Triport",
+      "weight": "250g"
+    },
+    "features": ["Immersive Audio", "CustomTune", "Aware Mode", "Multipoint", "USB-C", "Spatial Audio"],
+    "sellerId": 3,
+    "location": "San Francisco, CA",
+    "postedAt": "2026-05-21T13:00:00Z",
+    "views": 234,
+    "isFeatured": false
