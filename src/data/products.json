@@ -454,3 +454,155 @@
     "postedAt": "2026-05-21T13:00:00Z",
     "views": 234,
     "isFeatured": false
+  },
+  {
+    "id": 16,
+    "title": "OnePlus 13 256GB - Midnight Ocean",
+    "description": "Flagship killer with Snapdragon 8 Elite, 16GB RAM, 6000mAh battery with 100W charging. 6.82-inch 2K LTPO AMOLED. Gorgeous vegan leather back in Midnight Ocean. Complete box with accessories.",
+    "price": 749,
+    "category": "phones",
+    "brand": "OnePlus",
+    "model": "OnePlus 13",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=800",
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800",
+      "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=800",
+      "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?w=800",
+      "https://images.unsplash.com/photo-1546054454-aa26e2b734c7?w=800"
+    ],
+    "specs": {
+      "storage": "256GB",
+      "ram": "16GB",
+      "processor": "Snapdragon 8 Elite",
+      "screenSize": "6.82\"",
+      "camera": "50MP + 50MP + 50MP",
+      "battery": "6000mAh"
+    },
+    "features": ["100W SUPERVOOC", "50W Wireless", "IP69", "Hasselblad Camera", "IR Blaster", "Alert Slider"],
+    "sellerId": 4,
+    "location": "Austin, TX",
+    "postedAt": "2026-05-23T05:00:00Z",
+    "views": 145,
+    "isFeatured": false
+  },
+  {
+    "id": 17,
+    "title": "Fujifilm X100VI - Silver",
+    "description": "The legendary compact camera with 40.2MP X-Trans CMOS 5 HR sensor. Fixed 23mm f/2 lens (35mm equivalent). Built-in ND filter, film simulations including REALA ACE. Brand new, just arrived from waitlist.",
+    "price": 1599,
+    "category": "cameras",
+    "brand": "Fujifilm",
+    "model": "X100VI",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800",
+      "https://images.unsplash.com/photo-1495707902641-75cac588d2e9?w=800",
+      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800",
+      "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?w=800",
+      "https://images.unsplash.com/photo-1452780212940-6f5c0d14d848?w=800"
+    ],
+    "specs": {
+      "sensor": "40.2MP APS-C",
+      "video": "6.2K 30p",
+      "iso": "125-12800",
+      "fps": "20fps Electronic",
+      "weight": "521g"
+    },
+    "features": ["IBIS", "Film Simulations", "Hybrid VF", "Built-in ND", "USB-C", "Bluetooth"],
+    "sellerId": 5,
+    "location": "Chicago, IL",
+    "postedAt": "2026-05-20T08:00:00Z",
+    "views": 678,
+    "isFeatured": true
+  },
+  {
+    "id": 18,
+    "title": "Samsung Galaxy Buds 3 Pro - Silver",
+    "description": "Premium true wireless earbuds with Blade Lights design. Enhanced ANC with AI, 360 Audio, Hi-Fi 24bit audio. IPX7 water resistant. Includes extra ear tips and wireless charging case.",
+    "price": 179,
+    "category": "headphones",
+    "brand": "Samsung",
+    "model": "Galaxy Buds 3 Pro",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1590658268037-6bf12f032f62?w=800",
+      "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=800",
+      "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=800",
+      "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=800",
+      "https://images.unsplash.com/photo-1588423771073-b8903fde1c68?w=800"
+    ],
+    "specs": {
+      "battery": "7 hours (30 with case)",
+      "connectivity": "Bluetooth 5.4",
+      "driver": "10.5mm + 6.1mm Planar",
+      "weight": "5.4g each"
+    },
+    "features": ["AI ANC", "360 Audio", "IPX7", "Blade Lights", "SSC Codec", "Galaxy AI"],
+    "sellerId": 6,
+    "location": "Miami, FL",
+    "postedAt": "2026-05-23T11:00:00Z",
+    "views": 234,
+    "isFeatured": false
+  },
+  {
+    "id": 19,
+    "title": "Xiaomi 15 Ultra 512GB - White Ceramic",
+    "description": "Photography powerhouse with Leica Summilux quad camera system. Snapdragon 8 Elite, 16GB RAM, 512GB storage. Stunning white ceramic body. Dual satellite communication. Imported, brand new sealed.",
+    "price": 999,
+    "category": "phones",
+    "brand": "Xiaomi",
+    "model": "Xiaomi 15 Ultra",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800",
+      "https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=800",
+      "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?w=800",
+      "https://images.unsplash.com/photo-1546054454-aa26e2b734c7?w=800",
+      "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=800"
+    ],
+    "specs": {
+      "storage": "512GB",
+      "ram": "16GB",
+      "processor": "Snapdragon 8 Elite",
+      "screenSize": "6.73\"",
+      "camera": "200MP + 50MP + 50MP + 50MP",
+      "battery": "5400mAh"
+    },
+    "features": ["Leica Optics", "120W HyperCharge", "50W Wireless", "IP68", "Satellite Comm", "Ceramic Body"],
+    "sellerId": 1,
+    "location": "New York, NY",
+    "postedAt": "2026-05-22T07:00:00Z",
+    "views": 312,
+    "isFeatured": true
+  },
+  {
+    "id": 20,
+    "title": "Belkin 3-in-1 MagSafe Charging Stand",
+    "description": "Premium wireless charging stand for iPhone, Apple Watch, and AirPods simultaneously. 15W fast charging for iPhone, official MFi certified. Sleek modern design with sturdy build quality.",
+    "price": 129,
+    "category": "accessories",
+    "brand": "Belkin",
+    "model": "BoostCharge Pro 3-in-1",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=800",
+      "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800",
+      "https://images.unsplash.com/photo-1585338107529-13afc25806f9?w=800",
+      "https://images.unsplash.com/photo-1625315714730-0d25cf609a56?w=800",
+      "https://images.unsplash.com/photo-1618577608401-46f4a95be7df?w=800"
+    ],
+    "specs": {
+      "output": "15W iPhone, 5W Watch, 5W AirPods",
+      "input": "USB-C 36W",
+      "compatibility": "MagSafe iPhones, Apple Watch, AirPods",
+      "weight": "680g"
+    },
+    "features": ["MagSafe", "Fast Charge", "MFi Certified", "LED Indicator", "Non-slip Base"],
+    "sellerId": 2,
+    "location": "Los Angeles, CA",
+    "postedAt": "2026-05-21T09:00:00Z",
+    "views": 156,
+    "isFeatured": false
+  }
+]

@@ -18,3 +18,13 @@ if (!isset($data['productId'])) {
 
 $productId = (int)$data['productId'];
 
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    // Check if it exists
+    $checkQuery = "SELECT id FROM wishlists WHERE user_id = :user_id AND product_id = :product_id";
+    $checkStmt = $db->prepare($checkQuery);
+    $checkStmt->execute([':user_id' => $userId, ':product_id' => $productId]);
+
+    if ($checkStmt->rowCount() > 0) {
