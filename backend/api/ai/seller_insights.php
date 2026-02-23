@@ -32,3 +32,37 @@ try {
         GROUP BY a.price_verdict");
     $compStmt->execute([':uid' => $userId]);
     $verdicts = $compStmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    $competitiveness = [
+        'great_deal' => 0,
+        'fair_price' => 0,
+        'overpriced' => 0,
+        'unknown'    => 0
+    ];
+    $totalActive = 0;
+    foreach ($verdicts as $v) {
+        $competitiveness[$v['price_verdict']] = (int)$v['count'];
+        $totalActive += (int)$v['count'];
+    }
+
+    $compScore = 0;
+    if ($totalActive > 0) {
+        $goodPricing = $competitiveness['great_deal'] + $competitiveness['fair_price'];
+        $compScore = round(($goodPricing / $totalActive) * 100);
+    }
+
+    // 3. Conversion Rate / Views
+    $viewsStmt = $db->prepare("
+        SELECT SUM(views) as total_views, 
+               SUM(CASE WHEN status = 'sold' THEN 1 ELSE 0 END) as total_sold,
+               COUNT(*) as total_listings
+        FROM products WHERE sellerId = :uid");
+    $viewsStmt->execute([':uid' => $userId]);
+    $stats = $viewsStmt->fetch(PDO::FETCH_ASSOC);
+    
+    $totalViews = (int)$stats['total_views'];
+    $totalSold = (int)$stats['total_sold'];
+    $conversionRate = $totalViews > 0 ? round(($totalSold / $totalViews) * 100, 2) : 0;
+
+    // 4. Generate AI Suggestion Text
+    $aiSuggestions = [];

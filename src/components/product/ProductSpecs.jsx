@@ -18,3 +18,23 @@ const ProductSpecs = ({ specs, features }) => {
                 className={`flex flex-col sm:flex-row sm:items-center px-4 py-3 text-sm ${
                   index !== Object.keys(specs).length - 1 ? 'border-b border-surface-100 dark:border-surface-800' : ''
                 } ${index % 2 === 0 ? 'bg-surface-50 dark:bg-surface-800/30' : 'bg-white dark:bg-surface-900'}`}
+              >
+                <div className="w-full sm:w-1/3 text-surface-500 font-medium capitalize mb-1 sm:mb-0">
+                  {/* Format camelCase keys like screenSize to Screen Size */}
+                  {key.replace(/([A-Z])/g, ' $1').trim()}
+                </div>
+                <div className="w-full sm:w-2/3 text-surface-900 dark:text-white font-medium">
+                  {value}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Features List */}
+      {features && features.length > 0 && (
+        <div>
+          <h3 className="text-lg font-bold text-surface-900 dark:text-white mb-4">
+            Key Features
+          </h3>
