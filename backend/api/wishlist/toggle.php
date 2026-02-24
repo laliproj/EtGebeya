@@ -38,3 +38,10 @@ try {
         $insertQuery = "INSERT INTO wishlists (user_id, product_id) VALUES (:user_id, :product_id)";
         $insertStmt = $db->prepare($insertQuery);
         $insertStmt->execute([':user_id' => $userId, ':product_id' => $productId]);
+        jsonResponse(true, "Added to wishlist", ['action' => 'added']);
+    }
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
