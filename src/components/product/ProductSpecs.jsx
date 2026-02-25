@@ -38,3 +38,22 @@ const ProductSpecs = ({ specs, features }) => {
           <h3 className="text-lg font-bold text-surface-900 dark:text-white mb-4">
             Key Features
           </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {features.map((feature, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <div className="w-5 h-5 rounded-full bg-success-100 dark:bg-success-900/30 flex items-center justify-center shrink-0">
+                  <HiOutlineCheck className="w-3.5 h-3.5 text-success-600 dark:text-success-500" />
+                </div>
+                <span className="text-sm text-surface-700 dark:text-surface-300">
+                  {feature}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ProductSpecs;

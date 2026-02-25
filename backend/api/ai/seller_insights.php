@@ -66,3 +66,36 @@ try {
 
     // 4. Generate AI Suggestion Text
     $aiSuggestions = [];
+    if ($compScore < 50 && $totalActive > 0) {
+        $aiSuggestions[] = "Over {$competitiveness['overpriced']} of your products are priced above the market average. Consider lowering prices to sell faster.";
+    } elseif ($compScore >= 80) {
+        $aiSuggestions[] = "Your pricing strategy is excellent! Most of your products are highly competitive.";
+    }
+
+    if ($trust['score'] < 60) {
+        $aiSuggestions[] = "Your trust score is low. Try to get more successful sales and ask buyers to leave 5-star reviews.";
+    } elseif ($trust['level'] === 'platinum') {
+        $aiSuggestions[] = "You are a Platinum Trusted Seller! This gives your listings priority visibility.";
+    }
+
+    if ($conversionRate < 1 && $totalViews > 100) {
+        $aiSuggestions[] = "You are getting views, but low sales. Try improving your product images and adding more detailed AI specs.";
+    }
+
+    jsonResponse(true, "Insights retrieved", [
+        'trust' => $trust,
+        'pricingCompetitiveness' => [
+            'score' => $compScore,
+            'breakdown' => $competitiveness
+        ],
+        'performance' => [
+            'totalViews' => $totalViews,
+            'conversionRate' => $conversionRate
+        ],
+        'aiSuggestions' => $aiSuggestions
+    ]);
+
+} catch (PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
