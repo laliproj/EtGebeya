@@ -40,3 +40,44 @@ export const toggleWishlistAPI = createAsyncThunk(
 
 const initialState = {
   wishlistIds: [],
+  favoriteIds: [], // Used for sellers/brands if needed
+  loading: false,
+};
+
+const wishlistSlice = createSlice({
+  name: 'wishlist',
+  initialState,
+  reducers: {
+    clearWishlist(state) {
+      state.wishlistIds = [];
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      // Fetch
+      .addCase(fetchWishlist.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchWishlist.fulfilled, (state, action) => {
+        state.loading = false;
+        state.wishlistIds = action.payload || [];
+      })
+      .addCase(fetchWishlist.rejected, (state) => {
+        state.loading = false;
+      })
+      // Toggle
+      .addCase(toggleWishlistAPI.fulfilled, (state, action) => {
+        const { productId, action: toggleAction } = action.payload;
+        if (toggleAction === 'added') {
+          if (!state.wishlistIds.includes(productId)) {
+            state.wishlistIds.push(productId);
+          }
+        } else if (toggleAction === 'removed') {
+          state.wishlistIds = state.wishlistIds.filter(id => id !== productId);
+        }
+      });
+  },
+});
+
+export const { clearWishlist } = wishlistSlice.actions;
+export default wishlistSlice.reducer;
