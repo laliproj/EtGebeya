@@ -146,3 +146,77 @@ if (!empty($geminiApiKey)) {
 
     $geminiBody = [
         "contents" => [
+            ["role" => "user", "parts" => [["text" => $pricePrompt]]]
+        ],
+        // Google Search grounding gives Gemini live web access
+        "tools" => [
+            ["google_search" => (object)[]]
+        ],
+        "generationConfig" => [
+            "temperature"     => 0.1,
+            "maxOutputTokens" => 60
+        ]
+    ];
+
+    $geminiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . $geminiApiKey;
+    $ch = curl_init($geminiUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST,           true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS,     json_encode($geminiBody));
+    curl_setopt($ch, CURLOPT_HTTPHEADER,     ['Content-Type: application/json']);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_TIMEOUT,        20);
+    $geminiResp = curl_exec($ch);
+    curl_close($ch);
+
+    if ($geminiResp) {
+        $geminiData = json_decode($geminiResp, true);
+        $priceText  = $geminiData['candidates'][0]['content']['parts'][0]['text'] ?? '';
+        
+        // Remove commas just in case Gemini ignored the instruction
+        $priceText = str_replace(',', '', $priceText);
+
+        // Parse: LOW:xxx AVG:xxx HIGH:xxx
+        $lowUSD = $avgUSD = $highUSD = null;
+        if (preg_match('/LOW[:\s]+(\d+(?:\.\d+)?)/i',  $priceText, $m)) $lowUSD  = (float)$m[1];
+        if (preg_match('/AVG[:\s]+(\d+(?:\.\d+)?)/i',  $priceText, $m)) $avgUSD  = (float)$m[1];
+        if (preg_match('/HIGH[:\s]+(\d+(?:\.\d+)?)/i', $priceText, $m)) $highUSD = (float)$m[1];
+
+        // Sanity check: all three values present, non-zero, and within a realistic USD range
+        // If $avgUSD > 10000, Gemini probably returned ETB or another currency by mistake.
+        if ($lowUSD > 0 && $avgUSD > 0 && $highUSD > 0
+            && $lowUSD <= $avgUSD && $avgUSD <= $highUSD
+            && $avgUSD < 10000) {
+            $marketLow  = round($lowUSD  * $conversionRate * $condFactor);
+            $marketAvg  = round($avgUSD  * $conversionRate * $condFactor);
+            $marketHigh = round($highUSD * $conversionRate * $condFactor);
+        }
+    }
+}
+
+// ── Fallback to static baselines if Gemini failed / returned bad data ────────
+if (!$marketLow || !$marketAvg || !$marketHigh) {
+    $usdBaselines = [
+        'phones'   => ['Apple'=>['low'=>400,'avg'=>800,'high'=>1200],  'Samsung'=>['low'=>200,'avg'=>600,'high'=>1100],
+                       'Xiaomi'=>['low'=>150,'avg'=>280,'high'=>550],   'OnePlus'=>['low'=>300,'avg'=>500,'high'=>800],
+                       'Google'=>['low'=>350,'avg'=>600,'high'=>900],   '_default'=>['low'=>120,'avg'=>300,'high'=>650]],
+        'laptops'  => ['Apple'=>['low'=>999,'avg'=>1600,'high'=>3500],  'Dell'=>['low'=>400,'avg'=>800,'high'=>1800],
+                       'HP'=>['low'=>350,'avg'=>750,'high'=>1500],      'Lenovo'=>['low'=>350,'avg'=>750,'high'=>1600],
+                       'Asus'=>['low'=>400,'avg'=>850,'high'=>1800],    'Acer'=>['low'=>300,'avg'=>600,'high'=>1200],
+                       '_default'=>['low'=>350,'avg'=>700,'high'=>1500]],
+        'tablets'  => ['Apple'=>['low'=>329,'avg'=>650,'high'=>1200],   'Samsung'=>['low'=>200,'avg'=>400,'high'=>800],
+                       '_default'=>['low'=>150,'avg'=>350,'high'=>700]],
+        'audio'    => ['Apple'=>['low'=>129,'avg'=>220,'high'=>400],    'Sony'=>['low'=>80,'avg'=>200,'high'=>350],
+                       'Bose'=>['low'=>150,'avg'=>280,'high'=>450],     'JBL'=>['low'=>50,'avg'=>100,'high'=>250],
+                       '_default'=>['low'=>30,'avg'=>80,'high'=>150]],
+        'gaming'   => ['PlayStation'=>['low'=>400,'avg'=>500,'high'=>700],'Xbox'=>['low'=>300,'avg'=>500,'high'=>600],
+                       'Nintendo'=>['low'=>200,'avg'=>300,'high'=>400],  '_default'=>['low'=>250,'avg'=>400,'high'=>600]],
+        'cameras'  => ['Canon'=>['low'=>400,'avg'=>800,'high'=>2000],   'Nikon'=>['low'=>400,'avg'=>800,'high'=>2000],
+                       'Sony'=>['low'=>500,'avg'=>1000,'high'=>2500],   '_default'=>['low'=>300,'avg'=>700,'high'=>1500]],
+        'tvs'      => ['Samsung'=>['low'=>300,'avg'=>700,'high'=>2000], 'LG'=>['low'=>300,'avg'=>700,'high'=>2000],
+                       'Sony'=>['low'=>400,'avg'=>900,'high'=>2500],    '_default'=>['low'=>200,'avg'=>500,'high'=>1200]],
+        '_default' => ['_default'=>['low'=>100,'avg'=>300,'high'=>800]],
+    ];
+    $catB   = $usdBaselines[$category]  ?? $usdBaselines['_default'];
+    $brandB = $catB[$brand] ?? $catB['_default'] ?? array_values($catB)[0];
+    $marketLow  = round($brandB['low']  * $conversionRate * $condFactor);
