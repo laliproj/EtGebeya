@@ -14,3 +14,11 @@ $userId = AuthMiddleware::authenticate();
 $database = new Database();
 $db = $database->getConnection();
 
+try {
+    $query = "SELECT product_id FROM wishlists WHERE user_id = :user_id";
+    $stmt = $db->prepare($query);
+    $stmt->execute([':user_id' => $userId]);
+
+    $wishlistIds = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $wishlistIds[] = (int)$row['product_id'];
