@@ -28,3 +28,13 @@ const sellerSlice = createSlice({
     },
     setLoading(state, action) {
       state.loading = action.payload;
+    },
+    addWarning(state, action) {
+      const seller = state.sellers.find(s => s.id === action.payload);
+      if (seller) {
+        seller.warnings += 1;
+        if (seller.warnings >= 3) {
+          seller.isBanned = true;
+        }
+      }
+    },
