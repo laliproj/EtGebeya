@@ -94,3 +94,35 @@ const NegotiationModal = ({ product, onClose }) => {
             >
               {loading ? (
                 <>
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  AI is evaluating...
+                </>
+              ) : (
+                <>
+                  <HiOutlineHandRaised className="w-5 h-5" />
+                  Submit Offer
+                </>
+              )}
+            </button>
+          </>
+        ) : (
+          <div className={`rounded-2xl border p-5 ${verdictCfg.bg}`}>
+            <div className="flex items-center gap-3 mb-3">
+              <verdictCfg.icon className={`w-7 h-7 shrink-0 ${verdictCfg.color}`} />
+              <span className={`font-bold text-base ${verdictCfg.color}`}>
+                {result.verdict === 'accepted' ? 'Offer Accepted!' :
+                 result.verdict === 'pre_approved' ? 'Offer Forwarded to Seller' :
+                 result.verdict === 'counter' ? 'AI Counter-Offer' :
+                 result.verdict === 'rejected' ? 'Offer Rejected' : 'Error'}
+              </span>
+            </div>
+
+            <div
+              className="text-sm text-surface-700 dark:text-surface-300 leading-relaxed"
+              dangerouslySetInnerHTML={{
+                __html: result.message
+                  .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                  .replace(/\n/g, '<br/>')
+              }}
+            />
+

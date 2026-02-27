@@ -220,3 +220,77 @@ if (!$marketLow || !$marketAvg || !$marketHigh) {
     $catB   = $usdBaselines[$category]  ?? $usdBaselines['_default'];
     $brandB = $catB[$brand] ?? $catB['_default'] ?? array_values($catB)[0];
     $marketLow  = round($brandB['low']  * $conversionRate * $condFactor);
+    $marketAvg  = round($brandB['avg']  * $conversionRate * $condFactor);
+    $marketHigh = round($brandB['high'] * $conversionRate * $condFactor);
+}
+
+// ─── 2. PRICE VERDICT ────────────────────────────────────────────────────────
+$priceVerdict = 'unknown';
+$priceFlag = null;
+if ($marketAvg && $marketLow && $marketHigh) {
+    if ($price <= $marketLow * 0.75) {
+        $priceVerdict = 'great_deal';
+    } elseif ($price <= $marketHigh * 1.05) {
+        $priceVerdict = 'fair_price';
+    } else {
+        $priceVerdict = 'overpriced';
+        $priceFlag = sprintf("Price is %.0f%% above market average (%.0f ETB)", 
+            (($price - $marketAvg) / $marketAvg * 100), $marketAvg);
+    }
+    // Suspiciously low = scam indicator
+    if ($price < $marketAvg * 0.4) {
+        $priceFlag = sprintf("Price is suspiciously low — %.0f%% below market average. Possible scam.", 
+            (($marketAvg - $price) / $marketAvg * 100));
+    }
+}
+
+// ─── 3. SCAM DETECTION ──────────────────────────────────────────────────────
+$scamScore = 0; // 0 = clean, accumulate to determine risk
+$flags = [];
+
+// 3a. Suspiciously low price
+if ($marketAvg && $price < $marketAvg * 0.4) {
+    $scamScore += 40;
+    $flags[] = "Price is suspiciously low compared to market average.";
+}
+// 3b. Very short/vague description
+if (mb_strlen($description) < 30) {
+    $scamScore += 20;
+    $flags[] = "Description is too short and lacks detail.";
+}
+// 3c. Common scam phrases in description
+$scamPhrases = ['whatsapp only', 'contact me on telegram', 'outside the platform', 
+    'pay before viewing', 'western union', 'money transfer first', 'i am abroad',
+    'send money', 'gift card', 'wire transfer'];
+foreach ($scamPhrases as $phrase) {
+    if (stripos($description, $phrase) !== false || stripos($title, $phrase) !== false) {
+        $scamScore += 35;
+        $flags[] = "Suspicious phrase detected: \"$phrase\"";
+        break;
+    }
+}
+// 3d. Title/brand mismatch
+$knownBrands = ['Apple','Samsung','Dell','HP','Lenovo','Sony','LG','Asus','Acer','Huawei',
+    'Xiaomi','OnePlus','Google','Microsoft','Nintendo','PlayStation','Xbox','Canon',
+    'Nikon','DJI','Bose','JBL'];
+$titleHasBrand = false;
+foreach ($knownBrands as $kb) {
+    if (stripos($title, $kb) !== false) { $titleHasBrand = true; break; }
+}
+if (!empty($brand) && !in_array($brand, $knownBrands) && $titleHasBrand) {
+    $scamScore += 15;
+    $flags[] = "Brand name does not match recognized brand list.";
+}
+// 3e. Check for duplicate similar titles from different sellers
+if ($productId) {
+    $dupStmt = $db->prepare("SELECT COUNT(*) FROM products 
+        WHERE title LIKE :title AND sellerId != :uid AND status IN ('active','pending') AND id != :pid");
+    $dupStmt->execute([':title' => '%' . substr($title, 0, 20) . '%', ':uid' => $userId, ':pid' => $productId]);
+} else {
+    $dupStmt = $db->prepare("SELECT COUNT(*) FROM products 
+        WHERE title LIKE :title AND sellerId != :uid AND status IN ('active','pending')");
+    $dupStmt->execute([':title' => '%' . substr($title, 0, 20) . '%', ':uid' => $userId]);
+}
+$dupCount = (int)$dupStmt->fetchColumn();
+if ($dupCount >= 3) {
+    $scamScore += 15;

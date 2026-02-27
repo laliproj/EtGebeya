@@ -18,3 +18,13 @@ const initialState = {
   loading: false,
   error: null,
 };
+
+const sellerSlice = createSlice({
+  name: 'sellers',
+  initialState,
+  reducers: {
+    setCurrentSeller(state, action) {
+      state.currentSeller = action.payload;
+    },
+    setLoading(state, action) {
+      state.loading = action.payload;
