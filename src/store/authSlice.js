@@ -40,3 +40,24 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    registerStart(state) {
+      state.loading = true;
+      state.error = null;
+    },
+    registerSuccess(state, action) {
+      state.loading = false;
+      state.isAuthenticated = true;
+      state.user = action.payload;
+      state.error = null;
+      localStorage.setItem('user', JSON.stringify(action.payload));
+    },
+    registerFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    logout(state) {
+      state.user = null;
+      state.isAuthenticated = false;
+      state.loading = false;
+      state.error = null;
+      localStorage.removeItem('user');
