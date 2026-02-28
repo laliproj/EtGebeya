@@ -38,3 +38,9 @@ const sellerSlice = createSlice({
         }
       }
     },
+  },
+});
+
+export const { setCurrentSeller, setLoading: setSellerLoading, addWarning } = sellerSlice.actions;
+
+export default sellerSlice.reducer;
