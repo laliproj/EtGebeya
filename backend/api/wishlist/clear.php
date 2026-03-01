@@ -14,3 +14,18 @@ $userId = AuthMiddleware::authenticate();
 if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
     jsonResponse(false, "Method not allowed", null, 405);
 }
+
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    $query = "DELETE FROM wishlists WHERE user_id = :user_id";
+    $stmt = $db->prepare($query);
+    $stmt->execute([':user_id' => $userId]);
+
+    jsonResponse(true, "Wishlist cleared");
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
