@@ -88,3 +88,32 @@ try {
             score = VALUES(score),
             level = VALUES(level),
             sales_points = VALUES(sales_points),
+            rating_points = VALUES(rating_points),
+            warning_deductions = VALUES(warning_deductions),
+            updated_at = CURRENT_TIMESTAMP");
+    $upsertStmt->execute([
+        ':sid'   => $sellerId,
+        ':score' => $score,
+        ':level' => $level,
+        ':sp'    => $salesPoints,
+        ':rp'    => $ratingPoints,
+        ':wd'    => $warnDeduct,
+    ]);
+
+    jsonResponse(true, "Trust score calculated", [
+        'score'       => $score,
+        'level'       => $level,
+        'levelConfig' => $levelConfig[$level],
+        'breakdown'   => [
+            'base'             => 50,
+            'salesPoints'      => $salesPoints,
+            'ratingPoints'     => round($ratingPoints, 1),
+            'agePoints'        => $agePoints,
+            'warningDeduction' => -$warnDeduct,
+        ],
+    ]);
+} catch (PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
+    

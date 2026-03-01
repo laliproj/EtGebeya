@@ -14,3 +14,11 @@ import uiReducer from './uiSlice';
  * redux-thunk (included by default with RTK) will handle
  * async API calls. Replace mock data dispatches with actual
  * API calls in the slice thunks.
+ */
+const store = configureStore({
+  reducer: {
+    auth: authReducer,
+    products: productReducer,
+    wishlist: wishlistReducer,
+    notifications: notificationReducer,
+    sellers: sellerReducer,
