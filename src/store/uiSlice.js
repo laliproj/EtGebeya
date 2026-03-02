@@ -10,3 +10,15 @@ if (storedTheme === 'dark') {
 }
 
 const initialState = {
+  theme: storedTheme,
+  sidebarOpen: false,
+  mobileMenuOpen: false,
+  searchOpen: false,
+};
+
+const uiSlice = createSlice({
+  name: 'ui',
+  initialState,
+  reducers: {
+    toggleTheme(state) {
+      state.theme = state.theme === 'light' ? 'dark' : 'light';
