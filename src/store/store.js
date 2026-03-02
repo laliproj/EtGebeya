@@ -22,3 +22,8 @@ const store = configureStore({
     wishlist: wishlistReducer,
     notifications: notificationReducer,
     sellers: sellerReducer,
+    ui: uiReducer,
+  },
+});
+
+export default store;
