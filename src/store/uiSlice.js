@@ -34,3 +34,13 @@ const uiSlice = createSlice({
     },
     setMobileMenuOpen(state, action) {
       state.mobileMenuOpen = action.payload;
+    },
+    setSearchOpen(state, action) {
+      state.searchOpen = action.payload;
+    },
+  },
+});
+
+export const { toggleTheme, setSidebarOpen, setMobileMenuOpen, setSearchOpen } = uiSlice.actions;
+
+export default uiSlice.reducer;
