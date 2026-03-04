@@ -82,3 +82,29 @@ const ReportModal = ({ isOpen, onClose, productId, productTitle }) => {
         </div>
 
         <div>
+          <label className="block text-sm font-medium text-surface-700 dark:text-surface-300 mb-2">
+            Additional Details (Optional)
+          </label>
+          <textarea
+            value={details}
+            onChange={(e) => setDetails(e.target.value)}
+            rows="3"
+            placeholder="Please provide any additional information to help us understand the issue..."
+            className="w-full bg-surface-50 dark:bg-surface-800/50 border border-surface-200 dark:border-surface-700 rounded-xl px-4 py-3 text-sm text-surface-900 dark:text-white focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 resize-none"
+          />
+        </div>
+
+        <div className="flex gap-3 justify-end pt-4 border-t border-surface-100 dark:border-surface-800">
+          <Button type="button" variant="ghost" onClick={onClose} disabled={isSubmitting}>
+            Cancel
+          </Button>
+          <Button type="submit" variant="danger" isLoading={isSubmitting}>
+            Submit Report
+          </Button>
+        </div>
+      </form>
+    </Modal>
+  );
+};
+
+export default ReportModal;
