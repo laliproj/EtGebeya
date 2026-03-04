@@ -41,3 +41,46 @@ export const markAllAsReadAPI = createAsyncThunk(
       }
       return rejectWithValue(response.data.message);
     } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+export const removeNotificationAPI = createAsyncThunk(
+  'notifications/remove',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await api.post('/notifications/delete.php', { id });
+      if (response.data.success) {
+        return id;
+      }
+      return rejectWithValue(response.data.message);
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+const initialState = {
+  items: [],
+  unreadCount: 0,
+  loading: false,
+};
+
+const notificationSlice = createSlice({
+  name: 'notifications',
+  initialState,
+  reducers: {
+    addNotification(state, action) {
+      state.items.unshift(action.payload);
+      if (!action.payload.read) {
+        state.unreadCount += 1;
+      }
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchNotificationsAPI.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchNotificationsAPI.fulfilled, (state, action) => {

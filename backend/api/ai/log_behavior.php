@@ -20,3 +20,14 @@ $productId = $data['productId'] ?? null;
 $category  = $data['category'] ?? null;
 $brand     = $data['brand'] ?? null;
 
+if (!in_array($action, ['view', 'wishlist', 'search'])) {
+    jsonResponse(false, "Invalid action", null, 400);
+}
+
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    $stmt = $db->prepare("INSERT INTO user_behavior_logs (user_id, product_id, category, brand, action) 
+                          VALUES (:uid, :pid, :cat, :brand, :action)");
+    $stmt->execute([

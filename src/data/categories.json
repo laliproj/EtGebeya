@@ -1,0 +1,25 @@
+[
+  {
+    "id": 1,
+    "name": "Phones",
+    "slug": "phones",
+    "icon": "📱",
+    "image": "/categories/phones.jpg",
+    "count": 1245
+  },
+  {
+    "id": 2,
+    "name": "Laptops",
+    "slug": "laptops",
+    "icon": "💻",
+    "image": "/categories/laptops.jpg",
+    "count": 876
+  },
+  {
+    "id": 3,
+    "name": "Tablets",
+    "slug": "tablets",
+    "icon": "📟",
+    "image": "/categories/tablets.jpg",
+    "count": 432
+  },
