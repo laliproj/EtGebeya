@@ -32,3 +32,37 @@ const initialState = {
     screenSize: '',
     camera: '',
     battery: '',
+    sortBy: 'newest',
+  },
+};
+
+const applyFilters = (state) => {
+  let filtered = [...state.items];
+
+  if (state.filters.category) {
+    filtered = filtered.filter(p => p.category === state.filters.category);
+  }
+  if (state.filters.brand) {
+    // Check if brand matches, or if the title contains the brand name (making it more robust)
+    const targetBrand = state.filters.brand.toLowerCase();
+    filtered = filtered.filter(p => 
+      (p.brand && p.brand.toLowerCase() === targetBrand) || 
+      p.title.toLowerCase().includes(targetBrand)
+    );
+  }
+  if (state.filters.condition) {
+    filtered = filtered.filter(p => p.condition === state.filters.condition);
+  }
+  if (state.filters.priceMin) {
+    filtered = filtered.filter(p => p.price >= Number(state.filters.priceMin));
+  }
+  if (state.filters.priceMax) {
+    filtered = filtered.filter(p => p.price <= Number(state.filters.priceMax));
+  }
+  if (state.filters.search) {
+    const searchLower = state.filters.search.toLowerCase();
+    filtered = filtered.filter(p =>
+      p.title.toLowerCase().includes(searchLower) ||
+      (p.description && p.description.toLowerCase().includes(searchLower)) ||
+      (p.brand && p.brand.toLowerCase().includes(searchLower))
+    );

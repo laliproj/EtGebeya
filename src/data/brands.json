@@ -21,3 +21,26 @@
     { "id": 15, "name": "Lenovo", "logo": "🟦", "models": ["Tab P12 Pro", "Tab P11 Pro", "Tab M11", "Tab M10 Plus"] },
     { "id": 16, "name": "Generic", "logo": "📟", "models": [] }
   ],
+  "headphones": [
+    { "id": 17, "name": "Apple", "logo": "🍎", "models": ["AirPods Pro 2", "AirPods 4", "AirPods Max 2", "AirPods Max"] },
+    { "id": 18, "name": "Sony", "logo": "🎵", "models": ["WH-1000XM5", "WH-1000XM4", "WF-1000XM5", "LinkBuds S", "LinkBuds Open"] },
+    { "id": 19, "name": "Samsung", "logo": "🔷", "models": ["Galaxy Buds 3 Pro", "Galaxy Buds 3", "Galaxy Buds FE"] },
+    { "id": 20, "name": "Bose", "logo": "🅱️", "models": ["QuietComfort Ultra", "QuietComfort 45", "Sport Earbuds", "700"] },
+    { "id": 21, "name": "JBL", "logo": "🟧", "models": ["Tour One M2", "Tune 770NC", "Live Pro 2", "Vibe 200TWS"] },
+    { "id": 22, "name": "Generic", "logo": "🎧", "models": [] }
+  ],
+  "cameras": [
+    { "id": 23, "name": "Canon", "logo": "📸", "models": ["EOS R5 Mark II", "EOS R6 Mark III", "EOS R8", "EOS R100", "PowerShot V10"] },
+    { "id": 24, "name": "Sony", "logo": "🎵", "models": ["A7R V", "A7 IV", "A7C II", "ZV-E10 II", "RX100 VII"] },
+    { "id": 25, "name": "Nikon", "logo": "🟡", "models": ["Z8", "Z6 III", "Z5", "Zf", "Z30"] },
+    { "id": 26, "name": "Fujifilm", "logo": "🟢", "models": ["X-T5", "X-H2S", "X-S20", "X100VI"] },
+    { "id": 27, "name": "Generic", "logo": "📷", "models": [] }
+  ],
+  "accessories": [
+    { "id": 28, "name": "Apple", "logo": "🍎", "models": [] },
+    { "id": 29, "name": "Samsung", "logo": "🔷", "models": [] },
+    { "id": 30, "name": "Anker", "logo": "🔋", "models": [] },
+    { "id": 31, "name": "Belkin", "logo": "🔌", "models": [] },
+    { "id": 32, "name": "Generic", "logo": "🔌", "models": [] }
+  ]
+}
