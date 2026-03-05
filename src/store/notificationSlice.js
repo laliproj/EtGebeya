@@ -84,3 +84,44 @@ const notificationSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchNotificationsAPI.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+        state.unreadCount = action.payload.filter(n => !n.read).length;
+      })
+      .addCase(fetchNotificationsAPI.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(markAsReadAPI.fulfilled, (state, action) => {
+        const id = action.payload;
+        const notification = state.items.find(n => n.id === id);
+        if (notification && !notification.read) {
+          notification.read = true;
+          state.unreadCount = Math.max(0, state.unreadCount - 1);
+        }
+      })
+      .addCase(markAllAsReadAPI.fulfilled, (state) => {
+        state.items.forEach(n => { n.read = true; });
+        state.unreadCount = 0;
+      })
+      .addCase(removeNotificationAPI.fulfilled, (state, action) => {
+        const id = action.payload;
+        const index = state.items.findIndex(n => n.id === id);
+        if (index !== -1) {
+          if (!state.items[index].read) {
+            state.unreadCount = Math.max(0, state.unreadCount - 1);
+          }
+          state.items.splice(index, 1);
+        }
+      });
+  }
+});
+
+export const { addNotification } = notificationSlice.actions;
+
+export default notificationSlice.reducer;
+
+// 
+// 
+// 
+// 
+// 
