@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "type": "product_approved",
+    "title": "Product Approved",
+    "message": "Your listing \"iPhone 16 Pro Max\" has been approved and is now live.",
+    "icon": "✅",
+    "read": false,
+    "createdAt": "2026-05-23T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "type": "product_reported",
+    "title": "Product Reported",
+    "message": "Your listing \"Samsung Galaxy S25\" has been reported for incorrect category.",
+    "icon": "⚠️",
+    "read": false,
+    "createdAt": "2026-05-23T09:30:00Z"
+  },

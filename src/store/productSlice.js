@@ -66,3 +66,37 @@ const applyFilters = (state) => {
       (p.description && p.description.toLowerCase().includes(searchLower)) ||
       (p.brand && p.brand.toLowerCase().includes(searchLower))
     );
+  }
+  if (state.filters.storage) {
+    filtered = filtered.filter(p => p.specs?.storage === state.filters.storage);
+  }
+  if (state.filters.ram) {
+    filtered = filtered.filter(p => p.specs?.ram === state.filters.ram);
+  }
+
+  // Sorting
+  switch (state.filters.sortBy) {
+    case 'newest':
+      filtered.sort((a, b) => new Date(b.postedAt) - new Date(a.postedAt));
+      break;
+    case 'price-low':
+      filtered.sort((a, b) => a.price - b.price);
+      break;
+    case 'price-high':
+      filtered.sort((a, b) => b.price - a.price);
+      break;
+    case 'popular':
+      filtered.sort((a, b) => b.views - a.views);
+      break;
+    default:
+      break;
+  }
+
+  state.filteredItems = filtered;
+};
+
+const productSlice = createSlice({
+  name: 'products',
+  initialState,
+  reducers: {
+    setProducts(state, action) {
