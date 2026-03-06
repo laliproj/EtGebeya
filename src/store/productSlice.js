@@ -100,3 +100,36 @@ const productSlice = createSlice({
   initialState,
   reducers: {
     setProducts(state, action) {
+      state.items = action.payload;
+      applyFilters(state);
+    },
+    setCurrentProduct(state, action) {
+      state.currentProduct = action.payload;
+    },
+    setLoading(state, action) {
+      state.loading = action.payload;
+    },
+    setError(state, action) {
+      state.error = action.payload;
+    },
+    setFilters(state, action) {
+      state.filters = { ...state.filters, ...action.payload };
+      applyFilters(state);
+    },
+    clearFilters(state) {
+      state.filters = initialState.filters;
+      state.filteredItems = state.items;
+    },
+    addProduct(state, action) {
+      state.items.unshift(action.payload);
+      applyFilters(state);
+    },
+  },
+});
+
+export const {
+  setProducts, setCurrentProduct, setLoading, setError,
+  setFilters, clearFilters, addProduct,
+} = productSlice.actions;
+
+export default productSlice.reducer;
