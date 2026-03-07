@@ -46,3 +46,15 @@ try {
             'sellerName' => $p['sellerName'],
             'sellerRating' => (float)$p['sellerRating'],
             'images' => $p['coverImage'] ? [$p['coverImage']] : []
+        ];
+    }, $trendingProductsRaw);
+
+    jsonResponse(true, "Trending data retrieved", [
+        'searches' => array_column($trendingSearches, 'query'),
+        'products' => $trendingProducts
+    ]);
+
+} catch (PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>

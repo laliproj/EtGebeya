@@ -36,3 +36,22 @@
     "createdAt": "2026-05-22T12:00:00Z"
   },
   {
+    "id": 5,
+    "type": "message",
+    "title": "New Message",
+    "message": "Sarah Johnson sent you a message about \"Sony WH-1000XM5\".",
+    "icon": "💬",
+    "read": false,
+    "createdAt": "2026-05-23T08:00:00Z"
+  },
+  {
+    "id": 6,
+    "type": "product_approved",
+    "title": "Product Approved",
+    "message": "Your listing \"Canon EOS R5 Mark II\" has been approved and is now live.",
+    "icon": "✅",
+    "read": true,
+    "createdAt": "2026-05-21T14:00:00Z"
+  },
+  {
+    "id": 7,
