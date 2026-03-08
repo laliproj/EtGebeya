@@ -55,3 +55,20 @@
   },
   {
     "id": 7,
+    "type": "wishlist",
+    "title": "Item Sold",
+    "message": "An item in your wishlist \"AirPods Pro 2\" has been sold.",
+    "icon": "🔔",
+    "read": true,
+    "createdAt": "2026-05-21T10:00:00Z"
+  },
+  {
+    "id": 8,
+    "type": "message",
+    "title": "New Message",
+    "message": "Mike Chen is interested in your \"Dell XPS 16\" listing.",
+    "icon": "💬",
+    "read": false,
+    "createdAt": "2026-05-23T07:30:00Z"
+  }
+]
