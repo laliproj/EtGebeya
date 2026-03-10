@@ -51,3 +51,56 @@ $categories = ['phones' => ['phone', 'smartphone', 'mobile', 'iphone'],
                'tablets' => ['tablet', 'ipad'],
                'audio' => ['headphone', 'earbud', 'speaker', 'airpods'],
                'gaming' => ['console', 'playstation', 'xbox', 'nintendo'],
+               'cameras' => ['camera', 'dslr', 'lens']];
+foreach ($categories as $cat => $aliases) {
+    foreach ($aliases as $alias) {
+        if (strpos($queryLower, $alias) !== false) {
+            $filters['category'] = $cat;
+            $queryLower = str_replace($alias, '', $queryLower);
+            break 2;
+        }
+    }
+}
+// 3. Brand extraction
+$brands = ['apple', 'samsung', 'dell', 'hp', 'lenovo', 'sony', 'lg', 'asus'];
+foreach ($brands as $brand) {
+    if (strpos($queryLower, $brand) !== false) {
+        $filters['brand'] = ucfirst($brand);
+        $queryLower = str_replace($brand, '', $queryLower);
+        break;
+    }
+}
+// 4. Intent detection
+if (strpos($queryLower, 'cheap') !== false || strpos($queryLower, 'affordable') !== false) {
+    $filters['intent'] = 'budget';
+    $queryLower = str_replace(['cheap', 'affordable'], '', $queryLower);
+} elseif (strpos($queryLower, 'best') !== false || strpos($queryLower, 'premium') !== false) {
+    $filters['intent'] = 'premium';
+    $queryLower = str_replace(['best', 'premium'], '', $queryLower);
+}
+
+// 5. Remaining keywords
+$words = array_filter(explode(' ', trim($queryLower)));
+$filters['keywords'] = array_values($words);
+
+// Execute Search
+try {
+    $sql = "SELECT p.id, p.title, p.price, p.category, p.brand, p.views, p.postedAt,
+            u.name as sellerName, u.trustScore,
+            (SELECT image_url FROM product_images WHERE product_id = p.id AND is_cover = 1 LIMIT 1) as coverImage
+            FROM products p
+            LEFT JOIN users u ON p.sellerId = u.id
+            WHERE p.status = 'active'";
+    
+    $params = [];
+    if ($filters['category']) {
+        $sql .= " AND p.category = :cat";
+        $params[':cat'] = $filters['category'];
+    }
+    if ($filters['brand']) {
+        $sql .= " AND p.brand = :brand";
+        $params[':brand'] = $filters['brand'];
+    }
+    if ($filters['maxPrice']) {
+        $sql .= " AND p.price <= :price";
+        $params[':price'] = $filters['maxPrice'];

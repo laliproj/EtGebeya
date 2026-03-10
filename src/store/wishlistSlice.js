@@ -32,3 +32,20 @@ export const toggleWishlistAPI = createAsyncThunk(
     try {
       const response = await wishlistService.toggleWishlist(productId);
       return { productId, action: response.action };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+const initialState = {
+  wishlistIds: [],
+  favoriteIds: [], // Used for sellers/brands if needed
+  loading: false,
+};
+
+const wishlistSlice = createSlice({
+  name: 'wishlist',
+  initialState,
+  reducers: {
+    clearWishlist(state) {
