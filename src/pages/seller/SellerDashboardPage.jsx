@@ -83,3 +83,88 @@ const EditModal = ({ product, onClose, onSave }) => {
               required
             />
           </div>
+          <div>
+            <label className="block text-sm font-medium text-surface-700 dark:text-surface-300 mb-1">Description</label>
+            <textarea
+              rows={3}
+              value={form.description}
+              onChange={e => setForm(p => ({ ...p, description: e.target.value }))}
+              className="w-full px-4 py-2.5 rounded-xl border border-surface-200 dark:border-surface-700 bg-surface-50 dark:bg-surface-800 text-surface-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none"
+            />
+          </div>
+          <div className="flex gap-3 pt-2">
+            <button type="button" onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-surface-200 dark:border-surface-700 text-surface-700 dark:text-surface-300 font-medium hover:bg-surface-50 dark:hover:bg-surface-800 transition-colors">
+              Cancel
+            </button>
+            <button type="submit" disabled={saving} className="flex-1 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 disabled:opacity-60 text-white font-semibold transition-colors">
+              {saving ? 'Saving…' : 'Save Changes'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+// ─── Confirm Dialog ───────────────────────────────────────────────────────────
+const ConfirmDialog = ({ title, message, confirmLabel, confirmClass, onConfirm, onClose }) => (
+  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={onClose}>
+    <div className="bg-white dark:bg-surface-900 rounded-2xl shadow-2xl w-full max-w-sm p-6 text-center" onClick={e => e.stopPropagation()}>
+      <p className="text-lg font-bold text-surface-900 dark:text-white mb-2">{title}</p>
+      <p className="text-sm text-surface-500 mb-6">{message}</p>
+      <div className="flex gap-3">
+        <button onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-surface-200 dark:border-surface-700 text-surface-700 dark:text-surface-300 font-medium hover:bg-surface-50 dark:hover:bg-surface-800 transition-colors">
+          Cancel
+        </button>
+        <button onClick={onConfirm} className={`flex-1 py-2.5 rounded-xl text-white font-semibold transition-colors ${confirmClass}`}>
+          {confirmLabel}
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
+// ─── Main Page ────────────────────────────────────────────────────────────────
+const SellerDashboardPage = () => {
+  const navigate = useNavigate();
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
+
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [editProduct, setEditProduct] = useState(null);
+  const [confirmAction, setConfirmAction] = useState(null); // { type, product }
+  const [actionLoading, setActionLoading] = useState({});
+
+  useEffect(() => {
+    if (!isAuthenticated) { navigate('/login'); return; }
+  }, [isAuthenticated, navigate]);
+
+  const fetchProducts = useCallback(async () => {
+    if (!user?.id) return;
+    setLoading(true);
+    try {
+      const data = await sellerService.getMyProducts(user.id);
+      setProducts(data);
+    } catch (error) {
+      toast.error('Failed to load your listings');
+    } finally {
+      setLoading(false);
+    }
+  }, [user]);
+
+  useEffect(() => { fetchProducts(); }, [fetchProducts]);
+
+  if (!user) return null;
+
+  // Stats
+  const active   = products.filter(p => p.status === 'active').length;
+  const pending  = products.filter(p => p.status === 'pending').length;
+  const sold     = products.filter(p => p.status === 'sold').length;
+  const rejected = products.filter(p => p.status === 'rejected').length;
+  const totalValue = products.filter(p => p.status === 'active').reduce((s, p) => s + p.price, 0);
+
+  const handleDelete = async (productId) => {
+    setActionLoading(prev => ({ ...prev, [productId]: 'delete' }));
+    try {
+      await sellerService.deleteProduct(productId);
+      setProducts(prev => prev.filter(p => p.id !== productId));
