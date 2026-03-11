@@ -49,3 +49,20 @@ const wishlistSlice = createSlice({
   initialState,
   reducers: {
     clearWishlist(state) {
+      state.wishlistIds = [];
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      // Fetch
+      .addCase(fetchWishlist.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchWishlist.fulfilled, (state, action) => {
+        state.loading = false;
+        state.wishlistIds = action.payload || [];
+      })
+      .addCase(fetchWishlist.rejected, (state) => {
+        state.loading = false;
+      })
+      // Toggle

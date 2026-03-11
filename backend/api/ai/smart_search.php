@@ -104,3 +104,56 @@ try {
     if ($filters['maxPrice']) {
         $sql .= " AND p.price <= :price";
         $params[':price'] = $filters['maxPrice'];
+    }
+    foreach ($filters['keywords'] as $i => $word) {
+        if (strlen($word) > 2) {
+            $k = ":kw$i";
+            $sql .= " AND (p.title LIKE $k OR p.description LIKE $k)";
+            $params[$k] = '%' . $word . '%';
+        }
+    }
+    
+    if ($filters['intent'] === 'budget') {
+        $sql .= " ORDER BY p.price ASC";
+    } elseif ($filters['intent'] === 'premium') {
+        $sql .= " ORDER BY p.price DESC";
+    } else {
+        // Semantic relevance sort mock: views and trust score
+        $sql .= " ORDER BY u.trustScore DESC, p.views DESC, p.postedAt DESC";
+    }
+    $sql .= " LIMIT 20";
+
+    $stmt = $db->prepare($sql);
+    foreach ($params as $key => $val) {
+        $stmt->bindValue($key, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
+    }
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Format
+    $formatted = array_map(function($p) {
+        return [
+            'id' => (int)$p['id'],
+            'title' => $p['title'],
+            'price' => (float)$p['price'],
+            'category' => $p['category'],
+            'brand' => $p['brand'],
+            'sellerName' => $p['sellerName'],
+            'sellerRating' => (float)$p['trustScore'],
+            'images' => $p['coverImage'] ? [$p['coverImage']] : []
+        ];
+    }, $results);
+
+    // Log query asynchronously (if db supports it, else synchronously)
+    $logStmt = $db->prepare("INSERT INTO search_analytics (query, user_id, result_count) VALUES (:q, :uid, :cnt)");
+    $logStmt->execute([':q' => $query, ':uid' => $userId, ':cnt' => count($results)]);
+
+    jsonResponse(true, "Search completed", [
+        'parsed_intent' => $filters,
+        'results' => $formatted
+    ]);
+
+} catch (PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
