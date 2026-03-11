@@ -66,3 +66,18 @@ const wishlistSlice = createSlice({
         state.loading = false;
       })
       // Toggle
+      .addCase(toggleWishlistAPI.fulfilled, (state, action) => {
+        const { productId, action: toggleAction } = action.payload;
+        if (toggleAction === 'added') {
+          if (!state.wishlistIds.includes(productId)) {
+            state.wishlistIds.push(productId);
+          }
+        } else if (toggleAction === 'removed') {
+          state.wishlistIds = state.wishlistIds.filter(id => id !== productId);
+        }
+      });
+  },
+});
+
+export const { clearWishlist } = wishlistSlice.actions;
+export default wishlistSlice.reducer;
