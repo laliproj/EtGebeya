@@ -253,3 +253,88 @@ const SellerDashboardPage = () => {
           { icon: HiOutlineCheckBadge,      label: 'Sold',     value: sold,      color: 'text-primary-600 dark:text-primary-400',  bg: 'bg-primary-50 dark:bg-primary-900/20' },
           { icon: HiOutlineCurrencyDollar,  label: 'Active Value', value: formatPrice(totalValue), color: 'text-accent-600 dark:text-accent-400', bg: 'bg-accent-50 dark:bg-accent-900/20' },
         ].map(({ icon: Icon, label, value, color, bg }) => (
+          <div key={label} className="bg-white dark:bg-surface-900 rounded-2xl border border-surface-200 dark:border-surface-800 p-5 flex items-center gap-4">
+            <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${bg}`}>
+              <Icon className={`w-5 h-5 ${color}`} />
+            </div>
+            <div>
+              <p className="text-xs text-surface-500 font-medium">{label}</p>
+              <p className="text-xl font-bold text-surface-900 dark:text-white">{value}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Listings Table */}
+      <div className="bg-white dark:bg-surface-900 rounded-2xl border border-surface-200 dark:border-surface-800 overflow-hidden">
+        <div className="px-6 py-4 border-b border-surface-100 dark:border-surface-800 flex items-center justify-between">
+          <h2 className="text-lg font-bold text-surface-900 dark:text-white">All Listings</h2>
+          <span className="text-sm text-surface-400">{products.length} total</span>
+        </div>
+
+        {loading ? (
+          <div className="p-8 space-y-4">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="h-20 skeleton rounded-xl" />
+            ))}
+          </div>
+        ) : products.length === 0 ? (
+          <div className="py-16 text-center">
+            <HiOutlineArchiveBox className="w-12 h-12 text-surface-300 mx-auto mb-3" />
+            <p className="text-surface-500 font-medium">No listings yet</p>
+            <Link to="/products/new" className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-primary-600 text-white text-sm font-semibold rounded-xl hover:bg-primary-700 transition-colors">
+              <HiOutlinePlus className="w-4 h-4" /> Post Your First Product
+            </Link>
+          </div>
+        ) : (
+          <div className="divide-y divide-surface-100 dark:divide-surface-800">
+            {products.map(product => {
+              const isActing = !!actionLoading[product.id];
+              return (
+                <div key={product.id} className="flex items-center gap-4 px-6 py-4 hover:bg-surface-50 dark:hover:bg-surface-800/50 transition-colors">
+                  {/* Image */}
+                  <div className="w-16 h-16 shrink-0 rounded-xl overflow-hidden bg-surface-100 dark:bg-surface-800">
+                    {product.images?.[0] ? (
+                      <img src={product.images[0]} alt={product.title} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-surface-300">
+                        <HiOutlineArchiveBox className="w-6 h-6" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Info */}
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-surface-900 dark:text-white truncate">{product.title}</p>
+                    <div className="flex flex-wrap items-center gap-2 mt-1">
+                      <span className="text-sm font-bold text-primary-600">{formatPrice(product.price)}</span>
+                      <span className="text-xs text-surface-400">·</span>
+                      <span className="text-xs text-surface-500">{timeAgo(product.postedAt)}</span>
+                      <span className="text-xs text-surface-400">·</span>
+                      <span className="text-xs text-surface-500 flex items-center gap-0.5"><HiOutlineEye className="w-3 h-3" /> {product.views ?? 0} views</span>
+                    </div>
+                    <div className="mt-1.5">
+                      <StatusBadge status={product.status} />
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex items-center gap-2 shrink-0">
+                    {/* View */}
+                    <Link
+                      to={`/products/${product.id}`}
+                      className="p-2 rounded-lg text-surface-400 hover:text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
+                      title="View listing"
+                    >
+                      <HiOutlineEye className="w-5 h-5" />
+                    </Link>
+
+                    {/* Edit — only for pending or active */}
+                    {(product.status === 'active' || product.status === 'pending') && (
+                      <button
+                        onClick={() => setEditProduct(product)}
+                        disabled={isActing}
+                        className="p-2 rounded-lg text-surface-400 hover:text-warning-600 hover:bg-warning-50 dark:hover:bg-warning-900/20 transition-colors disabled:opacity-40"
+                        title="Edit listing"
+                      >
+                        <HiOutlinePencilSquare className="w-5 h-5" />

@@ -20,3 +20,25 @@ class AuthMiddleware {
     private static function base64url_encode($data) {
         $b64 = base64_encode($data);
         if ($b64 === false) return false;
+        $url = strtr($b64, '+/', '-_');
+        return rtrim($url, '=');
+    }
+
+    /**
+     * Authenticate request and return user ID
+     */
+    public static function authenticate() {
+        $headers = apache_request_headers();
+        
+        $authHeader = isset($headers['Authorization']) ? $headers['Authorization'] : '';
+        if (empty($authHeader)) {
+            $authHeader = isset($headers['authorization']) ? $headers['authorization'] : '';
+        }
+
+        if ($authHeader) {
+            $arr = explode(" ", $authHeader);
+            $token = isset($arr[1]) ? $arr[1] : '';
+
+            if ($token) {
+                $parts = explode('.', $token);
+                if (count($parts) === 3) {
