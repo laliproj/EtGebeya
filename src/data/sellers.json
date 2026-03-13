@@ -82,3 +82,23 @@
     "totalRatings": 62,
     "isVerified": true,
     "warnings": 0,
+    "isBanned": false
+  },
+  {
+    "id": 6,
+    "name": "Jessica Martinez",
+    "email": "jessica@example.com",
+    "password": "hashed_password",
+    "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200",
+    "phone": "+1 (555) 678-9012",
+    "location": "Miami, FL",
+    "joinDate": "2024-02-14",
+    "bio": "Camera store owner selling both new and pre-owned equipment.",
+    "trustScore": 4.9,
+    "totalSold": 124,
+    "totalRatings": 138,
+    "isVerified": true,
+    "warnings": 0,
+    "isBanned": false
+  }
+]

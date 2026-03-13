@@ -26,3 +26,31 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     loginStart(state) {
+      state.loading = true;
+      state.error = null;
+    },
+    loginSuccess(state, action) {
+      state.loading = false;
+      state.isAuthenticated = true;
+      state.user = action.payload;
+      state.error = null;
+      localStorage.setItem('user', JSON.stringify(action.payload));
+    },
+    loginFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    registerStart(state) {
+      state.loading = true;
+      state.error = null;
+    },
+    registerSuccess(state, action) {
+      state.loading = false;
+      state.isAuthenticated = true;
+      state.user = action.payload;
+      state.error = null;
+      localStorage.setItem('user', JSON.stringify(action.payload));
+    },
+    registerFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;

@@ -80,3 +80,44 @@ try {
                 $type = is_int($v) ? PDO::PARAM_INT : PDO::PARAM_STR;
                 $stmt->bindValue($k, $v, $type);
             }
+            $stmt->execute();
+            $recommendations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        // ── Strategy 2: Wishlist-based (if behavior empty) ─────────────────────
+        if (empty($recommendations)) {
+            $strategy = 'wishlist';
+            $wlStmt = $db->prepare("
+                SELECT DISTINCT p.category, p.brand
+                FROM wishlist w
+                JOIN products p ON w.product_id = p.id
+                WHERE w.user_id = :uid LIMIT 3");
+            $wlStmt->execute([':uid' => $userId]);
+            $wishlistPrefs = $wlStmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (!empty($wishlistPrefs)) {
+                $cats = array_column($wishlistPrefs, 'category');
+                $placeholders = implode(',', array_fill(0, count($cats), '?'));
+                $wlRec = $db->prepare("
+                    SELECT p.id, p.title, p.price, p.category, p.brand, p.condition, p.location, p.postedAt, p.views,
+                        u.name as sellerName, u.trustScore as sellerRating,
+                        (SELECT image_url FROM product_images WHERE product_id = p.id AND is_cover = 1 LIMIT 1) as coverImage
+                    FROM products p LEFT JOIN users u ON p.sellerId = u.id
+                    WHERE p.status = 'active' AND p.category IN ($placeholders)
+                    ORDER BY p.isFeatured DESC, p.postedAt DESC LIMIT $limit");
+                $wlRec->execute($cats);
+                $recommendations = $wlRec->fetchAll(PDO::FETCH_ASSOC);
+            }
+        }
+    }
+
+    // ── Strategy 3: Trending Fallback ──────────────────────────────────────────
+    if (empty($recommendations)) {
+        $strategy = 'trending';
+        $excludeClause = $excludeId ? "AND p.id != :excl" : "";
+        $params = [':lim' => $limit];
+        if ($excludeId) $params[':excl'] = $excludeId;
+
+        $stmt = $db->prepare("
+            SELECT p.id, p.title, p.price, p.category, p.brand, p.condition, p.location, p.postedAt, p.views,
+                u.name as sellerName, u.trustScore as sellerRating,
