@@ -54,3 +54,31 @@ const authSlice = createSlice({
     registerFailure(state, action) {
       state.loading = false;
       state.error = action.payload;
+    },
+    logout(state) {
+      state.user = null;
+      state.isAuthenticated = false;
+      state.loading = false;
+      state.error = null;
+      localStorage.removeItem('user');
+    },
+    updateProfile(state, action) {
+      state.user = { ...state.user, ...action.payload };
+      localStorage.setItem('user', JSON.stringify(state.user));
+    },
+    clearError(state) {
+      state.error = null;
+    },
+    checkAuth(state) {
+      // Dummy action, state is already initialized from localStorage
+    }
+  },
+});
+
+export const {
+  loginStart, loginSuccess, loginFailure,
+  registerStart, registerSuccess, registerFailure,
+  logout, updateProfile, clearError, checkAuth,
+} = authSlice.actions;
+
+export default authSlice.reducer;

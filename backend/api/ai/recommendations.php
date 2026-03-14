@@ -121,3 +121,42 @@ try {
         $stmt = $db->prepare("
             SELECT p.id, p.title, p.price, p.category, p.brand, p.condition, p.location, p.postedAt, p.views,
                 u.name as sellerName, u.trustScore as sellerRating,
+                (SELECT image_url FROM product_images WHERE product_id = p.id AND is_cover = 1 LIMIT 1) as coverImage
+            FROM products p LEFT JOIN users u ON p.sellerId = u.id
+            WHERE p.status = 'active' $excludeClause
+            ORDER BY p.isFeatured DESC, p.views DESC, p.postedAt DESC
+            LIMIT :lim");
+        foreach ($params as $k => $v) {
+            $stmt->bindValue($k, $v, is_int($v) ? PDO::PARAM_INT : PDO::PARAM_STR);
+        }
+        $stmt->execute();
+        $recommendations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Format results
+    $formatted = array_map(function($p) {
+        return [
+            'id'           => (int)$p['id'],
+            'title'        => $p['title'],
+            'price'        => (float)$p['price'],
+            'category'     => $p['category'],
+            'brand'        => $p['brand'],
+            'condition'    => $p['condition'],
+            'location'     => $p['location'],
+            'postedAt'     => $p['postedAt'],
+            'views'        => (int)$p['views'],
+            'sellerName'   => $p['sellerName'],
+            'sellerRating' => (float)$p['sellerRating'],
+            'images'       => $p['coverImage'] ? [$p['coverImage']] : [],
+        ];
+    }, $recommendations);
+
+    jsonResponse(true, "Recommendations retrieved", [
+        'strategy'        => $strategy,
+        'recommendations' => $formatted,
+    ]);
+
+} catch (PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
