@@ -42,3 +42,25 @@ class AuthMiddleware {
             if ($token) {
                 $parts = explode('.', $token);
                 if (count($parts) === 3) {
+                    list($header64, $payload64, $signature) = $parts;
+                    
+                    $valid_signature = self::base64url_encode(hash_hmac('sha256', $header64 . "." . $payload64, self::$secret_key, true));
+                    
+                    if ($signature === $valid_signature) {
+                        $payload = json_decode(self::base64url_decode($payload64), true);
+                        if ($payload['exp'] >= time()) {
+                            return $payload['data']['id'];
+                        } else {
+                            jsonResponse(false, "Access denied. Token expired.", null, 401);
+                        }
+                    }
+                }
+            }
+        }
+        
+        jsonResponse(false, "Access denied. Invalid or missing token.", null, 401);
+    }
+
+    /**
+     * Generate JWT Token
+     */

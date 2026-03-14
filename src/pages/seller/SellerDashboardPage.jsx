@@ -338,3 +338,84 @@ const SellerDashboardPage = () => {
                         title="Edit listing"
                       >
                         <HiOutlinePencilSquare className="w-5 h-5" />
+                      </button>
+                    )}
+
+                    {/* Mark as Sold — only for active */}
+                    {product.status === 'active' && (
+                      <button
+                        onClick={() => setConfirmAction({ type: 'sold', product })}
+                        disabled={isActing}
+                        className="p-2 rounded-lg text-surface-400 hover:text-success-600 hover:bg-success-50 dark:hover:bg-success-900/20 transition-colors disabled:opacity-40"
+                        title="Mark as sold"
+                      >
+                        <HiOutlineCheckBadge className="w-5 h-5" />
+                      </button>
+                    )}
+
+                    {/* Delete */}
+                    <button
+                      onClick={() => setConfirmAction({ type: 'delete', product })}
+                      disabled={isActing}
+                      className="p-2 rounded-lg text-surface-400 hover:text-danger-600 hover:bg-danger-50 dark:hover:bg-danger-900/20 transition-colors disabled:opacity-40"
+                      title="Delete listing"
+                    >
+                      {actionLoading[product.id] === 'delete' ? (
+                        <HiOutlineArrowPath className="w-5 h-5 animate-spin" />
+                      ) : (
+                        <HiOutlineTrash className="w-5 h-5" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Rejected notice */}
+      {rejected > 0 && (
+        <div className="mt-4 p-4 bg-danger-50 dark:bg-danger-900/20 border border-danger-200 dark:border-danger-800/50 rounded-xl flex items-center gap-3">
+          <HiOutlineXCircle className="w-5 h-5 text-danger-500 shrink-0" />
+          <p className="text-sm text-danger-700 dark:text-danger-400">
+            You have <strong>{rejected}</strong> rejected listing{rejected > 1 ? 's' : ''}. Please review our guidelines and resubmit.
+          </p>
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {editProduct && (
+        <EditModal
+          product={editProduct}
+          onClose={() => setEditProduct(null)}
+          onSave={handleEdit}
+        />
+      )}
+
+      {/* Confirm Dialog */}
+      {confirmAction?.type === 'delete' && (
+        <ConfirmDialog
+          title="Delete this listing?"
+          message={`"${confirmAction.product.title}" will be permanently removed and cannot be recovered.`}
+          confirmLabel="Delete"
+          confirmClass="bg-danger-600 hover:bg-danger-700"
+          onConfirm={() => handleDelete(confirmAction.product.id)}
+          onClose={() => setConfirmAction(null)}
+        />
+      )}
+      {confirmAction?.type === 'sold' && (
+        <ConfirmDialog
+          title="Mark as Sold?"
+          message={`"${confirmAction.product.title}" will be moved to your sold items and removed from active listings.`}
+          confirmLabel="Mark as Sold"
+          confirmClass="bg-success-600 hover:bg-success-700"
+          onConfirm={() => handleMarkSold(confirmAction.product.id)}
+          onClose={() => setConfirmAction(null)}
+        />
+      )}
+    </div>
+  );
+};
+
+export default SellerDashboardPage;
