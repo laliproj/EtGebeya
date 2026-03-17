@@ -64,3 +64,25 @@ class AuthMiddleware {
     /**
      * Generate JWT Token
      */
+    public static function generateToken($user) {
+        $header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
+        $payload = json_encode([
+            'iat' => time(),
+            'exp' => time() + (60 * 60 * 24 * 7), // 1 week
+            'data' => [
+                'id' => $user['id'],
+                'email' => $user['email']
+            ]
+        ]);
+
+        $base64UrlHeader = self::base64url_encode($header);
+        $base64UrlPayload = self::base64url_encode($payload);
+        
+        $signature = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, self::$secret_key, true);
+        $base64UrlSignature = self::base64url_encode($signature);
+
+        return $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
+    }
+}
+
+// Helper function for apache_request_headers if not using Apache
