@@ -242,3 +242,125 @@
     "views": 567,
     "isFeatured": true
   },
+  {
+    "id": 9,
+    "title": "Lenovo ThinkPad X1 Carbon Gen 12 - Business Laptop",
+    "description": "Premium business ultrabook with Intel Core Ultra 7, 16GB RAM, 512GB SSD. 14-inch 2.8K OLED display. Fingerprint reader, IR camera, MIL-STD-810H certified. Company-refreshed with fresh Windows 11 install.",
+    "price": 1299,
+    "category": "laptops",
+    "brand": "Lenovo",
+    "model": "ThinkPad X1 Carbon",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=800",
+      "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=800",
+      "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=800",
+      "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800",
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800"
+    ],
+    "specs": {
+      "storage": "512GB SSD",
+      "ram": "16GB",
+      "processor": "Core Ultra 7",
+      "screenSize": "14\"",
+      "camera": "1080p + IR",
+      "battery": "57Wh"
+    },
+    "features": ["2.8K OLED", "Thunderbolt 4", "5G Optional", "MIL-STD-810H", "Fingerprint", "TrackPoint"],
+    "sellerId": 3,
+    "location": "San Francisco, CA",
+    "postedAt": "2026-05-21T10:00:00Z",
+    "views": 234,
+    "isFeatured": false
+  },
+  {
+    "id": 10,
+    "title": "Google Pixel 9 Pro - 256GB Obsidian",
+    "description": "Google Pixel 9 Pro in Obsidian color, 256GB storage. Tensor G4 chip with amazing AI photography features. 7 years of OS updates remaining. Includes original box, cable, and case. Used for 3 months.",
+    "price": 649,
+    "category": "phones",
+    "brand": "Google",
+    "model": "Pixel 9 Pro",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=800",
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800",
+      "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=800",
+      "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?w=800",
+      "https://images.unsplash.com/photo-1546054454-aa26e2b734c7?w=800"
+    ],
+    "specs": {
+      "storage": "256GB",
+      "ram": "16GB",
+      "processor": "Tensor G4",
+      "screenSize": "6.3\"",
+      "camera": "50MP + 48MP + 48MP",
+      "battery": "4700mAh"
+    },
+    "features": ["5G", "Gemini AI", "Magic Eraser", "Best Take", "IP68", "7yr Updates"],
+    "sellerId": 5,
+    "location": "Chicago, IL",
+    "postedAt": "2026-05-22T20:00:00Z",
+    "views": 321,
+    "isFeatured": false
+  },
+  {
+    "id": 11,
+    "title": "Samsung Galaxy Tab S10 Ultra - 512GB",
+    "description": "Flagship Samsung tablet with massive 14.6-inch AMOLED display. Snapdragon 8 Gen 3, 16GB RAM, 512GB storage. Comes with S Pen, Book Cover Keyboard, and original box. Barely used.",
+    "price": 999,
+    "category": "tablets",
+    "brand": "Samsung",
+    "model": "Galaxy Tab S10 Ultra",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1561154464-82e9aeb8d8be?w=800",
+      "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800",
+      "https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=800",
+      "https://images.unsplash.com/photo-1623126908029-58cb08a2b272?w=800",
+      "https://images.unsplash.com/photo-1542751110-97427bbecf20?w=800"
+    ],
+    "specs": {
+      "storage": "512GB",
+      "ram": "16GB",
+      "processor": "Snapdragon 8 Gen 3",
+      "screenSize": "14.6\"",
+      "camera": "13MP + 8MP",
+      "battery": "11200mAh"
+    },
+    "features": ["S Pen", "DeX Mode", "AMOLED 120Hz", "IP68", "Wi-Fi 7", "8K Video"],
+    "sellerId": 4,
+    "location": "Austin, TX",
+    "postedAt": "2026-05-21T16:00:00Z",
+    "views": 187,
+    "isFeatured": true
+  },
+  {
+    "id": 12,
+    "title": "Anker 737 Power Bank 24,000mAh",
+    "description": "High-capacity portable charger with 140W output. Powers laptops, tablets, and phones. Smart temperature monitoring, bi-directional charging. Perfect travel companion. Brand new, unopened.",
+    "price": 109,
+    "category": "accessories",
+    "brand": "Anker",
+    "model": "737 PowerCore",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=800",
+      "https://images.unsplash.com/photo-1585338107529-13afc25806f9?w=800",
+      "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800",
+      "https://images.unsplash.com/photo-1625315714730-0d25cf609a56?w=800",
+      "https://images.unsplash.com/photo-1618577608401-46f4a95be7df?w=800"
+    ],
+    "specs": {
+      "capacity": "24000mAh",
+      "output": "140W Max",
+      "ports": "2 USB-C, 1 USB-A",
+      "weight": "640g"
+    },
+    "features": ["140W", "PD 3.1", "Laptop Charging", "LED Display", "Smart Temp Control"],
+    "sellerId": 6,
+    "location": "Miami, FL",
+    "postedAt": "2026-05-23T06:00:00Z",
+    "views": 89,
+    "isFeatured": false
+  },
