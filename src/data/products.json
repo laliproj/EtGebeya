@@ -120,3 +120,125 @@
     "sellerId": 4,
     "location": "Austin, TX",
     "postedAt": "2026-05-22T12:00:00Z",
+    "views": 189,
+    "isFeatured": false
+  },
+  {
+    "id": 5,
+    "title": "Sony WH-1000XM5 Wireless Headphones - Silver",
+    "description": "Industry-leading noise cancelling headphones in Silver. Exceptional sound quality with LDAC support. Includes carrying case, cable, and airplane adapter. Lightly used, perfect working condition.",
+    "price": 249,
+    "category": "headphones",
+    "brand": "Sony",
+    "model": "WH-1000XM5",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=800",
+      "https://images.unsplash.com/photo-1545127398-14699f92334b?w=800",
+      "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800",
+      "https://images.unsplash.com/photo-1487215078519-e21cc028cb29?w=800",
+      "https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?w=800"
+    ],
+    "specs": {
+      "battery": "30 hours",
+      "connectivity": "Bluetooth 5.3",
+      "driver": "30mm",
+      "weight": "250g"
+    },
+    "features": ["ANC", "Multipoint", "Speak-to-Chat", "LDAC", "Wear Detection", "Touch Controls"],
+    "sellerId": 5,
+    "location": "Chicago, IL",
+    "postedAt": "2026-05-23T09:00:00Z",
+    "views": 178,
+    "isFeatured": true
+  },
+  {
+    "id": 6,
+    "title": "iPad Pro 13\" M4 - 256GB WiFi + Cellular",
+    "description": "Brand new sealed iPad Pro 13-inch with M4 chip. Ultra Retina XDR OLED display with nano-texture glass. WiFi + Cellular model. Space Black color. Includes Apple Pencil Pro and Magic Keyboard Folio.",
+    "price": 1599,
+    "category": "tablets",
+    "brand": "Apple",
+    "model": "iPad Pro 13\" M4",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800",
+      "https://images.unsplash.com/photo-1561154464-82e9aeb8d8be?w=800",
+      "https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=800",
+      "https://images.unsplash.com/photo-1542751110-97427bbecf20?w=800",
+      "https://images.unsplash.com/photo-1623126908029-58cb08a2b272?w=800"
+    ],
+    "specs": {
+      "storage": "256GB",
+      "ram": "8GB",
+      "processor": "M4",
+      "screenSize": "13\"",
+      "camera": "12MP Wide + 10MP Ultra Wide",
+      "battery": "38.99Wh"
+    },
+    "features": ["OLED XDR", "Face ID", "Thunderbolt/USB4", "Apple Pencil Pro", "5G", "LiDAR"],
+    "sellerId": 1,
+    "location": "New York, NY",
+    "postedAt": "2026-05-21T14:00:00Z",
+    "views": 412,
+    "isFeatured": true
+  },
+  {
+    "id": 7,
+    "title": "Canon EOS R5 Mark II - Body Only",
+    "description": "Professional mirrorless camera with 45MP full-frame sensor, 8K RAW video, AI-powered autofocus. Less than 5000 shutter count. Perfect for professional photography and videography. Battery grip included.",
+    "price": 3899,
+    "category": "cameras",
+    "brand": "Canon",
+    "model": "EOS R5 Mark II",
+    "condition": "Used",
+    "images": [
+      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800",
+      "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800",
+      "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?w=800",
+      "https://images.unsplash.com/photo-1495707902641-75cac588d2e9?w=800",
+      "https://images.unsplash.com/photo-1452780212940-6f5c0d14d848?w=800"
+    ],
+    "specs": {
+      "sensor": "45MP Full-Frame",
+      "video": "8K 60p RAW",
+      "iso": "100-102400",
+      "fps": "30fps Electronic",
+      "weight": "738g"
+    },
+    "features": ["IBIS", "Dual Card Slots", "AI AF", "Eye-Detect AF", "5GHz WiFi", "USB-C"],
+    "sellerId": 6,
+    "location": "Miami, FL",
+    "postedAt": "2026-05-22T18:30:00Z",
+    "views": 289,
+    "isFeatured": false
+  },
+  {
+    "id": 8,
+    "title": "AirPods Pro 2 with USB-C - Sealed",
+    "description": "Brand new sealed AirPods Pro 2nd generation with USB-C charging case. Active Noise Cancellation, Adaptive Transparency, Personalized Spatial Audio. Full Apple warranty included.",
+    "price": 199,
+    "category": "headphones",
+    "brand": "Apple",
+    "model": "AirPods Pro 2",
+    "condition": "New",
+    "images": [
+      "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=800",
+      "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=800",
+      "https://images.unsplash.com/photo-1590658268037-6bf12f032f62?w=800",
+      "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=800",
+      "https://images.unsplash.com/photo-1588423771073-b8903fde1c68?w=800"
+    ],
+    "specs": {
+      "battery": "6 hours (30 with case)",
+      "connectivity": "Bluetooth 5.3",
+      "chipset": "H2",
+      "weight": "5.3g each"
+    },
+    "features": ["ANC", "Adaptive Transparency", "Spatial Audio", "IP54", "USB-C", "Find My"],
+    "sellerId": 2,
+    "location": "Los Angeles, CA",
+    "postedAt": "2026-05-23T07:00:00Z",
+    "views": 567,
+    "isFeatured": true
+  },
