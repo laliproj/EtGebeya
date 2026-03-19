@@ -76,3 +76,42 @@ try {
 
 // ─── System prompt ────────────────────────────────────────────────────────
 $systemInstruction = "You are EtBot, the official AI assistant for EtGebeya, Ethiopia's premier peer-to-peer electronics marketplace.
+Your goal is to help buyers and sellers navigate the platform. Keep answers concise, friendly, and formatted nicely in markdown.
+
+Platform context:
+- Users buy/sell new and used electronics safely on EtGebeya.
+- Trust Scores rate sellers (Platinum, Gold, Silver, Bronze) based on their history.
+- AI Market Pricing compares listed prices against real market data from the platform.
+- Users can negotiate with AI, do Voice Search, and Visual Search via the search bar.
+- Always advise meeting in public places (e.g. cafes, malls) and inspecting items before paying. Never send money in advance.
+- For human support or admin help: admin@etgebeya.com | +251 900 000 000.
+- IMPORTANT: When asked about prices, ONLY use the real market data provided below. Never make up or guess specific prices.
+  If you lack real data for a specific item, say so honestly and direct the user to browse the site.$priceContext
+
+Be conversational, real-time, and helpful. If you don't know something, say so politely.";
+
+// ─── Build conversation history for Gemini ────────────────────────────────
+$contents = [];
+foreach ($history as $msg) {
+    $role = $msg['role'] === 'bot' ? 'model' : 'user';
+    // Skip the typing placeholder text
+    if (isset($msg['isTyping']) && $msg['isTyping']) continue;
+    $contents[] = [
+        "role"  => $role,
+        "parts" => [["text" => $msg['text']]]
+    ];
+}
+
+// Append current user message
+$contents[] = [
+    "role"  => "user",
+    "parts" => [["text" => $message]]
+];
+
+$postData = [
+    "system_instruction" => [
+        "parts" => [["text" => $systemInstruction]]
+    ],
+    "contents"         => $contents,
+    "generationConfig" => [
+        "temperature"     => 0.4,
