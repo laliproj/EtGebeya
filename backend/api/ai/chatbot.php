@@ -115,3 +115,42 @@ $postData = [
     "contents"         => $contents,
     "generationConfig" => [
         "temperature"     => 0.4,
+        "maxOutputTokens" => 500,
+    ]
+];
+
+// ─── cURL Request to Gemini ───────────────────────────────────────────────
+$apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . $apiKey;
+
+$ch = curl_init($apiUrl);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST,           true);
+curl_setopt($ch, CURLOPT_POSTFIELDS,     json_encode($postData));
+curl_setopt($ch, CURLOPT_HTTPHEADER,     ['Content-Type: application/json']);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // For local XAMPP dev
+curl_setopt($ch, CURLOPT_TIMEOUT,        15);
+
+$response = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curlErr  = curl_error($ch);
+curl_close($ch);
+
+$result = $response ? json_decode($response, true) : null;
+
+// ─── Handle Gemini errors — always return HTTP 200 so the frontend
+//     can display the message instead of showing "trouble connecting" ───────
+if (!$response || $curlErr) {
+    jsonResponse(true, "AI offline", [
+        'reply'        => "😔 I'm having trouble reaching my AI brain right now. Please try again in a moment, or contact **admin@etgebeya.com**.",
+        'quickReplies' => ['Try again', 'Contact admin']
+    ]);
+}
+
+if ($httpCode !== 200) {
+    $errorCode = $result['error']['code']   ?? $httpCode;
+    $errorMsg  = $result['error']['message'] ?? 'Unknown error';
+
+    $replyText = "😔 I'm having trouble thinking right now. Please try again later.";
+    if ($errorCode === 429) {
+        $replyText = "⚠️ **Too many requests!** Our AI is temporarily rate-limited. Please wait a moment and try again.";
+    } elseif ($errorCode === 400) {
