@@ -114,3 +114,119 @@ const AdminDashboardPage = () => {
       setReports(prev => prev.map(r => r.id === reportId ? { ...r, status: action === 'dismiss' ? 'dismissed' : 'resolved' } : r));
     } catch (err) {
       toast.error(err.message);
+    } finally {
+      setActionLoading(prev => { const n = { ...prev }; delete n[`r_${reportId}`]; return n; });
+    }
+  };
+
+  if (!user?.isAdmin) return null;
+
+  const tabs = [
+    { id: 'pending',  label: 'ማስታወቂያ ጥያቄዎች', sublabel: 'Pending Posts',  icon: HiOutlineClipboardDocumentCheck, count: stats?.pending_products },
+    { id: 'reports',  label: 'ሪፖርቶች',           sublabel: 'User Reports',   icon: HiOutlineFlag,                   count: stats?.open_reports },
+  ];
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-8">
+
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+          <div className="flex items-center gap-3 mb-1">
+            <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-accent-600 rounded-xl flex items-center justify-center">
+              <HiOutlineShieldCheck className="w-5 h-5 text-white" />
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-surface-900 dark:text-white">
+              የአስተዳዳሪ ዳሽቦርድ
+            </h1>
+          </div>
+          <p className="text-surface-500 ml-13 pl-0.5">Admin Dashboard — EtGebeya Control Panel</p>
+        </div>
+        <button
+          onClick={refresh}
+          disabled={loading}
+          className="flex items-center gap-2 px-4 py-2 bg-surface-100 dark:bg-surface-800 hover:bg-surface-200 dark:hover:bg-surface-700 rounded-xl text-sm font-medium text-surface-700 dark:text-surface-300 transition-colors"
+        >
+          <HiOutlineArrowPath className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+          አድስ — Refresh
+        </button>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        {loading ? (
+          [...Array(4)].map((_, i) => <Skeleton key={i} className="h-28 rounded-2xl" />)
+        ) : (
+          <>
+            <StatCard icon={HiOutlineUsers}          label="ጠቅላላ ተጠቃሚዎች / Total Users"       value={stats?.total_users}      color="primary" />
+            <StatCard icon={HiOutlineArchiveBox}     label="ጠቅላላ ምርቶች / Total Products"      value={stats?.total_products}   color="accent"  />
+            <StatCard icon={HiOutlineClipboardDocumentCheck} label="በጥበቃ ላይ / Pending Approval" value={stats?.pending_products} color="warning" />
+            <StatCard icon={HiOutlineFlag}           label="ክፍት ሪፖርቶች / Open Reports"        value={stats?.open_reports}     color="danger"  sub={`${stats?.banned_users ?? 0} ተጠቃሚዎች ታግደዋል`} />
+          </>
+        )}
+      </div>
+
+      {/* Tabs */}
+      <div className="flex gap-1 p-1 bg-surface-100 dark:bg-surface-800 rounded-2xl mb-6 w-fit">
+        {tabs.map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+              activeTab === tab.id
+                ? 'bg-white dark:bg-surface-900 text-primary-600 dark:text-primary-400 shadow-sm'
+                : 'text-surface-500 hover:text-surface-700 dark:hover:text-surface-300'
+            }`}
+          >
+            <tab.icon className="w-4 h-4" />
+            {tab.label}
+            {tab.count > 0 && (
+              <span className="ml-1 bg-danger-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                {tab.count > 9 ? '9+' : tab.count}
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* ── Pending Products Tab ────────────────────────────────────────────── */}
+      {activeTab === 'pending' && (
+        <div className="space-y-4">
+          {loading ? (
+            [...Array(3)].map((_, i) => <Skeleton key={i} className="h-28 rounded-2xl" />)
+          ) : pending.length === 0 ? (
+            <div className="bg-white dark:bg-surface-900 rounded-2xl border border-surface-200 dark:border-surface-800 p-16 text-center">
+              <HiOutlineCheckCircle className="w-12 h-12 text-success-400 mx-auto mb-3" />
+              <p className="text-lg font-semibold text-surface-900 dark:text-white">ሁሉም ምርቶች ተፈቅደዋል!</p>
+              <p className="text-surface-500 text-sm mt-1">All listings have been reviewed. No pending approvals.</p>
+            </div>
+          ) : (
+            pending.map(product => (
+              <div key={product.id} className="bg-white dark:bg-surface-900 rounded-2xl border border-surface-200 dark:border-surface-800 p-5 flex flex-col sm:flex-row gap-4">
+                {product.cover_image && (
+                  <img
+                    src={product.cover_image}
+                    alt={product.title}
+                    className="w-full sm:w-28 h-28 rounded-xl object-cover shrink-0 bg-surface-100"
+                  />
+                )}
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
+                    <h3 className="font-bold text-surface-900 dark:text-white text-lg truncate">{product.title}</h3>
+                    <span className="text-xl font-bold text-primary-600">{formatPrice(product.price)}</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2 text-xs text-surface-500 mb-3">
+                    <span className="bg-surface-100 dark:bg-surface-800 px-2 py-1 rounded-lg">{product.category}</span>
+                    <span className="bg-surface-100 dark:bg-surface-800 px-2 py-1 rounded-lg">{product.brand}</span>
+                    <span className="bg-surface-100 dark:bg-surface-800 px-2 py-1 rounded-lg">{product.condition}</span>
+                    <span className="bg-surface-100 dark:bg-surface-800 px-2 py-1 rounded-lg">📍 {product.location}</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm text-surface-600 dark:text-surface-400 mb-4">
+                    <span>ሻጭ: <strong className="text-surface-900 dark:text-white">{product.seller_name}</strong></span>
+                    <span className="text-surface-300">·</span>
+                    <span>{product.seller_email}</span>
+                    <span className="text-surface-300">·</span>
+                    <span>{timeAgo(product.postedAt)}</span>
+                  </div>
+                  <div className="flex gap-3">
+                    <button
