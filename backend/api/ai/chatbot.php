@@ -154,3 +154,38 @@ if ($httpCode !== 200) {
     if ($errorCode === 429) {
         $replyText = "⚠️ **Too many requests!** Our AI is temporarily rate-limited. Please wait a moment and try again.";
     } elseif ($errorCode === 400) {
+        $replyText = "⚠️ Something went wrong with my request. Please rephrase and try again.";
+    } elseif ($errorCode === 403) {
+        $replyText = "⚠️ AI service is not authorized right now. Please contact **admin@etgebeya.com**.";
+    }
+
+    // Return 200 so Axios doesn't throw — display the error as a bot reply
+    jsonResponse(true, "AI error handled", [
+        'reply'        => $replyText,
+        'quickReplies' => ['Try again', 'Contact admin']
+    ]);
+}
+
+// ─── Success path ─────────────────────────────────────────────────────────
+$replyText = $result['candidates'][0]['content']['parts'][0]['text']
+             ?? "I'm not sure how to respond to that. Could you rephrase?";
+
+// Suggest contextual quick replies
+$quickReplies = [];
+if (stripos($replyText, 'admin@etgebeya') !== false) {
+    // Already pointed to admin — no extra chips needed
+} elseif (stripos($message, 'scam') !== false || stripos($message, 'safe') !== false) {
+    $quickReplies = ['How does Trust Score work?', 'Safe meeting tips'];
+} elseif (stripos($message, 'sell') !== false || stripos($message, 'post') !== false) {
+    $quickReplies = ['How do I post an item?', 'Pricing tips'];
+} elseif (stripos($message, 'price') !== false || stripos($message, 'cost') !== false || stripos($message, 'how much') !== false) {
+    $quickReplies = ['Find a laptop', 'Find a phone', 'Browse all listings'];
+} else {
+    $quickReplies = ['Find a laptop', 'Am I safe from scams?', 'Contact admin'];
+}
+
+jsonResponse(true, "AI Response", [
+    'reply'        => $replyText,
+    'quickReplies' => $quickReplies
+]);
+?>
