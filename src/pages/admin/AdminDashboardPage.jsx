@@ -230,3 +230,119 @@ const AdminDashboardPage = () => {
                   </div>
                   <div className="flex gap-3">
                     <button
+                      onClick={() => handleProduct(product.id, 'approve')}
+                      disabled={!!actionLoading[product.id]}
+                      className="flex items-center gap-2 px-5 py-2 bg-success-500 hover:bg-success-600 disabled:opacity-60 text-white text-sm font-semibold rounded-xl transition-colors"
+                    >
+                      <HiOutlineCheckCircle className="w-4 h-4" />
+                      {actionLoading[product.id] === 'approve' ? 'እየተፈቀደ...' : 'ቀበል — Approve'}
+                    </button>
+                    <button
+                      onClick={() => handleProduct(product.id, 'reject')}
+                      disabled={!!actionLoading[product.id]}
+                      className="flex items-center gap-2 px-5 py-2 bg-danger-500 hover:bg-danger-600 disabled:opacity-60 text-white text-sm font-semibold rounded-xl transition-colors"
+                    >
+                      <HiOutlineXCircle className="w-4 h-4" />
+                      {actionLoading[product.id] === 'reject' ? 'እየተቀነሰ...' : 'ውድቅ — Reject'}
+                    </button>
+                    <Link
+                      to={`/products/${product.id}`}
+                      target="_blank"
+                      className="flex items-center gap-2 px-4 py-2 border border-surface-200 dark:border-surface-700 hover:bg-surface-50 dark:hover:bg-surface-800 text-sm font-medium text-surface-700 dark:text-surface-300 rounded-xl transition-colors"
+                    >
+                      ዝርዝር ይመልከቱ
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      )}
+
+      {/* ── Reports Tab ─────────────────────────────────────────────────────── */}
+      {activeTab === 'reports' && (
+        <div className="space-y-4">
+          {loading ? (
+            [...Array(3)].map((_, i) => <Skeleton key={i} className="h-36 rounded-2xl" />)
+          ) : reports.length === 0 ? (
+            <div className="bg-white dark:bg-surface-900 rounded-2xl border border-surface-200 dark:border-surface-800 p-16 text-center">
+              <HiOutlineFlag className="w-12 h-12 text-surface-300 mx-auto mb-3" />
+              <p className="text-lg font-semibold text-surface-900 dark:text-white">ምንም ሪፖርቶች የሉም</p>
+              <p className="text-surface-500 text-sm mt-1">No reports have been submitted.</p>
+            </div>
+          ) : (
+            reports.map(report => (
+              <div key={report.id} className="bg-white dark:bg-surface-900 rounded-2xl border border-surface-200 dark:border-surface-800 p-5">
+                <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <HiOutlineFlag className="w-4 h-4 text-danger-500" />
+                      <span className="font-bold text-surface-900 dark:text-white">{report.reason}</span>
+                      <StatusBadge status={report.status} />
+                    </div>
+                    <p className="text-sm text-surface-500">
+                      ምርት: <Link to={`/products/${report.product_id}`} className="text-primary-600 hover:underline font-medium">{report.product_title}</Link>
+                      <span className="mx-2 text-surface-300">·</span>
+                      ሻጭ: <strong className="text-surface-700 dark:text-surface-300">{report.seller_name}</strong>
+                    </p>
+                  </div>
+                  <span className="text-xs text-surface-400">{timeAgo(report.created_at)}</span>
+                </div>
+
+                {report.details && (
+                  <div className="bg-surface-50 dark:bg-surface-800/50 rounded-xl p-4 mb-4">
+                    <p className="text-sm text-surface-700 dark:text-surface-300 leading-relaxed">{report.details}</p>
+                  </div>
+                )}
+
+                <div className="text-xs text-surface-400 mb-4">
+                  ሪፖርት ያቀረበ: <strong>{report.reporter_name}</strong> ({report.reporter_email})
+                </div>
+
+                {report.status === 'pending' && (
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      onClick={() => handleReport(report.id, 'dismiss')}
+                      disabled={!!actionLoading[`r_${report.id}`]}
+                      className="flex items-center gap-1.5 px-4 py-2 bg-surface-100 dark:bg-surface-800 hover:bg-surface-200 dark:hover:bg-surface-700 text-surface-700 dark:text-surface-300 text-xs font-semibold rounded-xl transition-colors disabled:opacity-60"
+                    >
+                      <HiOutlineXCircle className="w-4 h-4" />
+                      ሰርዝ — Dismiss
+                    </button>
+                    <button
+                      onClick={() => handleReport(report.id, 'remove_product')}
+                      disabled={!!actionLoading[`r_${report.id}`]}
+                      className="flex items-center gap-1.5 px-4 py-2 bg-warning-100 dark:bg-warning-900/30 hover:bg-warning-200 text-warning-700 dark:text-warning-400 text-xs font-semibold rounded-xl transition-colors disabled:opacity-60"
+                    >
+                      <HiOutlineArchiveBox className="w-4 h-4" />
+                      ምርቱን አስወግድ — Remove Product
+                    </button>
+                    <button
+                      onClick={() => handleReport(report.id, 'warn_seller')}
+                      disabled={!!actionLoading[`r_${report.id}`]}
+                      className="flex items-center gap-1.5 px-4 py-2 bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-200 text-orange-700 dark:text-orange-400 text-xs font-semibold rounded-xl transition-colors disabled:opacity-60"
+                    >
+                      <HiOutlineExclamationTriangle className="w-4 h-4" />
+                      ማስጠንቀቂያ ስጥ — Warn Seller
+                    </button>
+                    <button
+                      onClick={() => handleReport(report.id, 'ban_seller')}
+                      disabled={!!actionLoading[`r_${report.id}`]}
+                      className="flex items-center gap-1.5 px-4 py-2 bg-danger-100 dark:bg-danger-900/30 hover:bg-danger-200 text-danger-700 dark:text-danger-400 text-xs font-semibold rounded-xl transition-colors disabled:opacity-60"
+                    >
+                      <HiOutlineNoSymbol className="w-4 h-4" />
+                      ሻጩን እገድ — Ban Seller
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AdminDashboardPage;
