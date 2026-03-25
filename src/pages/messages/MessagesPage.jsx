@@ -54,3 +54,59 @@ const MessagesPage = () => {
       const fetchDirect = async () => {
         try {
           // Add dummy active contact to start chat, their name will update once msgs load
+          setActiveContact({ contact_id: contactId, contact_name: 'Loading...' });
+          await loadMessages(contactId);
+        } catch (e) {}
+      };
+      fetchDirect();
+    }
+  }, [searchParams, user]);
+
+  const loadMessages = async (contactId) => {
+    setLoadingMsgs(true);
+    try {
+      const msgs = await messagesService.getHistory(contactId);
+      setMessages(msgs);
+      // Update active contact name based on fetched conversations if possible
+      const conv = conversations.find(c => c.contact_id.toString() === contactId.toString());
+      if (conv) setActiveContact(conv);
+    } catch (err) {
+      toast.error('የመልዕክት ታሪክ ማምጣት አልተሳካም (Failed to load chat)');
+    } finally {
+      setLoadingMsgs(false);
+      scrollToBottom();
+    }
+  };
+
+  const selectConversation = (conv) => {
+    setActiveContact(conv);
+    setSearchParams({ user_id: conv.contact_id });
+    loadMessages(conv.contact_id);
+  };
+
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+
+  const handleSend = async (e) => {
+    e.preventDefault();
+    if (!newMessage.trim() || !activeContact) return;
+
+    setSending(true);
+    try {
+      // If there's a product_id in the URL (starting chat about specific product)
+      const productId = searchParams.get('product_id');
+      await messagesService.sendMessage(activeContact.contact_id, newMessage, productId);
+      
+      setNewMessage('');
+      await loadMessages(activeContact.contact_id);
+      loadConversations(); // Update side list latest message
+      
+      // Remove product_id from URL after first message
+      if (productId) setSearchParams({ user_id: activeContact.contact_id });
+    } catch (err) {
+      toast.error('መልዕክት መላክ አልተሳካም (Failed to send message)');
+    } finally {
+      setSending(false);
