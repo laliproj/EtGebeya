@@ -34,3 +34,39 @@ $filename = preg_replace('/[^a-z0-9]/', ' ', $filename);
 
 // Brand detection from filename
 $brandMap = [
+    'apple' => 'Apple', 'iphone' => 'Apple', 'ipad' => 'Apple', 'macbook' => 'Apple', 'airpods' => 'Apple',
+    'samsung' => 'Samsung', 'galaxy' => 'Samsung',
+    'dell' => 'Dell', 'xps' => 'Dell', 'inspiron' => 'Dell',
+    'hp' => 'HP', 'lenovo' => 'Lenovo', 'thinkpad' => 'Lenovo', 'asus' => 'Asus',
+    'sony' => 'Sony', 'playstation' => 'PlayStation', 'ps5' => 'PlayStation', 'ps4' => 'PlayStation',
+    'xbox' => 'Xbox', 'nintendo' => 'Nintendo', 'switch' => 'Nintendo',
+    'huawei' => 'Huawei', 'xiaomi' => 'Xiaomi', 'redmi' => 'Xiaomi',
+    'canon' => 'Canon', 'nikon' => 'Nikon', 'dji' => 'DJI',
+    'bose' => 'Bose', 'jbl' => 'JBL',
+    'lg' => 'LG', 'acer' => 'Acer',
+];
+
+foreach ($brandMap as $kw => $brand) {
+    if (strpos($filename, $kw) !== false) {
+        $detectedBrand = $brand;
+        $detectedKeywords[] = $brand;
+        break;
+    }
+}
+
+// Category detection from filename
+$categoryMap = [
+    'phones'  => ['phone', 'iphone', 'galaxy', 'pixel', 'redmi', 'xiaomi', 'mobile', 'smartphone'],
+    'laptops' => ['laptop', 'macbook', 'notebook', 'thinkpad', 'inspiron', 'xps', 'chromebook'],
+    'tablets' => ['ipad', 'tablet', 'tab'],
+    'audio'   => ['airpods', 'headphone', 'earphone', 'earbud', 'speaker', 'jbl', 'bose', 'wh', 'wf'],
+    'gaming'  => ['playstation', 'xbox', 'nintendo', 'console', 'ps5', 'ps4', 'switch'],
+    'cameras' => ['camera', 'canon', 'nikon', 'dslr', 'mirrorless', 'lens', 'dji', 'drone'],
+    'tvs'     => ['tv', 'television', 'monitor', 'display', 'oled', 'qled', 'smart'],
+];
+
+foreach ($categoryMap as $cat => $keywords) {
+    foreach ($keywords as $kw) {
+        if (strpos($filename, $kw) !== false) {
+            $detectedCategory = $cat;
+            $detectedKeywords[] = $kw;
