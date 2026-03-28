@@ -106,3 +106,39 @@ if ($imgInfo) {
     if ($ratio > 1.6 && !$detectedCategory) {
         $detectedCategory = 'laptops';
         $detectedKeywords[] = 'laptop';
+    }
+}
+
+// 4. Final fallback — general electronics
+if (!$detectedCategory) {
+    $detectedCategory = null;
+    $detectedKeywords[] = 'electronics';
+}
+
+// ─── Database Query ───────────────────────────────────────────────────────────
+$database = new Database();
+$db = $database->getConnection();
+
+$sql = "SELECT p.id, p.title, p.price, p.category, p.brand, p.views, p.postedAt,
+        u.name as sellerName, u.trustScore as sellerRating,
+        (SELECT image_url FROM product_images WHERE product_id = p.id AND is_cover = 1 LIMIT 1) as coverImage
+        FROM products p
+        LEFT JOIN users u ON p.sellerId = u.id
+        WHERE p.status = 'active'";
+
+$params = [];
+if ($detectedCategory) {
+    $sql .= " AND p.category = :cat";
+    $params[':cat'] = $detectedCategory;
+}
+if ($detectedBrand) {
+    $sql .= " AND p.brand = :brand";
+    $params[':brand'] = $detectedBrand;
+}
+$sql .= " ORDER BY u.trustScore DESC, p.views DESC LIMIT 12";
+
+$stmt = $db->prepare($sql);
+foreach ($params as $k => $v) {
+    $stmt->bindValue($k, $v, PDO::PARAM_STR);
+}
+$stmt->execute();

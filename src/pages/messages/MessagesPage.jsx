@@ -222,3 +222,57 @@ const MessagesPage = () => {
                           <div className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm ${
                             isMe 
                               ? 'bg-primary-600 text-white rounded-br-sm' 
+                              : 'bg-white dark:bg-surface-800 border border-surface-200 dark:border-surface-700 text-surface-900 dark:text-white rounded-bl-sm'
+                          }`}>
+                            {msg.content}
+                          </div>
+                          <span className="text-[10px] text-surface-400 mt-1 px-1">
+                            {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </span>
+                        </div>
+                      );
+                    })}
+                    <div ref={messagesEndRef} />
+                  </div>
+                )}
+              </div>
+
+              {/* Input Area */}
+              <form onSubmit={handleSend} className="p-4 bg-white dark:bg-surface-900 border-t border-surface-200 dark:border-surface-800 shrink-0">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    placeholder="መልዕክት ይፃፉ... (Type a message...)"
+                    className="flex-1 bg-surface-50 dark:bg-surface-800 border border-surface-200 dark:border-surface-700 rounded-full px-5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-colors"
+                  />
+                  <button
+                    type="submit"
+                    disabled={!newMessage.trim() || sending}
+                    className="w-10 h-10 rounded-full bg-primary-600 hover:bg-primary-700 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-colors shrink-0"
+                  >
+                    {sending ? (
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    ) : (
+                      <HiOutlinePaperAirplane className="w-5 h-5 -ml-0.5" />
+                    )}
+                  </button>
+                </div>
+              </form>
+            </>
+          ) : (
+            <div className="h-full flex flex-col items-center justify-center text-surface-500 bg-surface-50 dark:bg-surface-900/50">
+              <HiOutlineChatBubbleLeftEllipsis className="w-16 h-16 opacity-20 mb-4" />
+              <p>ውይይት ለመጀመር ከግራ ይምረጡ</p>
+              <p className="text-sm">Select a conversation to start messaging</p>
+            </div>
+          )}
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default MessagesPage;
