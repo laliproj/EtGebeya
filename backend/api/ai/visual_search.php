@@ -142,3 +142,37 @@ foreach ($params as $k => $v) {
     $stmt->bindValue($k, $v, PDO::PARAM_STR);
 }
 $stmt->execute();
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// If no results with brand filter, fall back to category only
+if (empty($results) && $detectedBrand && $detectedCategory) {
+    $stmt2 = $db->prepare("SELECT p.id, p.title, p.price, p.category, p.brand, p.views, p.postedAt,
+        u.name as sellerName, u.trustScore as sellerRating,
+        (SELECT image_url FROM product_images WHERE product_id = p.id AND is_cover = 1 LIMIT 1) as coverImage
+        FROM products p LEFT JOIN users u ON p.sellerId = u.id
+        WHERE p.status = 'active' AND p.category = :cat
+        ORDER BY u.trustScore DESC, p.views DESC LIMIT 12");
+    $stmt2->execute([':cat' => $detectedCategory]);
+    $results = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+}
+
+$formatted = array_map(function($p) {
+    return [
+        'id'           => (int)$p['id'],
+        'title'        => $p['title'],
+        'price'        => (float)$p['price'],
+        'category'     => $p['category'],
+        'brand'        => $p['brand'],
+        'sellerName'   => $p['sellerName'],
+        'sellerRating' => (float)$p['sellerRating'],
+        'images'       => $p['coverImage'] ? [$p['coverImage']] : [],
+    ];
+}, $results);
+
+jsonResponse(true, "Visual search complete", [
+    'detectedCategory' => $detectedCategory,
+    'detectedBrand'    => $detectedBrand,
+    'keywords'         => array_unique($detectedKeywords),
+    'results'          => $formatted,
+]);
+?>
