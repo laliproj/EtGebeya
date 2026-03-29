@@ -78,3 +78,43 @@ if ($offerRatio < 0.50) {
     $verdict  = 'accepted';
     $accepted = true;
     $message  = "🎉 **Excellent!** Your offer of **" . number_format($offerPrice) . " ETB** is very close to the asking price. The seller will very likely accept!\n\n📱 Contact the seller now to finalize the deal. Remember to meet in a public place and inspect the item before paying.";
+    $notifySellerMsg = "🔔 A buyer is very interested in \"" . $product['title'] . "\" and offered " . number_format($offerPrice) . " ETB (listed at " . number_format($listingPrice) . "). They are ready to buy!";
+}
+
+// Save negotiation record
+try {
+    $insertStmt = $db->prepare("INSERT INTO negotiations (product_id, buyer_id, offer_price, counter_price, verdict, created_at)
+        VALUES (:pid, :uid, :offer, :counter, :verdict, NOW())
+        ON DUPLICATE KEY UPDATE offer_price = :offer, counter_price = :counter, verdict = :verdict, created_at = NOW()");
+    $insertStmt->execute([
+        ':pid'     => $productId,
+        ':uid'     => $userId,
+        ':offer'   => $offerPrice,
+        ':counter' => $counter,
+        ':verdict' => $verdict,
+    ]);
+} catch (PDOException $e) {
+    // Negotiations table might not exist yet — non-fatal
+}
+
+// If seller should be notified, insert a notification
+if ($notifySellerMsg && $product['sellerId']) {
+    try {
+        $notifStmt = $db->prepare("INSERT INTO notifications (user_id, type, message, is_read, created_at)
+            VALUES (:uid, 'negotiation', :msg, 0, NOW())");
+        $notifStmt->execute([':uid' => $product['sellerId'], ':msg' => $notifySellerMsg]);
+    } catch (PDOException $e) {
+        // Silently fail if table schema differs
+    }
+}
+
+jsonResponse(true, "Negotiation evaluated", [
+    'verdict'     => $verdict,
+    'message'     => $message,
+    'counter'     => $counter,
+    'accepted'    => $accepted,
+    'rejected'    => $rejected,
+    'listingPrice' => $listingPrice,
+    'offerRatio'  => round($offerRatio * 100),
+]);
+?>
