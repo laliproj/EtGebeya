@@ -83,3 +83,88 @@ const SellerProfilePage = () => {
                 <span className="text-sm font-black text-primary-600 dark:text-primary-400">{seller.trustScore || 50}/100</span>
                 <span className="text-xs font-semibold px-2 py-0.5 bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 rounded uppercase">
                   {seller.trustScore >= 90 ? 'Platinum' : seller.trustScore >= 75 ? 'Gold' : seller.trustScore >= 60 ? 'Silver' : 'Bronze'}
+                </span>
+              </div>
+            </div>
+            
+            <p className="text-surface-600 dark:text-surface-300 max-w-2xl mx-auto md:mx-0 mb-4">
+              {seller.bio || 'No bio provided.'}
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 md:gap-6 text-sm text-surface-500">
+              <div className="flex items-center gap-1.5">
+                <HiOutlineMapPin className="w-4 h-4 shrink-0" />
+                {seller.location}
+              </div>
+              <div className="flex items-center gap-1.5">
+                <HiOutlineCalendar className="w-4 h-4 shrink-0" />
+                Joined {formatDate(seller.joinDate)}
+              </div>
+              <div className="px-3 py-1 bg-surface-100 dark:bg-surface-800 rounded-lg font-medium text-surface-900 dark:text-white">
+                {seller.totalSold} Items Sold
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex border-b border-surface-200 dark:border-surface-800 mb-8 overflow-x-auto hide-scrollbar">
+        <button
+          onClick={() => setActiveTab('listings')}
+          className={`px-6 py-4 font-medium text-sm whitespace-nowrap transition-colors border-b-2 ${
+            activeTab === 'listings'
+              ? 'border-primary-600 text-primary-600 dark:border-primary-400 dark:text-primary-400'
+              : 'border-transparent text-surface-500 hover:text-surface-900 dark:hover:text-white'
+          }`}
+        >
+          Active Listings ({products.length})
+        </button>
+        <button
+          onClick={() => setActiveTab('reviews')}
+          className={`px-6 py-4 font-medium text-sm whitespace-nowrap transition-colors border-b-2 ${
+            activeTab === 'reviews'
+              ? 'border-primary-600 text-primary-600 dark:border-primary-400 dark:text-primary-400'
+              : 'border-transparent text-surface-500 hover:text-surface-900 dark:hover:text-white'
+          }`}
+        >
+          Reviews ({reviews.length})
+        </button>
+      </div>
+
+      {/* Tab Content */}
+      <div className="animate-fade-in">
+        {activeTab === 'listings' ? (
+          products.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {products.map(product => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState title="No Active Listings" description="This seller doesn't have any items for sale right now." />
+          )
+        ) : (
+          reviews.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {reviews.map(review => (
+                <div key={review.id} className="bg-white dark:bg-surface-900 p-6 rounded-2xl border border-surface-200 dark:border-surface-800">
+                  <div className="flex items-center justify-between mb-4">
+                    <Rating value={review.rating} size="sm" />
+                    <span className="text-xs text-surface-400">{formatDate(review.date)}</span>
+                  </div>
+                  <p className="text-surface-700 dark:text-surface-300 text-sm mb-4">"{review.comment}"</p>
+                  <p className="text-xs font-medium text-surface-500">— {review.author}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <EmptyState title="No Reviews Yet" description="This seller hasn't received any reviews." />
+          )
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default SellerProfilePage;
