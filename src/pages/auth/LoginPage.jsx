@@ -61,3 +61,66 @@ const LoginPage = () => {
     if (!validate()) return;
 
     dispatch(loginStart());
+    try {
+      const user = await authService.login(formData.email, formData.password);
+      dispatch(loginSuccess(user));
+      toast.success('Welcome back!');
+      navigate('/');
+    } catch (error) {
+      const message = error.response?.data?.message || error.message || 'Login failed';
+      dispatch(loginFailure(message));
+      toast.error(message);
+    }
+  };
+
+  return (
+    <div>
+      <div className="text-center mb-8">
+        <h1 className="text-2xl font-bold text-surface-900 dark:text-white mb-2">
+          Welcome Back
+        </h1>
+        <p className="text-surface-500 dark:text-surface-400 text-sm">
+          Sign in to your account to continue
+        </p>
+      </div>
+
+      {/* Login Type Toggle */}
+      <div className="flex bg-surface-100 dark:bg-surface-800 p-1 rounded-xl mb-6">
+        <button
+          type="button"
+          onClick={() => handleLoginTypeToggle('user')}
+          className={`flex-1 py-2 text-sm font-semibold rounded-lg transition-all ${
+            loginType === 'user'
+              ? 'bg-white dark:bg-surface-900 text-primary-600 shadow-sm'
+              : 'text-surface-500 hover:text-surface-700 dark:hover:text-surface-300'
+          }`}
+        >
+          User Login
+        </button>
+        <button
+          type="button"
+          onClick={() => handleLoginTypeToggle('admin')}
+          className={`flex-1 py-2 text-sm font-semibold rounded-lg transition-all ${
+            loginType === 'admin'
+              ? 'bg-white dark:bg-surface-900 text-primary-600 shadow-sm'
+              : 'text-surface-500 hover:text-surface-700 dark:hover:text-surface-300'
+          }`}
+        >
+          Admin Login
+        </button>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <Input
+          label="Email Address"
+          name="email"
+          type="email"
+          icon={HiOutlineEnvelope}
+          placeholder="you@example.com"
+          value={formData.email}
+          onChange={handleChange}
+          error={errors.email}
+          disabled={loading}
+        />
+
+        <div className="space-y-1">
