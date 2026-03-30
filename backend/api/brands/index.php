@@ -19,3 +19,24 @@ try {
         $stmt->execute([':category' => $category]);
     } else {
         $query = "SELECT * FROM brands";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+    }
+
+    $brands = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // Fetch models for this brand
+        $modelQuery = "SELECT name FROM models WHERE brand_id = :brand_id";
+        $modelStmt = $db->prepare($modelQuery);
+        $modelStmt->execute([':brand_id' => $row['id']]);
+        
+        $models = [];
+        while ($mRow = $modelStmt->fetch(PDO::FETCH_ASSOC)) {
+            $models[] = $mRow['name'];
+        }
+
+        $brands[] = [
+            'id' => (int)$row['id'],
+            'name' => $row['name'],
+            'logo' => $row['logo'],
+            'models' => $models,
