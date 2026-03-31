@@ -22,3 +22,26 @@ $database = new Database();
 $db = $database->getConnection();
 
 try {
+    // Check if it exists
+    $checkQuery = "SELECT id FROM wishlists WHERE user_id = :user_id AND product_id = :product_id";
+    $checkStmt = $db->prepare($checkQuery);
+    $checkStmt->execute([':user_id' => $userId, ':product_id' => $productId]);
+
+    if ($checkStmt->rowCount() > 0) {
+        // Exists, so remove it
+        $deleteQuery = "DELETE FROM wishlists WHERE user_id = :user_id AND product_id = :product_id";
+        $deleteStmt = $db->prepare($deleteQuery);
+        $deleteStmt->execute([':user_id' => $userId, ':product_id' => $productId]);
+        jsonResponse(true, "Removed from wishlist", ['action' => 'removed']);
+    } else {
+        // Doesn't exist, so add it
+        $insertQuery = "INSERT INTO wishlists (user_id, product_id) VALUES (:user_id, :product_id)";
+        $insertStmt = $db->prepare($insertQuery);
+        $insertStmt->execute([':user_id' => $userId, ':product_id' => $productId]);
+        jsonResponse(true, "Added to wishlist", ['action' => 'added']);
+    }
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
