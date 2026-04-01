@@ -124,3 +124,65 @@ const LoginPage = () => {
         />
 
         <div className="space-y-1">
+          <Input
+            label="Password"
+            name="password"
+            type="password"
+            icon={HiOutlineLockClosed}
+            placeholder="••••••••"
+            value={formData.password}
+            onChange={handleChange}
+            error={errors.password}
+            disabled={loading}
+          />
+          <div className="flex justify-end">
+            <Link 
+              to="/forgot-password" 
+              className="text-xs font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
+            >
+              Forgot password?
+            </Link>
+          </div>
+        </div>
+
+        <Button
+          type="submit"
+          variant="primary"
+          fullWidth
+          size="lg"
+          isLoading={loading}
+          icon={HiOutlineArrowRight}
+          className="mt-2"
+        >
+          Sign In
+        </Button>
+      </form>
+
+      <div className="mt-8 text-center text-sm text-surface-500 dark:text-surface-400">
+        Don't have an account?{' '}
+        <Link 
+          to="/register" 
+          className="font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
+        >
+          Create account
+        </Link>
+      </div>
+
+      {/* Demo Credentials Alert */}
+      <div className="mt-8 p-4 bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800/50 rounded-xl">
+        <p className="text-xs text-primary-800 dark:text-primary-300 font-medium mb-2">
+          Demo Credentials:
+        </p>
+        <ul className="text-xs text-primary-600 dark:text-primary-400 space-y-1 list-disc list-inside">
+          <li>john@example.com</li>
+          <li>sarah@example.com</li>
+        </ul>
+        <p className="text-[10px] text-primary-500/70 dark:text-primary-400/50 mt-2 italic">
+          *Any password will work for the demo
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default LoginPage;
