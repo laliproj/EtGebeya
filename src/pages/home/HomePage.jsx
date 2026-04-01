@@ -7,3 +7,12 @@ import AIRecommendedProducts from '../../components/home/AIRecommendedProducts';
 import AITrendingProducts from '../../components/home/AITrendingProducts';
 
 const HomePage = () => {
+  return (
+    <div className="min-h-screen">
+      <HeroBanner />
+      
+      <div className="max-w-7xl mx-auto space-y-8">
+        <CategoryNav />
+      </div>
+
+      <AITrendingProducts />
