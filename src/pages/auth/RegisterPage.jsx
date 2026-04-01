@@ -94,3 +94,51 @@ const RegisterPage = () => {
           name="name"
           type="text"
           icon={HiOutlineUser}
+          placeholder="John Doe"
+          value={formData.name}
+          onChange={handleChange}
+          error={errors.name}
+          disabled={loading}
+        />
+
+        <Input
+          label="Email Address"
+          name="email"
+          type="email"
+          icon={HiOutlineEnvelope}
+          placeholder="you@example.com"
+          value={formData.email}
+          onChange={handleChange}
+          error={errors.email}
+          disabled={loading}
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Input
+            label="Phone Number (Optional)"
+            name="phone"
+            type="tel"
+            icon={HiOutlineDevicePhoneMobile}
+            placeholder="+1 (555) 000-0000"
+            value={formData.phone}
+            onChange={handleChange}
+            disabled={loading}
+          />
+          <Input
+            label="Location (Optional)"
+            name="location"
+            type="text"
+            icon={HiOutlineMapPin}
+            placeholder="City, State"
+            value={formData.location}
+            onChange={handleChange}
+            disabled={loading}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Input
+            label="Password"
+            name="password"
+            type="password"
+            icon={HiOutlineLockClosed}
