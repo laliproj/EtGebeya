@@ -25,3 +25,11 @@ const HomePage = () => {
 
       <RecentProducts />
 
+      <div className="max-w-7xl mx-auto">
+        <TrendingBrands />
+      </div>
+    </div>
+  );
+};
+
+export default HomePage;
