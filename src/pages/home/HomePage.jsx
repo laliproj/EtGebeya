@@ -16,3 +16,12 @@ const HomePage = () => {
       </div>
 
       <AITrendingProducts />
+      
+      <div className="max-w-7xl mx-auto space-y-8">
+        <FeaturedProducts />
+      </div>
+
+      <AIRecommendedProducts />
+
+      <RecentProducts />
+
