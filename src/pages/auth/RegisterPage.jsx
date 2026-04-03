@@ -142,3 +142,49 @@ const RegisterPage = () => {
             name="password"
             type="password"
             icon={HiOutlineLockClosed}
+            placeholder="••••••••"
+            value={formData.password}
+            onChange={handleChange}
+            error={errors.password}
+            disabled={loading}
+          />
+          <Input
+            label="Confirm Password"
+            name="confirmPassword"
+            type="password"
+            icon={HiOutlineLockClosed}
+            placeholder="••••••••"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            error={errors.confirmPassword}
+            disabled={loading}
+          />
+        </div>
+
+        <Button
+          type="submit"
+          variant="primary"
+          fullWidth
+          size="lg"
+          isLoading={loading}
+          icon={HiOutlineUserPlus}
+          className="mt-4"
+        >
+          Create Account
+        </Button>
+      </form>
+
+      <div className="mt-8 text-center text-sm text-surface-500 dark:text-surface-400">
+        Already have an account?{' '}
+        <Link 
+          to="/login" 
+          className="font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
+        >
+          Sign in
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default RegisterPage;
