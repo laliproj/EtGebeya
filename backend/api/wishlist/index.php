@@ -22,3 +22,11 @@ try {
     $wishlistIds = [];
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $wishlistIds[] = (int)$row['product_id'];
+    }
+
+    jsonResponse(true, "Wishlist retrieved", $wishlistIds);
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
