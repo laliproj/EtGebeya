@@ -60,3 +60,34 @@ const ForgotPasswordPage = () => {
           >
             Try another email
           </Button>
+          <Link 
+            to="/login"
+            className="block text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 transition-colors"
+          >
+            Back to login
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="mb-8">
+        <Link 
+          to="/login" 
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-surface-500 hover:text-surface-900 dark:hover:text-white transition-colors mb-6"
+        >
+          <HiOutlineArrowLeft className="w-4 h-4" />
+          Back to login
+        </Link>
+        <h1 className="text-2xl font-bold text-surface-900 dark:text-white mb-2">
+          Forgot Password
+        </h1>
+        <p className="text-surface-500 dark:text-surface-400 text-sm">
+          Enter your email address and we'll send you a link to reset your password.
+        </p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <Input
