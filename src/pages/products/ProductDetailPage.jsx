@@ -394,3 +394,201 @@ const ProductDetailPage = () => {
                 <h3 className="font-semibold text-surface-900 dark:text-white mb-2">መግለጫ (Description)</h3>
                 <p className="text-surface-600 dark:text-surface-300 text-sm leading-relaxed whitespace-pre-line">
                   {product.description}
+                </p>
+              </div>
+
+              {/* Location */}
+              <div className="flex items-center gap-3 text-surface-600 dark:text-surface-400 mb-6 p-4 bg-surface-50 dark:bg-surface-800/50 rounded-xl">
+                <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 rounded-full flex items-center justify-center shrink-0">
+                  <HiOutlineMapPin className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-surface-500 mb-0.5">አካባቢ (Location)</p>
+                  <p className="font-medium text-surface-900 dark:text-white">{product.location}</p>
+                </div>
+              </div>
+
+              {/* AI Analysis Widget */}
+              <div className="mb-6">
+                <AIAnalysisWidget product={product} />
+              </div>
+
+              {/* Seller Preview */}
+              {seller && (
+                <div className="mb-6">
+                  <div className="p-4 border border-surface-200 dark:border-surface-700 rounded-xl hover:bg-surface-50 dark:hover:bg-surface-800/50 transition-colors">
+                    <Link to={`/seller/${seller.id}`} className="flex items-center gap-4 mb-4">
+                      <img 
+                        src={seller.avatar} 
+                        alt={seller.name} 
+                        className="w-14 h-14 rounded-full object-cover border border-surface-200 dark:border-surface-700"
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-bold text-surface-900 dark:text-white">{seller.name}</h4>
+                          {seller.isVerified && (
+                            <HiOutlineShieldCheck className="w-4 h-4 text-success-500" title="Verified Seller" />
+                          )}
+                        </div>
+                        <Rating value={seller.trustScore} count={seller.totalRatings} size="sm" showValue />
+                      </div>
+                    </Link>
+
+                    {/* Phone Number Section */}
+                    <div className="border-t border-surface-100 dark:border-surface-700 pt-4">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-surface-500 mb-3 flex items-center gap-1.5">
+                        <HiOutlinePhone className="w-4 h-4" />
+                        የሻጩ ስልክ ቁጥር (Seller's Phone)
+                      </p>
+
+                      {phoneRevealed ? (
+                        <div className="space-y-3">
+                          <a
+                            href={`tel:${seller.phone || '+251900000000'}`}
+                            className="flex items-center justify-center gap-3 w-full py-3 px-4 bg-success-500 hover:bg-success-600 text-white font-bold rounded-xl transition-colors text-lg tracking-wide"
+                          >
+                            <HiOutlinePhone className="w-5 h-5" />
+                            {seller.phone || '+251 90 000 0000'}
+                          </a>
+
+                          {/* ⚠️ Safety Warnings */}
+                          <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-xl p-4 space-y-2">
+                            <div className="flex items-center gap-2 mb-2">
+                              <HiOutlineExclamationTriangle className="w-5 h-5 text-amber-600 dark:text-amber-500 shrink-0" />
+                              <p className="text-sm font-bold text-amber-800 dark:text-amber-400">⚠️ ጠቃሚ ማስጠንቀቂያዎች (Safety Warnings)</p>
+                            </div>
+                            <ul className="space-y-1.5 text-xs text-amber-800 dark:text-amber-400">
+                              <li className="flex items-start gap-2">
+                                <span className="text-amber-600 mt-0.5 shrink-0">•</span>
+                                <span><strong>አስቀድሞ ገንዘብ አይክፈሉ።</strong> Do NOT pay in advance before seeing the item.</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-amber-600 mt-0.5 shrink-0">•</span>
+                                <span><strong>ምርቱን ሲቀበሉ ይፈትሹ።</strong> Inspect the item thoroughly before making payment.</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-amber-600 mt-0.5 shrink-0">•</span>
+                                <span><strong>በሕዝብ ቦታ ተገናኙ።</strong> Meet the seller in a public place (e.g., a café or shopping mall).</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-amber-600 mt-0.5 shrink-0">•</span>
+                                <span><strong>ለባንክ ዝውውር ጥንቁቅ ይሁኑ።</strong> Be cautious of bank transfer requests from unknown sellers.</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-amber-600 mt-0.5 shrink-0">•</span>
+                                <span>EtGebeya ምንም ዓይነት ክፍያ ወይም ግብይት ኃላፊነት አይወስድም። EtGebeya is not responsible for transactions.</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            if (!isAuthenticated) {
+                              toast.error('ስልክ ቁጥር ለማየት እባክዎ ይግቡ');
+                              navigate('/login');
+                              return;
+                            }
+                            setPhoneRevealed(true);
+                          }}
+                          className="flex items-center justify-center gap-2 w-full py-3 px-4 border-2 border-dashed border-primary-300 dark:border-primary-700 text-primary-600 dark:text-primary-400 font-semibold rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
+                        >
+                          <HiOutlinePhone className="w-5 h-5" />
+                          ስልክ ቁጥር አሳይ — Show Phone Number
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Contact via chat */}
+              <div className="space-y-3">
+                {seller && user?.id?.toString() !== seller.id?.toString() && (
+                  <Button 
+                    variant="primary" 
+                    fullWidth 
+                    size="lg" 
+                    icon={HiOutlineChatBubbleLeftEllipsis}
+                    onClick={() => {
+                      if (!isAuthenticated) {
+                        toast.error('እባክዎ ይግቡ');
+                        navigate('/login');
+                        return;
+                      }
+                      navigate(`/messages?user_id=${seller.id}&product_id=${product.id}`);
+                    }}
+                  >
+                    ሻጩን አናግር — Contact Seller
+                  </Button>
+                )}
+
+                {/* AI Negotiate Button — only show to non-owner */}
+                {seller && user?.id?.toString() !== seller.id?.toString() && (
+                  <button
+                    onClick={() => {
+                      if (!isAuthenticated) {
+                        toast.error('ድርድር ለማድረግ እባክዎ ይግቡ — Please login to negotiate');
+                        navigate('/login');
+                        return;
+                      }
+                      setIsNegotiationOpen(true);
+                    }}
+                    className="w-full flex items-center justify-center gap-2 py-3 px-4 border-2 border-dashed border-accent-400 dark:border-accent-600 text-accent-700 dark:text-accent-400 font-semibold rounded-2xl hover:bg-accent-50 dark:hover:bg-accent-900/20 transition-colors group"
+                  >
+                    <HiOutlineHandRaised className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                    ዋጋ ተደራደር — Negotiate with AI
+                  </button>
+                )}
+              </div>
+
+              {/* Report Button */}
+              <div className="mt-6 text-center">
+                <button 
+                  onClick={handleReport}
+                  className="inline-flex items-center gap-1.5 text-xs font-medium text-surface-400 hover:text-warning-600 dark:hover:text-warning-500 transition-colors"
+                >
+                  <HiOutlineExclamationTriangle className="w-4 h-4" />
+                  ይህን ማስታወቂያ ሪፖርት አድርግ — Report this listing
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile Specs */}
+            <div className="lg:hidden block bg-white dark:bg-surface-900 rounded-3xl border border-surface-200 dark:border-surface-800 p-6 shadow-sm mt-6">
+              <ProductSpecs specs={product.specs} features={product.features} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Seller Reviews Section */}
+      {seller && (
+        <SellerReviewsSection seller={seller} isAuthenticated={isAuthenticated} />
+      )}
+
+      {/* Similar Products Section */}
+      <div className="mt-8">
+        <SimilarProducts productId={product.id} />
+      </div>
+      
+      {/* Report Modal */}
+      <ReportModal 
+        isOpen={isReportModalOpen} 
+        onClose={() => setIsReportModalOpen(false)} 
+        productId={product.id} 
+        productTitle={product.title} 
+      />
+
+      {/* Negotiation Modal */}
+      {isNegotiationOpen && (
+        <NegotiationModal
+          product={product}
+          onClose={() => setIsNegotiationOpen(false)}
+        />
+      )}
+    </div>
+  );
+};
+
+export default ProductDetailPage;
