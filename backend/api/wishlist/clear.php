@@ -12,3 +12,10 @@ require_once __DIR__ . '/../../middleware/auth.php';
 $userId = AuthMiddleware::authenticate();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+    jsonResponse(false, "Method not allowed", null, 405);
+}
+
+$database = new Database();
+$db = $database->getConnection();
+
+try {
