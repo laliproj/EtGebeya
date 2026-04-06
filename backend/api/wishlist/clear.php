@@ -19,3 +19,10 @@ $database = new Database();
 $db = $database->getConnection();
 
 try {
+    $query = "DELETE FROM wishlists WHERE user_id = :user_id";
+    $stmt = $db->prepare($query);
+    $stmt->execute([':user_id' => $userId]);
+
+    jsonResponse(true, "Wishlist cleared");
+
+} catch(PDOException $e) {
