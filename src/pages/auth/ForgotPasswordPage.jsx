@@ -91,3 +91,33 @@ const ForgotPasswordPage = () => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <Input
+          label="Email Address"
+          name="email"
+          type="email"
+          icon={HiOutlineEnvelope}
+          placeholder="you@example.com"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setError('');
+          }}
+          error={error}
+          disabled={isLoading}
+        />
+
+        <Button
+          type="submit"
+          variant="primary"
+          fullWidth
+          size="lg"
+          isLoading={isLoading}
+          icon={HiOutlinePaperAirplane}
+        >
+          Send Reset Link
+        </Button>
+      </form>
+    </div>
+  );
+};
+
+export default ForgotPasswordPage;
