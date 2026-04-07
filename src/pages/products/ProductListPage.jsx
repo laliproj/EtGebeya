@@ -38,3 +38,43 @@ const ProductListPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
+      try {
+        const search = searchParams.get('search');
+        if (search && search.trim() !== '') {
+          // Use AI Smart Search
+          const response = await api.get(`/ai/smart_search.php?q=${encodeURIComponent(search)}`);
+          if (response.data?.success) {
+            dispatch(setProducts(response.data.data.results));
+            // Optional: update filters with AI intent
+          }
+        } else {
+          // Standard fetch
+          const data = await productService.getAll();
+          dispatch(setProducts(data));
+        }
+      } catch (error) {
+        console.error('Failed to fetch products', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams.get('search')]);
+
+  const handleSortChange = (e) => {
+    dispatch(setFilters({ sortBy: e.target.value }));
+  };
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* Header & Controls */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-surface-900 dark:text-white">
+            {filters.search 
+              ? `Search results for "${filters.search}"`
+              : filters.category 
+                ? `${filters.category.charAt(0).toUpperCase() + filters.category.slice(1)}` 
+                : 'All Products'}
+          </h1>
