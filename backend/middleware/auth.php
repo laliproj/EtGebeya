@@ -25,3 +25,30 @@ class AuthMiddleware {
     }
 
     /**
+     * Authenticate request and return user ID
+     */
+    public static function authenticate() {
+        $headers = apache_request_headers();
+        
+        $authHeader = isset($headers['Authorization']) ? $headers['Authorization'] : '';
+        if (empty($authHeader)) {
+            $authHeader = isset($headers['authorization']) ? $headers['authorization'] : '';
+        }
+
+        if ($authHeader) {
+            $arr = explode(" ", $authHeader);
+            $token = isset($arr[1]) ? $arr[1] : '';
+
+            if ($token) {
+                $parts = explode('.', $token);
+                if (count($parts) === 3) {
+                    list($header64, $payload64, $signature) = $parts;
+                    
+                    $valid_signature = self::base64url_encode(hash_hmac('sha256', $header64 . "." . $payload64, self::$secret_key, true));
+                    
+                    if ($signature === $valid_signature) {
+                        $payload = json_decode(self::base64url_decode($payload64), true);
+                        if ($payload['exp'] >= time()) {
+                            return $payload['data']['id'];
+                        } else {
+                            jsonResponse(false, "Access denied. Token expired.", null, 401);

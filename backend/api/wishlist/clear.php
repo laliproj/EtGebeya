@@ -26,3 +26,6 @@ try {
     jsonResponse(true, "Wishlist cleared");
 
 } catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
