@@ -52,3 +52,30 @@ class AuthMiddleware {
                             return $payload['data']['id'];
                         } else {
                             jsonResponse(false, "Access denied. Token expired.", null, 401);
+                        }
+                    }
+                }
+            }
+        }
+        
+        jsonResponse(false, "Access denied. Invalid or missing token.", null, 401);
+    }
+
+    /**
+     * Generate JWT Token
+     */
+    public static function generateToken($user) {
+        $header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
+        $payload = json_encode([
+            'iat' => time(),
+            'exp' => time() + (60 * 60 * 24 * 7), // 1 week
+            'data' => [
+                'id' => $user['id'],
+                'email' => $user['email']
+            ]
+        ]);
+
+        $base64UrlHeader = self::base64url_encode($header);
+        $base64UrlPayload = self::base64url_encode($payload);
+        
+        $signature = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, self::$secret_key, true);
