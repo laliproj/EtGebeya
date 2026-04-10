@@ -8,3 +8,13 @@ class Validator {
     public static function sanitize($data) {
         if (is_array($data)) {
             foreach ($data as $key => $value) {
+                $data[$key] = self::sanitize($value);
+            }
+            return $data;
+        }
+        return htmlspecialchars(strip_tags(trim($data)));
+    }
+
+    /**
+     * Validate email format
+     */
