@@ -147,3 +147,152 @@ const SellerReviewsSection = ({ seller, isAuthenticated }) => {
 
             <Button type="submit" variant="primary" isLoading={submitting} size="sm">
               አስተያየት አስገባ — Submit Review
+            </Button>
+          </form>
+        </div>
+      )}
+
+      {hasReviewed && isAuthenticated && (
+        <div className="mb-6 flex items-center gap-3 p-4 bg-success-50 dark:bg-success-900/20 rounded-xl border border-success-200 dark:border-success-800/50">
+          <HiOutlineCheckCircle className="w-5 h-5 text-success-600 shrink-0" />
+          <p className="text-sm text-success-800 dark:text-success-400">አስተያየትዎ ቀድሞ ቀርቧል። (You have already reviewed this seller.)</p>
+        </div>
+      )}
+
+      {!isAuthenticated && (
+        <div className="mb-6 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-xl border border-primary-100 dark:border-primary-800/50">
+          <p className="text-sm text-primary-800 dark:text-primary-400">
+            <Link to="/login" className="font-bold underline">ይግቡ (Login)</Link> አስተያየት ለመስጠት — to write a review.
+          </p>
+        </div>
+      )}
+
+      {/* Reviews List */}
+      {loading ? (
+        <div className="space-y-4">
+          {[1, 2].map(i => <Skeleton key={i} className="h-24 rounded-xl" />)}
+        </div>
+      ) : reviews.length > 0 ? (
+        <div className="space-y-4">
+          {reviews.map((review) => (
+            <div key={review.id} className="p-4 bg-surface-50 dark:bg-surface-800/50 rounded-2xl border border-surface-100 dark:border-surface-700">
+              <div className="flex items-start justify-between gap-4 mb-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary-400 to-accent-500 flex items-center justify-center text-white text-xs font-bold shrink-0">
+                    {review.author?.charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-surface-900 dark:text-white text-sm">{review.author}</p>
+                    <p className="text-xs text-surface-400">{formatDate(review.date)}</p>
+                  </div>
+                </div>
+                <Rating value={review.rating} size="sm" />
+              </div>
+              {review.comment && (
+                <p className="text-sm text-surface-700 dark:text-surface-300 pl-12 leading-relaxed">
+                  {review.comment}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-8">
+          <HiOutlineUser className="w-10 h-10 text-surface-300 mx-auto mb-3" />
+          <p className="text-surface-500 text-sm">ገና ምንም ግምገማ የለም — No reviews yet. Be the first!</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ─── Main Component ──────────────────────────────────────────────────────────
+const ProductDetailPage = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const { wishlistIds } = useSelector((state) => state.wishlist);
+
+  const [product, setProduct] = useState(null);
+  const [seller, setSeller] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [isNegotiationOpen, setIsNegotiationOpen] = useState(false);
+  const [phoneRevealed, setPhoneRevealed] = useState(false);
+
+  const isWishlisted = product ? wishlistIds.includes(product.id) : false;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const productData = await productService.getById(id);
+        setProduct(productData);
+        
+        // Fetch seller separately — don't let seller errors hide the product
+        if (productData.sellerId) {
+          try {
+            const sellerData = await sellerService.getSellerById(productData.sellerId);
+            setSeller(sellerData);
+          } catch {
+            // Seller load failed, show product without seller section
+            setSeller(null);
+          }
+        }
+      } catch (err) {
+        setError('ምርቱ አልተገኘም ወይም ተወግዷል። (Product not found or has been removed.)');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+    window.scrollTo(0, 0);
+  }, [id]);
+
+  const handleWishlistToggle = () => {
+    if (!isAuthenticated) {
+      toast.error('ምርቱን ለማስቀመጥ እባክዎ ይግቡ (Please login to save items)');
+      navigate('/login');
+      return;
+    }
+    dispatch(toggleWishlistAPI(product.id));
+    toast.success(isWishlisted ? 'ከምርጦቼ ተወግዷል' : 'ወደ ምርጦቼ ተጨምሯል');
+  };
+
+  const handleReport = () => {
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+    setIsReportModalOpen(true);
+  };
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          <div className="w-full lg:w-3/5">
+            <Skeleton className="w-full aspect-[4/3] rounded-2xl" />
+            <div className="flex gap-4 mt-4">
+              {[...Array(4)].map((_, i) => <Skeleton key={i} className="w-20 h-20 rounded-xl" />)}
+            </div>
+          </div>
+          <div className="w-full lg:w-2/5 space-y-6">
+            <Skeleton className="w-24 h-6" />
+            <Skeleton className="w-3/4 h-10" />
+            <Skeleton className="w-1/2 h-8" />
+            <Skeleton className="w-full h-32" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !product) {
+    return (
+      <div className="max-w-3xl mx-auto px-4 py-20">
