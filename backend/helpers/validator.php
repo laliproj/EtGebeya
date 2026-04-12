@@ -38,3 +38,11 @@ class Validator {
     public static function checkRequired($data, $required_fields) {
         $missing = [];
         foreach ($required_fields as $field) {
+            if (!isset($data[$field]) || trim($data[$field]) === '') {
+                $missing[] = $field;
+            }
+        }
+        return $missing;
+    }
+}
+?>
