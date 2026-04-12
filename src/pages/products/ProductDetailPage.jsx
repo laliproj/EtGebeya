@@ -445,3 +445,150 @@ const ProductDetailPage = () => {
                         <div className="space-y-3">
                           <a
                             href={`tel:${seller.phone || '+251900000000'}`}
+                            className="flex items-center justify-center gap-3 w-full py-3 px-4 bg-success-500 hover:bg-success-600 text-white font-bold rounded-xl transition-colors text-lg tracking-wide"
+                          >
+                            <HiOutlinePhone className="w-5 h-5" />
+                            {seller.phone || '+251 90 000 0000'}
+                          </a>
+
+                          {/* ⚠️ Safety Warnings */}
+                          <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-xl p-4 space-y-2">
+                            <div className="flex items-center gap-2 mb-2">
+                              <HiOutlineExclamationTriangle className="w-5 h-5 text-amber-600 dark:text-amber-500 shrink-0" />
+                              <p className="text-sm font-bold text-amber-800 dark:text-amber-400">⚠️ ጠቃሚ ማስጠንቀቂያዎች (Safety Warnings)</p>
+                            </div>
+                            <ul className="space-y-1.5 text-xs text-amber-800 dark:text-amber-400">
+                              <li className="flex items-start gap-2">
+                                <span className="text-amber-600 mt-0.5 shrink-0">•</span>
+                                <span><strong>አስቀድሞ ገንዘብ አይክፈሉ።</strong> Do NOT pay in advance before seeing the item.</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-amber-600 mt-0.5 shrink-0">•</span>
+                                <span><strong>ምርቱን ሲቀበሉ ይፈትሹ።</strong> Inspect the item thoroughly before making payment.</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-amber-600 mt-0.5 shrink-0">•</span>
+                                <span><strong>በሕዝብ ቦታ ተገናኙ።</strong> Meet the seller in a public place (e.g., a café or shopping mall).</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-amber-600 mt-0.5 shrink-0">•</span>
+                                <span><strong>ለባንክ ዝውውር ጥንቁቅ ይሁኑ።</strong> Be cautious of bank transfer requests from unknown sellers.</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-amber-600 mt-0.5 shrink-0">•</span>
+                                <span>EtGebeya ምንም ዓይነት ክፍያ ወይም ግብይት ኃላፊነት አይወስድም። EtGebeya is not responsible for transactions.</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            if (!isAuthenticated) {
+                              toast.error('ስልክ ቁጥር ለማየት እባክዎ ይግቡ');
+                              navigate('/login');
+                              return;
+                            }
+                            setPhoneRevealed(true);
+                          }}
+                          className="flex items-center justify-center gap-2 w-full py-3 px-4 border-2 border-dashed border-primary-300 dark:border-primary-700 text-primary-600 dark:text-primary-400 font-semibold rounded-xl hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
+                        >
+                          <HiOutlinePhone className="w-5 h-5" />
+                          ስልክ ቁጥር አሳይ — Show Phone Number
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Contact via chat */}
+              <div className="space-y-3">
+                {seller && user?.id?.toString() !== seller.id?.toString() && (
+                  <Button 
+                    variant="primary" 
+                    fullWidth 
+                    size="lg" 
+                    icon={HiOutlineChatBubbleLeftEllipsis}
+                    onClick={() => {
+                      if (!isAuthenticated) {
+                        toast.error('እባክዎ ይግቡ');
+                        navigate('/login');
+                        return;
+                      }
+                      navigate(`/messages?user_id=${seller.id}&product_id=${product.id}`);
+                    }}
+                  >
+                    ሻጩን አናግር — Contact Seller
+                  </Button>
+                )}
+
+                {/* AI Negotiate Button — only show to non-owner */}
+                {seller && user?.id?.toString() !== seller.id?.toString() && (
+                  <button
+                    onClick={() => {
+                      if (!isAuthenticated) {
+                        toast.error('ድርድር ለማድረግ እባክዎ ይግቡ — Please login to negotiate');
+                        navigate('/login');
+                        return;
+                      }
+                      setIsNegotiationOpen(true);
+                    }}
+                    className="w-full flex items-center justify-center gap-2 py-3 px-4 border-2 border-dashed border-accent-400 dark:border-accent-600 text-accent-700 dark:text-accent-400 font-semibold rounded-2xl hover:bg-accent-50 dark:hover:bg-accent-900/20 transition-colors group"
+                  >
+                    <HiOutlineHandRaised className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                    ዋጋ ተደራደር — Negotiate with AI
+                  </button>
+                )}
+              </div>
+
+              {/* Report Button */}
+              <div className="mt-6 text-center">
+                <button 
+                  onClick={handleReport}
+                  className="inline-flex items-center gap-1.5 text-xs font-medium text-surface-400 hover:text-warning-600 dark:hover:text-warning-500 transition-colors"
+                >
+                  <HiOutlineExclamationTriangle className="w-4 h-4" />
+                  ይህን ማስታወቂያ ሪፖርት አድርግ — Report this listing
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile Specs */}
+            <div className="lg:hidden block bg-white dark:bg-surface-900 rounded-3xl border border-surface-200 dark:border-surface-800 p-6 shadow-sm mt-6">
+              <ProductSpecs specs={product.specs} features={product.features} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Seller Reviews Section */}
+      {seller && (
+        <SellerReviewsSection seller={seller} isAuthenticated={isAuthenticated} />
+      )}
+
+      {/* Similar Products Section */}
+      <div className="mt-8">
+        <SimilarProducts productId={product.id} />
+      </div>
+      
+      {/* Report Modal */}
+      <ReportModal 
+        isOpen={isReportModalOpen} 
+        onClose={() => setIsReportModalOpen(false)} 
+        productId={product.id} 
+        productTitle={product.title} 
+      />
+
+      {/* Negotiation Modal */}
+      {isNegotiationOpen && (
+        <NegotiationModal
+          product={product}
+          onClose={() => setIsNegotiationOpen(false)}
+        />
+      )}
+    </div>
+  );
+};
+
+export default ProductDetailPage;
