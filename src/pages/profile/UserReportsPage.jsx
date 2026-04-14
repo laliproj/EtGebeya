@@ -124,3 +124,44 @@ const UserReportsPage = () => {
               )}
             </div>
           ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default UserReportsPage;
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
+import {
+  HiOutlineFlag,
+  HiOutlineClock,
+  HiOutlineCheckCircle,
+  HiOutlineXCircle,
+  HiOutlineExclamationTriangle,
+  HiOutlineArrowPath,
+} from 'react-icons/hi2';
+import { toast } from 'react-hot-toast';
+import adminService from '../../services/adminService';
+import { timeAgo } from '../../utils/helpers';
+import Skeleton from '../../components/common/Skeleton';
+import Button from '../../components/common/Button';
+
+// ─── Status Badge ─────────────────────────────────────────────────────────────
+const StatusBadge = ({ status }) => {
+  const cfg = {
+    pending:   { cls: 'bg-warning-100 text-warning-700 dark:bg-warning-900/30 dark:text-warning-400',  icon: HiOutlineClock,        label: 'በጥበቃ ላይ / Pending' },
+    resolved:  { cls: 'bg-success-100 text-success-700 dark:bg-success-900/30 dark:text-success-400', icon: HiOutlineCheckCircle,  label: 'ተፈቷል / Resolved' },
+    dismissed: { cls: 'bg-surface-100 text-surface-600 dark:bg-surface-800 dark:text-surface-400',   icon: HiOutlineXCircle,      label: 'ተሰርዟል / Dismissed' },
+  };
+  const c = cfg[status] || cfg.pending;
+  const Icon = c.icon;
+  return (
+    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${c.cls}`}>
+      <Icon className="w-3.5 h-3.5" />
+      {c.label}
+    </span>
+  );
+};
+
