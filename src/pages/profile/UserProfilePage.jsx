@@ -115,3 +115,42 @@ const UserProfilePage = () => {
                   />
                   <Input
                     label="Phone Number"
+                    name="phone"
+                    type="tel"
+                    icon={HiOutlinePhone}
+                    value={formData.phone}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                  />
+                  <Input
+                    label="Location"
+                    name="location"
+                    icon={HiOutlineMapPin}
+                    value={formData.location}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                  />
+                  
+                  <div className="pt-4 flex gap-3 justify-end">
+                    <Button 
+                      type="button" 
+                      variant="ghost" 
+                      onClick={() => setIsEditing(false)}
+                      disabled={isLoading}
+                    >
+                      Cancel
+                    </Button>
+                    <Button 
+                      type="submit" 
+                      variant="primary"
+                      isLoading={isLoading}
+                    >
+                      Save Changes
+                    </Button>
+                  </div>
+                </form>
+              ) : (
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                      <p className="text-sm text-surface-500 mb-1">Full Name</p>
