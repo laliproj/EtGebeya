@@ -24,3 +24,29 @@ const WishlistPage = () => {
     }
 
     const fetchWishlistProducts = async () => {
+      setLoading(true);
+      try {
+        if (wishlistIds.length === 0) {
+          setProducts([]);
+          return;
+        }
+        
+        // In a real app, you'd probably send an array of IDs to the backend
+        // For the mock, we fetch all and filter
+        const allProducts = await productService.getAll();
+        const wishlistItems = allProducts.filter(p => wishlistIds.includes(p.id));
+        setProducts(wishlistItems);
+      } catch (error) {
+        console.error('Failed to fetch wishlist', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWishlistProducts();
+  }, [wishlistIds, isAuthenticated, navigate]);
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 border-b border-surface-200 dark:border-surface-800 pb-6">
+        <div>
