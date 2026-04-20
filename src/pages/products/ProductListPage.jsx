@@ -118,3 +118,40 @@ const ProductListPage = () => {
 
         {/* Mobile Sidebar Modal */}
         <Modal 
+          isOpen={isMobileFiltersOpen} 
+          onClose={() => setIsMobileFiltersOpen(false)}
+          title="Filters"
+        >
+          <FilterSidebar onClose={() => setIsMobileFiltersOpen(false)} />
+        </Modal>
+
+        {/* Product Grid */}
+        <div className="flex-1">
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(6)].map((_, i) => <ProductCardSkeleton key={i} />)}
+            </div>
+          ) : filteredItems.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredItems.map(product => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          ) : (
+            <div className="bg-white dark:bg-surface-900 rounded-2xl border border-surface-200 dark:border-surface-800 py-12">
+              <EmptyState
+                icon={HiOutlineFunnel}
+                title="No products found"
+                description="Try adjusting your filters or search terms to find what you're looking for."
+                actionLabel="Clear Filters"
+                onAction={() => dispatch(setFilters({ category: '', brand: '', search: '', condition: '', priceMin: '', priceMax: '' }))}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductListPage;
