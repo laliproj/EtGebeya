@@ -386,3 +386,195 @@ const PostProductPage = () => {
                   <h3 className="text-lg font-bold text-surface-900 dark:text-white">Specifications</h3>
                   <button
                     type="button"
+                    onClick={async () => {
+                      if (!formData.title || !formData.description) {
+                        toast.error('Please enter title and description first');
+                        return;
+                      }
+                      const toastId = toast.loading('Extracting specs with AI...');
+                      try {
+                        // Assuming api is imported from '../../services/api'
+                        const api = (await import('../../services/api')).default;
+                        const response = await api.post('/ai/analyze_product.php', {
+                          title: formData.title,
+                          description: formData.description,
+                          category: formData.category
+                        });
+                        
+                        if (response.data?.success && response.data?.data?.extractedSpecs) {
+                          const extracted = response.data.data.extractedSpecs;
+                          setFormData(prev => ({
+                            ...prev,
+                            specs: { ...prev.specs, ...extracted }
+                          }));
+                          toast.success('Specs auto-filled successfully!', { id: toastId });
+                        } else {
+                          toast.error('AI could not extract specs. Try providing more details.', { id: toastId });
+                        }
+                      } catch (err) {
+                        toast.error('AI extraction failed. Please fill manually.', { id: toastId });
+                      }
+                    }}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 text-xs font-bold rounded-lg hover:bg-primary-100 dark:hover:bg-primary-900/40 transition-colors"
+                  >
+                    <HiOutlineSparkles className="w-4 h-4" />
+                    Auto-fill with AI
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {specFields.map(spec => (
+                    <div key={spec}>
+                      <label className="block text-sm font-medium text-surface-700 dark:text-surface-300 mb-1.5 capitalize">
+                        {spec.replace(/([A-Z])/g, ' $1').trim()}
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.specs[spec] || ''}
+                        onChange={(e) => handleSpecChange(spec, e.target.value)}
+                        className="w-full bg-surface-50 dark:bg-surface-800/50 border border-surface-200 dark:border-surface-700 rounded-xl px-4 py-2 text-sm text-surface-900 dark:text-white focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        );
+
+      case 5:
+        return (
+          <div className="space-y-6 animate-fade-in">
+            <div className="bg-success-50 dark:bg-success-900/20 border border-success-200 dark:border-success-800/50 rounded-xl p-4 flex items-center justify-center gap-2 mb-8">
+              <HiOutlineCheck className="w-5 h-5 text-success-600 dark:text-success-500" />
+              <span className="font-medium text-success-800 dark:text-success-400">All steps completed. Review your listing below.</span>
+            </div>
+
+            <div className="bg-white dark:bg-surface-900 rounded-2xl border border-surface-200 dark:border-surface-800 overflow-hidden shadow-sm">
+              <div className="aspect-[21/9] bg-surface-100 dark:bg-surface-800 relative">
+                {formData.images.length > 0 ? (
+                  <img src={formData.images[0].preview} alt="Cover" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <HiOutlinePhoto className="w-12 h-12 text-surface-300" />
+                  </div>
+                )}
+                <div className="absolute top-4 left-4 flex gap-2">
+                  <span className="px-3 py-1 bg-white/90 dark:bg-surface-900/90 backdrop-blur rounded-full text-xs font-bold shadow-sm">
+                    {formData.condition}
+                  </span>
+                  <span className="px-3 py-1 bg-white/90 dark:bg-surface-900/90 backdrop-blur rounded-full text-xs font-bold text-primary-600 shadow-sm uppercase">
+                    {formData.brand}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="p-6 md:p-8">
+                <div className="flex justify-between items-start gap-4 mb-4">
+                  <h2 className="text-2xl font-bold text-surface-900 dark:text-white">{formData.title}</h2>
+                  <span className="text-2xl font-bold text-primary-600 dark:text-primary-400 shrink-0">
+                    ${Number(formData.price).toLocaleString()}
+                  </span>
+                </div>
+                
+                <p className="text-surface-600 dark:text-surface-300 mb-6 whitespace-pre-line text-sm">
+                  {formData.description}
+                </p>
+                
+                <div className="flex items-center gap-2 text-surface-500 text-sm">
+                  <HiOutlineMapPin className="w-4 h-4" />
+                  {formData.location}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 py-8">
+      {/* Progress Bar */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-2">
+          {STEPS.map((step, index) => (
+            <div key={step.id} className="flex flex-col items-center flex-1 relative z-10">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${
+                currentStep > step.id
+                  ? 'bg-success-500 text-white'
+                  : currentStep === step.id
+                    ? 'bg-primary-600 text-white ring-4 ring-primary-100 dark:ring-primary-900/30'
+                    : 'bg-surface-200 dark:bg-surface-700 text-surface-500'
+              }`}>
+                {currentStep > step.id ? <HiOutlineCheck className="w-5 h-5" /> : step.id}
+              </div>
+              <span className={`text-xs mt-2 hidden sm:block font-medium ${
+                currentStep >= step.id ? 'text-surface-900 dark:text-white' : 'text-surface-400'
+              }`}>
+                {step.title}
+              </span>
+            </div>
+          ))}
+        </div>
+        {/* Progress Line */}
+        <div className="relative -mt-10 mb-8 sm:mb-12 h-1 bg-surface-200 dark:bg-surface-700 rounded-full mx-10 z-0 hidden sm:block">
+          <div 
+            className="absolute top-0 left-0 h-full bg-primary-600 rounded-full transition-all duration-300"
+            style={{ width: `${((currentStep - 1) / (STEPS.length - 1)) * 100}%` }}
+          />
+        </div>
+      </div>
+
+      {/* Main Content Area */}
+      <div className="bg-white dark:bg-surface-900 rounded-3xl border border-surface-200 dark:border-surface-800 p-6 md:p-10 shadow-sm min-h-[400px]">
+        
+        <div className="mb-8 border-b border-surface-100 dark:border-surface-800 pb-4">
+          <h1 className="text-2xl font-bold text-surface-900 dark:text-white">
+            {STEPS[currentStep - 1].title}
+          </h1>
+          <p className="text-surface-500 text-sm mt-1">
+            Step {currentStep} of {STEPS.length}
+          </p>
+        </div>
+
+        {renderStepContent()}
+
+        {/* Navigation Buttons */}
+        <div className="mt-12 pt-6 border-t border-surface-100 dark:border-surface-800 flex justify-between">
+          <Button
+            variant="ghost"
+            onClick={currentStep === 1 ? () => navigate(-1) : handleBack}
+            icon={currentStep === 1 ? undefined : HiOutlineArrowLeft}
+            disabled={isSubmitting}
+          >
+            {currentStep === 1 ? 'Cancel' : 'Back'}
+          </Button>
+
+          {currentStep < STEPS.length ? (
+            <Button
+              variant="primary"
+              onClick={handleNext}
+              className="px-8"
+            >
+              Next Step
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              onClick={handleSubmit}
+              isLoading={isSubmitting}
+              icon={HiOutlineCheck}
+              className="px-8"
+            >
+              Post Listing
+            </Button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PostProductPage;
