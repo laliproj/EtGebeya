@@ -56,3 +56,32 @@ export const formatDate = (dateString) => {
 };
 
 /**
+ * Truncate text with ellipsis
+ * @param {string} text 
+ * @param {number} maxLength 
+ * @returns {string}
+ */
+export const truncateText = (text, maxLength = 100) => {
+  if (text.length <= maxLength) return text;
+  return text.substring(0, maxLength) + '...';
+};
+
+/**
+ * Generate initials from name
+ * @param {string} name 
+ * @returns {string}
+ */
+export const getInitials = (name) => {
+  return name
+    .split(' ')
+    .map(word => word[0])
+    .join('')
+    .toUpperCase()
+    .substring(0, 2);
+};
+
+/**
+ * Debounce function
+ * @param {Function} func 
+ * @param {number} wait 
+ * @returns {Function}
