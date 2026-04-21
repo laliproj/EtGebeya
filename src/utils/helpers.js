@@ -85,3 +85,32 @@ export const getInitials = (name) => {
  * @param {Function} func 
  * @param {number} wait 
  * @returns {Function}
+ */
+export const debounce = (func, wait = 300) => {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
+};
+
+/**
+ * Validate email format
+ * @param {string} email 
+ * @returns {boolean}
+ */
+export const isValidEmail = (email) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+/**
+ * Validate password strength
+ * @param {string} password 
+ * @returns {{ valid: boolean, message: string }}
+ */
+export const validatePassword = (password) => {
+  if (password.length < 8) {
+    return { valid: false, message: 'Password must be at least 8 characters' };
+  }
+  if (!/[A-Z]/.test(password)) {
+    return { valid: false, message: 'Password must contain at least one uppercase letter' };
