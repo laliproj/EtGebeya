@@ -192,3 +192,197 @@ const PostProductPage = () => {
               <button
                 key={cat.id}
                 onClick={() => handleCategorySelect(cat.slug)}
+                className={`p-6 rounded-2xl border-2 flex flex-col items-center justify-center gap-3 transition-all ${
+                  formData.category === cat.slug
+                    ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                    : 'border-surface-200 dark:border-surface-700 hover:border-primary-300 dark:hover:border-primary-700 bg-white dark:bg-surface-800'
+                }`}
+              >
+                <span className="text-4xl">{cat.icon}</span>
+                <span className="font-semibold text-surface-900 dark:text-white">{cat.name}</span>
+              </button>
+            ))}
+          </div>
+        );
+      
+      case 2:
+        return (
+          <div className="space-y-8 animate-fade-in">
+            <div>
+              <h3 className="text-lg font-bold text-surface-900 dark:text-white mb-4">Select Brand</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {availableBrands.map((brand) => (
+                  <button
+                    key={brand.id}
+                    onClick={() => handleBrandSelect(brand.name)}
+                    className={`p-4 rounded-xl border-2 flex items-center justify-center gap-2 transition-all ${
+                      formData.brand === brand.name
+                        ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                        : 'border-surface-200 dark:border-surface-700 hover:border-primary-300 dark:hover:border-primary-700 bg-white dark:bg-surface-800'
+                    }`}
+                  >
+                    <span className="text-2xl">{brand.logo}</span>
+                    <span className="font-medium text-surface-900 dark:text-white">{brand.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {formData.brand && (
+              <div className="animate-fade-in">
+                <h3 className="text-lg font-bold text-surface-900 dark:text-white mb-4">Select Model (Optional)</h3>
+                <select
+                  value={formData.model}
+                  onChange={(e) => setFormData(prev => ({ ...prev, model: e.target.value }))}
+                  className="w-full bg-white dark:bg-surface-800 border-2 border-surface-200 dark:border-surface-700 rounded-xl px-4 py-3 text-surface-900 dark:text-white focus:ring-0 focus:border-primary-500 transition-colors"
+                >
+                  <option value="">Select a model...</option>
+                  {availableBrands.find(b => b.name === formData.brand)?.models.map((model) => (
+                    <option key={model} value={model}>{model}</option>
+                  ))}
+                  <option value="other">Other Model</option>
+                </select>
+              </div>
+            )}
+          </div>
+        );
+
+      case 3:
+        return (
+          <div className="space-y-6 animate-fade-in">
+            <div className="p-4 bg-warning-50 dark:bg-warning-900/20 border border-warning-200 dark:border-warning-800/50 rounded-xl flex gap-3">
+              <HiOutlineExclamationTriangle className="w-6 h-6 text-warning-600 dark:text-warning-500 shrink-0" />
+              <div>
+                <p className="font-semibold text-warning-800 dark:text-warning-400">Photo Requirements</p>
+                <p className="text-sm text-warning-700 dark:text-warning-500 mt-1">
+                  You must upload at least 1 photo. Only photos taken directly from your phone camera are allowed to ensure authenticity.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {/* Upload Button */}
+              {formData.images.length < 10 && (
+                <div 
+                  onClick={() => fileInputRef.current?.click()}
+                  className="aspect-square rounded-2xl border-2 border-dashed border-primary-300 dark:border-primary-700/50 hover:bg-primary-50 dark:hover:bg-primary-900/10 flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors group"
+                >
+                  <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <HiOutlineCamera className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+                  </div>
+                  <span className="text-sm font-medium text-primary-600 dark:text-primary-400">Add Photo</span>
+                  <input 
+                    type="file" 
+                    ref={fileInputRef}
+                    onChange={handlePhotoUpload}
+                    accept="image/*" 
+                    multiple 
+                    className="hidden" 
+                    capture="environment" // Suggests taking a photo directly on mobile
+                  />
+                </div>
+              )}
+
+              {/* Previews */}
+              {formData.images.map((img, idx) => (
+                <div key={idx} className="relative aspect-square rounded-2xl overflow-hidden group border border-surface-200 dark:border-surface-700">
+                  <img src={img.preview} alt={`Preview ${idx + 1}`} className="w-full h-full object-cover" />
+                  <button
+                    onClick={() => removePhoto(idx)}
+                    className="absolute top-2 right-2 p-1.5 bg-black/50 hover:bg-danger-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all"
+                  >
+                    <HiOutlineXMark className="w-4 h-4" />
+                  </button>
+                  {idx === 0 && (
+                    <div className="absolute bottom-2 left-2 px-2 py-1 bg-black/60 backdrop-blur-md rounded-md text-[10px] font-bold text-white uppercase tracking-wider">
+                      Cover
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <p className="text-sm text-surface-500 font-medium">
+              {formData.images.length} / 10 photos uploaded (Minimum 1 required)
+            </p>
+          </div>
+        );
+
+      case 4:
+        const specFields = getCategorySpecs(formData.category);
+        return (
+          <div className="space-y-8 animate-fade-in">
+            {/* Basic Info */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-bold text-surface-900 dark:text-white mb-2">Basic Details</h3>
+              <Input
+                label="Listing Title *"
+                name="title"
+                value={formData.title}
+                onChange={handleInputChange}
+                placeholder="e.g. iPhone 14 Pro Max 256GB"
+                maxLength={70}
+              />
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="relative">
+                  <Input
+                    label="Price (ETB) *"
+                    name="price"
+                    type="number"
+                    value={formData.price}
+                    onChange={handleInputChange}
+                    placeholder="0"
+                    min="0"
+                    step="1"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-surface-700 dark:text-surface-300 mb-1.5">Condition *</label>
+                  <div className="flex gap-3">
+                    {['New', 'Used'].map(cond => (
+                      <button
+                        key={cond}
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, condition: cond }))}
+                        className={`flex-1 py-2.5 rounded-xl border-2 text-sm font-medium transition-colors ${
+                          formData.condition === cond
+                            ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400'
+                            : 'border-surface-200 dark:border-surface-700 text-surface-700 dark:text-surface-300 hover:border-surface-300 dark:hover:border-surface-600'
+                        }`}
+                      >
+                        {cond}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-surface-700 dark:text-surface-300 mb-1.5">Description *</label>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  rows="5"
+                  placeholder="Describe the item, its condition, included accessories, and any defects..."
+                  className="w-full bg-surface-50 dark:bg-surface-800/50 border border-surface-200 dark:border-surface-700 rounded-xl px-4 py-3 text-sm text-surface-900 dark:text-white placeholder:text-surface-400 focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-colors resize-none"
+                />
+              </div>
+
+              <Input
+                label="Location *"
+                name="location"
+                value={formData.location}
+                onChange={handleInputChange}
+                placeholder="City, Neighborhood"
+              />
+            </div>
+
+            {/* Dynamic Specs */}
+            {specFields.length > 0 && (
+              <div className="pt-6 border-t border-surface-200 dark:border-surface-800">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-bold text-surface-900 dark:text-white">Specifications</h3>
+                  <button
+                    type="button"
