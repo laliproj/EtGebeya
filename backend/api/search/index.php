@@ -36,3 +36,41 @@ try {
             $recordStmt->execute([':user_id' => $userId, ':query' => $queryParam]);
         } catch (Exception $e) {
             // Ignore if invalid token, just don't record search
+        }
+    }
+
+    $query = "SELECT p.*, u.name as seller_name, u.avatar as seller_avatar, u.trustScore as seller_rating,
+              (SELECT GROUP_CONCAT(image_url) FROM product_images WHERE product_id = p.id) as images
+              FROM products p
+              LEFT JOIN users u ON p.sellerId = u.id
+              WHERE p.title LIKE :q OR p.description LIKE :q OR p.brand LIKE :q OR p.category LIKE :q
+              ORDER BY p.views DESC LIMIT 20";
+    
+    $stmt = $db->prepare($query);
+    $stmt->execute([':q' => $searchQuery]);
+
+    $products = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $products[] = [
+            'id' => (int)$row['id'],
+            'title' => $row['title'],
+            'price' => (float)$row['price'],
+            'category' => $row['category'],
+            'brand' => $row['brand'],
+            'condition' => $row['condition'],
+            'images' => $row['images'] ? explode(',', $row['images']) : [],
+            'sellerId' => (int)$row['sellerId'],
+            'sellerName' => $row['seller_name'],
+            'sellerRating' => (float)$row['seller_rating'],
+            'location' => $row['location'],
+            'postedAt' => date('c', strtotime($row['postedAt'])),
+            'isFeatured' => (bool)$row['isFeatured']
+        ];
+    }
+
+    jsonResponse(true, "Search results", $products);
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
