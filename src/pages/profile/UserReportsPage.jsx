@@ -82,3 +82,86 @@ const UserReportsPage = () => {
                 <div className="flex items-start gap-3">
                   <div className="w-9 h-9 bg-warning-50 dark:bg-warning-900/20 rounded-xl flex items-center justify-center text-warning-600 shrink-0 mt-0.5">
                     <HiOutlineFlag className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-surface-900 dark:text-white">{report.reason}</p>
+                    <p className="text-sm text-surface-500 mt-0.5">
+                      ሪፖርት ተደረገ: <Link
+                        to={`/products/${report.product_id}`}
+                        className="text-primary-600 hover:underline font-medium"
+                      >
+                        {report.product_title}
+                      </Link>
+                    </p>
+                    <p className="text-xs text-surface-400 mt-0.5">
+                      ሻጭ: <strong>{report.seller_name}</strong>
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end gap-2">
+                  <StatusBadge status={report.status} />
+                  <span className="text-xs text-surface-400 flex items-center gap-1">
+                    <HiOutlineClock className="w-3.5 h-3.5" />
+                    {timeAgo(report.created_at)}
+                  </span>
+                </div>
+              </div>
+
+              {report.details && (
+                <div className="ml-12 bg-surface-50 dark:bg-surface-800/50 rounded-xl p-3 mt-2">
+                  <p className="text-sm text-surface-600 dark:text-surface-400 leading-relaxed">
+                    <span className="text-xs font-semibold text-surface-400 uppercase tracking-wide block mb-1">የዝርዝር መግለጫ (Details)</span>
+                    {report.details}
+                  </p>
+                </div>
+              )}
+
+              {report.status === 'resolved' && (
+                <div className="ml-12 mt-3 flex items-center gap-2 text-sm text-success-600 dark:text-success-400">
+                  <HiOutlineCheckCircle className="w-4 h-4" />
+                  <span>ሪፖርቱ ተፈቷል። ምስጋና ለሪፖርቱ! (Report resolved. Thank you for keeping the community safe!)</span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default UserReportsPage;
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
+import {
+  HiOutlineFlag,
+  HiOutlineClock,
+  HiOutlineCheckCircle,
+  HiOutlineXCircle,
+  HiOutlineExclamationTriangle,
+  HiOutlineArrowPath,
+} from 'react-icons/hi2';
+import { toast } from 'react-hot-toast';
+import adminService from '../../services/adminService';
+import { timeAgo } from '../../utils/helpers';
+import Skeleton from '../../components/common/Skeleton';
+import Button from '../../components/common/Button';
+
+// ─── Status Badge ─────────────────────────────────────────────────────────────
+const StatusBadge = ({ status }) => {
+  const cfg = {
+    pending:   { cls: 'bg-warning-100 text-warning-700 dark:bg-warning-900/30 dark:text-warning-400',  icon: HiOutlineClock,        label: 'በጥበቃ ላይ / Pending' },
+    resolved:  { cls: 'bg-success-100 text-success-700 dark:bg-success-900/30 dark:text-success-400', icon: HiOutlineCheckCircle,  label: 'ተፈቷል / Resolved' },
+    dismissed: { cls: 'bg-surface-100 text-surface-600 dark:bg-surface-800 dark:text-surface-400',   icon: HiOutlineXCircle,      label: 'ተሰርዟል / Dismissed' },
+  };
+  const c = cfg[status] || cfg.pending;
+  const Icon = c.icon;
+  return (
+    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${c.cls}`}>
+      <Icon className="w-3.5 h-3.5" />
+      {c.label}
+    </span>
+  );
+};
+
