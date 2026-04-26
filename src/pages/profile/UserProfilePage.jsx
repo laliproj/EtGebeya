@@ -76,3 +76,42 @@ const UserProfilePage = () => {
                 <p className="font-bold text-surface-900 dark:text-white">{user.totalSold || 0}</p>
                 <p className="text-surface-500">Items Sold</p>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Edit Form */}
+        <div className="w-full md:w-2/3">
+          <div className="bg-white dark:bg-surface-900 rounded-2xl border border-surface-200 dark:border-surface-800 overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b border-surface-100 dark:border-surface-800">
+              <h3 className="text-lg font-bold text-surface-900 dark:text-white">Profile Details</h3>
+              {!isEditing && (
+                <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>
+                  Edit Profile
+                </Button>
+              )}
+            </div>
+
+            <div className="p-6">
+              {isEditing ? (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <Input
+                    label="Full Name"
+                    name="name"
+                    icon={HiOutlineUser}
+                    value={formData.name}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                  />
+                  <Input
+                    label="Email Address"
+                    name="email"
+                    type="email"
+                    icon={HiOutlineEnvelope}
+                    value={formData.email}
+                    onChange={handleChange}
+                    disabled={true} // Usually email can't be easily changed
+                    className="opacity-70 cursor-not-allowed"
+                  />
+                  <Input
+                    label="Phone Number"
