@@ -26,3 +26,17 @@ const AuthLayout = () => {
         </Link>
 
         {/* Auth Card */}
+        <div className="bg-white dark:bg-surface-900 rounded-2xl shadow-2xl p-8 animate-scale-in">
+          <Outlet />
+        </div>
+
+        {/* Footer */}
+        <p className="text-center text-white/60 text-sm mt-6">
+          © 2026 EtGebeya. All rights reserved.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default AuthLayout;
