@@ -12,3 +12,17 @@ const AuthLayout = () => {
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent-500/10 rounded-full blur-3xl"></div>
         <div className="absolute top-1/3 left-1/4 w-60 h-60 bg-primary-400/10 rounded-full blur-2xl"></div>
+      </div>
+
+      <div className="w-full max-w-md relative z-10">
+        {/* Logo */}
+        <Link to="/" className="inline-flex items-center gap-2 group mb-8">
+          <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center shadow-lg border border-white/30 group-hover:bg-white/30 transition-all">
+            <HiOutlineBuildingStorefront className="w-6 h-6 text-white" />
+          </div>
+          <span className="text-2xl font-bold text-white drop-shadow">
+            EtGebeya
+          </span>
+        </Link>
+
+        {/* Auth Card */}
