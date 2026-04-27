@@ -154,3 +154,42 @@ const UserProfilePage = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
                       <p className="text-sm text-surface-500 mb-1">Full Name</p>
+                      <p className="font-medium text-surface-900 dark:text-white flex items-center gap-2">
+                        <HiOutlineUser className="w-5 h-5 text-surface-400" />
+                        {user.name}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-surface-500 mb-1">Email Address</p>
+                      <p className="font-medium text-surface-900 dark:text-white flex items-center gap-2">
+                        <HiOutlineEnvelope className="w-5 h-5 text-surface-400" />
+                        {user.email}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-surface-500 mb-1">Phone Number</p>
+                      <p className="font-medium text-surface-900 dark:text-white flex items-center gap-2">
+                        <HiOutlinePhone className="w-5 h-5 text-surface-400" />
+                        {user.phone || 'Not provided'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-surface-500 mb-1">Location</p>
+                      <p className="font-medium text-surface-900 dark:text-white flex items-center gap-2">
+                        <HiOutlineMapPin className="w-5 h-5 text-surface-400" />
+                        {user.location || 'Not provided'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default UserProfilePage;
