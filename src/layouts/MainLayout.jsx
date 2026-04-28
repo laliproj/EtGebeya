@@ -19,3 +19,24 @@ const MainLayout = () => {
   useEffect(() => {
     if (!isAuthenticated) return;
 
+    // Initial fetch
+    dispatch(fetchNotificationsAPI());
+
+    // Poll every 15 seconds
+    const interval = setInterval(() => {
+      dispatch(fetchNotificationsAPI());
+    }, 15000);
+
+    return () => clearInterval(interval);
+  }, [isAuthenticated, dispatch]);
+
+  // Check for new notifications to show toast
+  useEffect(() => {
+    if (items.length > 0) {
+      const currentTopId = items[0].id;
+      if (lastTopNotifId.current && currentTopId !== lastTopNotifId.current) {
+        // Find new items
+        const newItems = items.filter(n => n.id > lastTopNotifId.current);
+        newItems.forEach(n => {
+          if (!n.read) {
+            toast.success(`New Notification: ${n.title}`, { icon: n.icon || '🔔' });
