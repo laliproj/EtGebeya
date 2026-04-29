@@ -33,3 +33,37 @@ const sellerService = {
 
   async getSellerReviews(id) {
     const response = await api.get(`/sellers/reviews.php?id=${id}`);
+    if (response.data.success) return response.data.data;
+    throw new Error(response.data.message || 'Failed to fetch seller reviews');
+  },
+
+  async getReviews(id) {
+    return this.getSellerReviews(id);
+  },
+
+  async rateSeller(sellerId, rating, comment = '') {
+    const response = await api.post('/sellers/rate.php', { sellerId, rating, comment });
+    if (response.data.success) return response.data;
+    throw new Error(response.data.message || 'Failed to rate seller');
+  },
+
+  async deleteProduct(productId) {
+    const response = await api.post('/products/delete.php', { productId });
+    if (response.data.success) return response.data;
+    throw new Error(response.data.message || 'Failed to delete product');
+  },
+
+  async markSold(productId) {
+    const response = await api.post('/products/mark-sold.php', { productId });
+    if (response.data.success) return response.data;
+    throw new Error(response.data.message || 'Failed to mark product as sold');
+  },
+
+  async updateProduct(productId, data) {
+    const response = await api.put(`/products/update.php?id=${productId}`, data);
+    if (response.data.success) return response.data;
+    throw new Error(response.data.message || 'Failed to update product');
+  },
+};
+
+export default sellerService;

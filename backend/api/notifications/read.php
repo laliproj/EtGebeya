@@ -28,3 +28,12 @@ try {
     $query = "UPDATE notifications SET is_read = 1 WHERE id = :id AND user_id = :user_id";
     $stmt = $db->prepare($query);
     
+    if ($stmt->execute([':id' => $notificationId, ':user_id' => $userId])) {
+        jsonResponse(true, "Notification marked as read");
+    } else {
+        jsonResponse(false, "Failed to update notification", null, 500);
+    }
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
