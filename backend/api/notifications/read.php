@@ -18,3 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
 if (!isset($_GET['id'])) {
     jsonResponse(false, "Notification ID is required", null, 400);
 }
+
+$notificationId = (int)$_GET['id'];
+
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    $query = "UPDATE notifications SET is_read = 1 WHERE id = :id AND user_id = :user_id";
+    $stmt = $db->prepare($query);
+    
