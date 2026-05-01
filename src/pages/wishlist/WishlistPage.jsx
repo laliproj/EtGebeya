@@ -76,3 +76,26 @@ const WishlistPage = () => {
           {[...Array(4)].map((_, i) => (
             <div key={i} className="h-80 bg-surface-200 dark:bg-surface-800 rounded-2xl"></div>
           ))}
+        </div>
+      ) : products.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in">
+          {products.map(product => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      ) : (
+        <div className="bg-white dark:bg-surface-900 rounded-3xl border border-surface-200 dark:border-surface-800 py-16">
+          <EmptyState
+            icon={HiOutlineHeart}
+            title="Your wishlist is empty"
+            description="Save items you like to your wishlist to keep track of them."
+            actionLabel="Browse Products"
+            actionTo="/products"
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default WishlistPage;
