@@ -15,3 +15,19 @@ if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
     jsonResponse(false, "Method not allowed", null, 405);
 }
 
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    $query = "UPDATE notifications SET is_read = 1 WHERE user_id = :user_id";
+    $stmt = $db->prepare($query);
+    
+    if ($stmt->execute([':user_id' => $userId])) {
+        jsonResponse(true, "All notifications marked as read");
+    } else {
+        jsonResponse(false, "Failed to update notifications", null, 500);
+    }
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
