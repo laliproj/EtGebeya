@@ -28,3 +28,18 @@ const authService = {
     if (response.data.success) {
       return response.data;
     }
+    throw new Error(response.data.message || 'Request failed');
+  },
+
+  async getProfile() {
+    const response = await api.get('/auth/profile.php');
+    if (response.data.success) {
+      // Update local storage just in case
+      const currentUser = JSON.parse(localStorage.getItem('user'));
+      const updatedUser = { ...currentUser, ...response.data.data };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      return updatedUser;
+    }
+    throw new Error(response.data.message || 'Failed to fetch profile');
+  },
+
