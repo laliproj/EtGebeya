@@ -43,3 +43,16 @@ const authService = {
     throw new Error(response.data.message || 'Failed to fetch profile');
   },
 
+  async updateProfile(data) {
+    const response = await api.put('/auth/profile.php', data);
+    if (response.data.success) {
+      const currentUser = JSON.parse(localStorage.getItem('user'));
+      const updatedUser = { ...currentUser, ...response.data.data };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      return updatedUser;
+    }
+    throw new Error(response.data.message || 'Failed to update profile');
+  },
+};
+
+export default authService;

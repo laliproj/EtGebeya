@@ -11,3 +11,16 @@ require_once __DIR__ . '/../../middleware/auth.php';
 
 $userId = AuthMiddleware::authenticate();
 
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    $query = "SELECT id, type, title, message, is_read as 'read', icon, created_at as createdAt
+              FROM notifications 
+              WHERE user_id = :user_id 
+              ORDER BY created_at DESC";
+    $stmt = $db->prepare($query);
+    $stmt->execute([':user_id' => $userId]);
+
+    $notifications = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
