@@ -24,3 +24,14 @@ try {
 
     $notifications = [];
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $row['id'] = (int)$row['id'];
+        $row['read'] = (bool)$row['read'];
+        $notifications[] = $row;
+    }
+
+    jsonResponse(true, "Notifications retrieved", $notifications);
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
