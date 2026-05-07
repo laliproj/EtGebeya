@@ -114,3 +114,29 @@ export const validatePassword = (password) => {
   }
   if (!/[A-Z]/.test(password)) {
     return { valid: false, message: 'Password must contain at least one uppercase letter' };
+  }
+  if (!/[0-9]/.test(password)) {
+    return { valid: false, message: 'Password must contain at least one number' };
+  }
+  return { valid: true, message: 'Strong password' };
+};
+
+/**
+ * Get category filter specs based on category type
+ * @param {string} category 
+ * @returns {Array} Available filter options for the category
+ */
+export const getCategorySpecs = (category) => {
+  const commonSpecs = ['storage', 'ram', 'processor'];
+  
+  const categorySpecs = {
+    phones: [...commonSpecs, 'screenSize', 'camera', 'battery'],
+    laptops: [...commonSpecs, 'screenSize', 'camera', 'battery'],
+    tablets: [...commonSpecs, 'screenSize', 'camera', 'battery'],
+    headphones: ['battery', 'connectivity', 'driver', 'weight'],
+    cameras: ['sensor', 'video', 'iso', 'fps', 'weight'],
+    accessories: ['capacity', 'output', 'ports', 'weight'],
+  };
+
+  return categorySpecs[category] || commonSpecs;
+};
