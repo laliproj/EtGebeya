@@ -20,3 +20,14 @@ const AuthLayout = () => {
           <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center shadow-lg border border-white/30 group-hover:bg-white/30 transition-all">
             <HiOutlineBuildingStorefront className="w-6 h-6 text-white" />
           </div>
+          <span className="text-2xl font-bold text-white drop-shadow">
+            EtGebeya
+          </span>
+        </Link>
+
+        {/* Auth Card */}
+        <div className="bg-white dark:bg-surface-900 rounded-2xl shadow-2xl p-8 animate-scale-in">
+          <Outlet />
+        </div>
+
+        {/* Footer */}
