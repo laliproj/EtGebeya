@@ -31,3 +31,12 @@ const AuthLayout = () => {
         </div>
 
         {/* Footer */}
+        <p className="text-center text-white/60 text-sm mt-6">
+          © 2026 EtGebeya. All rights reserved.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default AuthLayout;
