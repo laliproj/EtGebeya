@@ -12,3 +12,10 @@ $db = $database->getConnection();
 
 try {
     $query = "SELECT c.*, (SELECT COUNT(*) FROM products WHERE category = c.slug) as actual_count FROM categories c";
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+
+    $categories = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $categories[] = [
+            'id' => (int)$row['id'],
