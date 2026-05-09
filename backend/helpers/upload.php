@@ -56,3 +56,32 @@ class Uploader {
             if (!in_array($mime_type, $this->allowed_types)) {
                 $errors[] = "File {$file['name']} is not a valid image format.";
                 continue;
+            }
+
+            // Generate unique name
+            $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+            $unique_name = uniqid() . '_' . time() . '.' . $extension;
+            $target_file = $this->target_dir . $unique_name;
+
+            if (move_uploaded_file($file['tmp_name'], $target_file)) {
+                // Determine base URL dynamically (simple implementation)
+                $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
+                $host = $_SERVER['HTTP_HOST'];
+                // Since the project is in "IP final project", include that path
+                $base_url = $protocol . $host . '/IP final project/backend/uploads/products/';
+                
+                $uploadedUrls[] = $base_url . $unique_name;
+            } else {
+                $errors[] = "Failed to move uploaded file {$file['name']}.";
+            }
+        }
+
+        if (empty($uploadedUrls) && !empty($errors)) {
+            return ['success' => false, 'message' => implode(' ', $errors)];
+        }
+
+        return ['success' => true, 'urls' => $uploadedUrls, 'errors' => $errors];
+    }
+}
+?>
+     
