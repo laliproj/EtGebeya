@@ -26,3 +26,10 @@ try {
             'count' => (int)$row['actual_count']
         ];
     }
+
+    jsonResponse(true, "Categories retrieved", $categories);
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
