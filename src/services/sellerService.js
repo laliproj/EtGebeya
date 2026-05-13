@@ -21,3 +21,26 @@ const sellerService = {
 
   /** Alias used by SellerProfilePage */
   async getProducts(id) {
+    return this.getSellerProducts(id);
+  },
+
+  /** Seller's own dashboard - returns ALL products including pending/rejected */
+  async getMyProducts(id) {
+    const response = await api.get(`/sellers/products.php?id=${id}&own=1`);
+    if (response.data.success) return response.data.data;
+    throw new Error(response.data.message || 'Failed to fetch your products');
+  },
+
+  async getSellerReviews(id) {
+    const response = await api.get(`/sellers/reviews.php?id=${id}`);
+    if (response.data.success) return response.data.data;
+    throw new Error(response.data.message || 'Failed to fetch seller reviews');
+  },
+
+  async getReviews(id) {
+    return this.getSellerReviews(id);
+  },
+
+  async rateSeller(sellerId, rating, comment = '') {
+    const response = await api.post('/sellers/rate.php', { sellerId, rating, comment });
+    if (response.data.success) return response.data;
