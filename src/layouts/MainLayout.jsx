@@ -29,3 +29,34 @@ const MainLayout = () => {
 
     return () => clearInterval(interval);
   }, [isAuthenticated, dispatch]);
+
+  // Check for new notifications to show toast
+  useEffect(() => {
+    if (items.length > 0) {
+      const currentTopId = items[0].id;
+      if (lastTopNotifId.current && currentTopId !== lastTopNotifId.current) {
+        // Find new items
+        const newItems = items.filter(n => n.id > lastTopNotifId.current);
+        newItems.forEach(n => {
+          if (!n.read) {
+            toast.success(`New Notification: ${n.title}`, { icon: n.icon || '🔔' });
+          }
+        });
+      }
+      lastTopNotifId.current = currentTopId;
+    }
+  }, [items]);
+
+  return (
+    <div className="min-h-screen bg-surface-50 dark:bg-surface-950 transition-colors duration-300">
+      <Navbar />
+      <main className="pt-16 pb-20 md:pb-6">
+        <Outlet />
+      </main>
+      <BottomNav />
+      <AIChatbot />
+    </div>
+  );
+};
+
+export default MainLayout;
