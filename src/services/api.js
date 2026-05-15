@@ -24,3 +24,16 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const user = localStorage.getItem('user');
+    if (user) {
+      const { token } = JSON.parse(user);
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Response interceptor — handle common errors
+api.interceptors.response.use(
