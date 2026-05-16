@@ -23,3 +23,28 @@ if (!$receiverId || empty($content)) {
 }
 
 $database = new Database();
+$db = $database->getConnection();
+
+try {
+    $db->beginTransaction();
+
+    $query = "INSERT INTO messages (sender_id, receiver_id, product_id, content) VALUES (:s, :r, :p, :c)";
+    $stmt = $db->prepare($query);
+    $stmt->execute([
+        ':s' => $userId,
+        ':r' => $receiverId,
+        ':p' => $productId,
+        ':c' => htmlspecialchars($content)
+    ]);
+    
+    // Notify receiver
+    $notifQuery = "INSERT INTO notifications (user_id, type, title, message, icon) VALUES (:uid, 'message', 'New Message', 'You received a new message.', '💬')";
+    $db->prepare($notifQuery)->execute([':uid' => $receiverId]);
+
+    $db->commit();
+    jsonResponse(true, "Message sent successfully");
+} catch(PDOException $e) {
+    $db->rollBack();
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
