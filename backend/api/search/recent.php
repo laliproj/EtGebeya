@@ -14,3 +14,19 @@ $userId = AuthMiddleware::authenticate();
 $database = new Database();
 $db = $database->getConnection();
 
+try {
+    $query = "SELECT DISTINCT query FROM searches WHERE user_id = :user_id ORDER BY created_at DESC LIMIT 5";
+    $stmt = $db->prepare($query);
+    $stmt->execute([':user_id' => $userId]);
+
+    $searches = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $searches[] = $row['query'];
+    }
+
+    jsonResponse(true, "Recent searches retrieved", $searches);
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
