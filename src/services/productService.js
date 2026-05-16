@@ -27,3 +27,31 @@ const productService = {
   },
 
   async getById(id) {
+    const response = await api.get(`/products/show.php?id=${id}`);
+    if (response.data.success) return response.data.data;
+    throw new Error(response.data.message || 'Failed to fetch product');
+  },
+
+  async getSimilar(productId) {
+    const response = await api.get(`/products/similar.php?id=${productId}`);
+    if (response.data.success) return response.data.data;
+    throw new Error(response.data.message || 'Failed to fetch similar products');
+  },
+
+  async search(query) {
+    const response = await api.get(`/search/index.php?q=${encodeURIComponent(query)}`);
+    if (response.data.success) return response.data.data;
+    throw new Error(response.data.message || 'Failed to search products');
+  },
+
+  async create(formData) {
+    // Send FormData directly
+    const response = await api.post('/products/create.php', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    if (response.data.success) return response.data.data;
+    throw new Error(response.data.message || 'Failed to create product');
+  }
+};
+
+export default productService;
