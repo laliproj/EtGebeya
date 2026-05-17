@@ -14,3 +14,19 @@ $database = new Database();
 $db = $database->getConnection();
 
 if (!isset($_GET['q']) || empty(trim($_GET['q']))) {
+    jsonResponse(true, "No query provided", []);
+}
+
+$queryParam = Validator::sanitize($_GET['q']);
+$searchQuery = "%{$queryParam}%";
+
+try {
+    // Optionally log the search if user is logged in (auth is optional here, so we won't throw error if no token)
+    $headers = apache_request_headers();
+    $authHeader = isset($headers['Authorization']) ? $headers['Authorization'] : '';
+    if (empty($authHeader)) {
+        $authHeader = isset($headers['authorization']) ? $headers['authorization'] : '';
+    }
+
+    if ($authHeader) {
+        try {
