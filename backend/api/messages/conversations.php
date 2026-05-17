@@ -11,3 +11,16 @@ require_once __DIR__ . '/../../middleware/auth.php';
 
 $userId = AuthMiddleware::authenticate();
 
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    // Get latest message per conversation
+    $query = "
+        SELECT 
+            u.id as contact_id, 
+            u.name as contact_name, 
+            u.avatar as contact_avatar,
+            m.content as last_message,
+            m.created_at as last_message_date,
+            m.is_read
