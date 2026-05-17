@@ -30,3 +30,19 @@ try {
 
     if ($authHeader) {
         try {
+            $userId = AuthMiddleware::authenticate();
+            // Record search
+            $recordStmt = $db->prepare("INSERT INTO searches (user_id, query) VALUES (:user_id, :query)");
+            $recordStmt->execute([':user_id' => $userId, ':query' => $queryParam]);
+        } catch (Exception $e) {
+            // Ignore if invalid token, just don't record search
+        }
+    }
+
+    $query = "SELECT p.*, u.name as seller_name, u.avatar as seller_avatar, u.trustScore as seller_rating,
+              (SELECT GROUP_CONCAT(image_url) FROM product_images WHERE product_id = p.id) as images
+              FROM products p
+              LEFT JOIN users u ON p.sellerId = u.id
+              WHERE p.title LIKE :q OR p.description LIKE :q OR p.brand LIKE :q OR p.category LIKE :q
+              ORDER BY p.views DESC LIMIT 20";
+    
