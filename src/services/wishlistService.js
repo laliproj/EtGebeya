@@ -16,3 +16,8 @@ const wishlistService = {
   async clearWishlist() {
     const response = await api.delete('/wishlist/clear.php');
     if (response.data.success) return response.data;
+    throw new Error(response.data.message || 'Failed to clear wishlist');
+  }
+};
+
+export default wishlistService;
