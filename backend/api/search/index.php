@@ -62,3 +62,15 @@ try {
             'sellerId' => (int)$row['sellerId'],
             'sellerName' => $row['seller_name'],
             'sellerRating' => (float)$row['seller_rating'],
+            'location' => $row['location'],
+            'postedAt' => date('c', strtotime($row['postedAt'])),
+            'isFeatured' => (bool)$row['isFeatured']
+        ];
+    }
+
+    jsonResponse(true, "Search results", $products);
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
