@@ -23,3 +23,28 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $data = json_decode(file_get_contents("php://input"), true);
 
+$missing = Validator::checkRequired($data, ['productId', 'reason']);
+if (!empty($missing)) {
+    jsonResponse(false, "Missing required fields: " . implode(', ', $missing), null, 400);
+}
+
+$productId = (int)$data['productId'];
+$reason = Validator::sanitize($data['reason']);
+$details = isset($data['details']) ? Validator::sanitize($data['details']) : '';
+
+$database = new Database();
+$db = $database->getConnection();
+
+// Check if user is the seller of the product
+$sellerQuery = "SELECT sellerId FROM products WHERE id = :product";
+$sellerStmt = $db->prepare($sellerQuery);
+$sellerStmt->execute([':product' => $productId]);
+$sellerId = $sellerStmt->fetchColumn();
+
+if ($sellerId === $userId) {
+    jsonResponse(false, "You cannot report your own product", null, 400);
+}
+
+try {
+    $db->beginTransaction();
+

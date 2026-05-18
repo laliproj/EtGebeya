@@ -14,3 +14,11 @@ const messagesService = {
     if (response.data.success) {
       return response.data.data;
     }
+    throw new Error(response.data.message);
+  },
+
+  sendMessage: async (receiverId, content, productId = null) => {
+    const payload = { receiverId, content };
+    if (productId) payload.productId = productId;
+    
+    const response = await api.post('/messages/send.php', payload);
