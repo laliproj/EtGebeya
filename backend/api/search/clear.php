@@ -20,3 +20,12 @@ $db = $database->getConnection();
 
 try {
     $query = "DELETE FROM searches WHERE user_id = :user_id";
+    $stmt = $db->prepare($query);
+    $stmt->execute([':user_id' => $userId]);
+
+    jsonResponse(true, "Search history cleared");
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
