@@ -46,3 +46,19 @@ try {
               WHERE p.title LIKE :q OR p.description LIKE :q OR p.brand LIKE :q OR p.category LIKE :q
               ORDER BY p.views DESC LIMIT 20";
     
+    $stmt = $db->prepare($query);
+    $stmt->execute([':q' => $searchQuery]);
+
+    $products = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $products[] = [
+            'id' => (int)$row['id'],
+            'title' => $row['title'],
+            'price' => (float)$row['price'],
+            'category' => $row['category'],
+            'brand' => $row['brand'],
+            'condition' => $row['condition'],
+            'images' => $row['images'] ? explode(',', $row['images']) : [],
+            'sellerId' => (int)$row['sellerId'],
+            'sellerName' => $row['seller_name'],
+            'sellerRating' => (float)$row['seller_rating'],
