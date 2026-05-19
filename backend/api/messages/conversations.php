@@ -37,3 +37,16 @@ try {
     
     $stmt = $db->prepare($query);
     $stmt->execute([':uid' => $userId]);
+
+    $conversations = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $row['contact_id'] = (int)$row['contact_id'];
+        $row['is_read'] = (bool)$row['is_read'];
+        $conversations[] = $row;
+    }
+
+    jsonResponse(true, "Conversations retrieved", $conversations);
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>

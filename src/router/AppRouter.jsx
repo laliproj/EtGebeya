@@ -25,3 +25,30 @@ import NotificationsPage from '../pages/notifications/NotificationsPage';
 import MessagesPage from '../pages/messages/MessagesPage';
 import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
 
+// ─── Route Guards ─────────────────────────────────────────────────────────────
+
+/** Redirects unauthenticated users to /login */
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+};
+
+/** Restricts access to admin users only */
+const AdminRoute = ({ children }) => {
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  if (!user?.isAdmin) {
+    return <Navigate to="/" replace />;
+  }
+  return children;
+};
+
+// ─── Router ───────────────────────────────────────────────────────────────────
+const AppRouter = () => {
+  return (
+    <ErrorBoundary>
