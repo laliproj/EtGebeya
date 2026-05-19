@@ -48,3 +48,28 @@ if ($sellerId === $userId) {
 try {
     $db->beginTransaction();
 
+    // 1. Insert report
+    $query = "INSERT INTO reports (reporter_id, product_id, reason, details) VALUES (:reporter, :product, :reason, :details)";
+    $stmt = $db->prepare($query);
+    $stmt->execute([
+        ':reporter' => $userId,
+        ':product' => $productId,
+        ':reason' => $reason,
+        ':details' => $details
+    ]);
+
+    // 2. Increment warnings for seller if reason is serious (mock logic for auto-ban system)
+    // In a real app, an admin would review the report first. Here we automate it for the prompt requirements.
+    if ($sellerId) {
+        
+        // Add warning
+        $warnInsert = "INSERT INTO warnings (user_id, reason) VALUES (:seller, :reason)";
+        $db->prepare($warnInsert)->execute([':seller' => $sellerId, ':reason' => "Reported: " . $reason]);
+
+        // Increment user warnings counter
+        $warnUpdate = "UPDATE users SET warnings = warnings + 1 WHERE id = :seller";
+        $db->prepare($warnUpdate)->execute([':seller' => $sellerId]);
+
+        // Check if seller needs to be banned (3 warnings)
+        $banCheck = "SELECT warnings FROM users WHERE id = :seller";
+        $banStmt = $db->prepare($banCheck);

@@ -22,3 +22,11 @@ const messagesService = {
     if (productId) payload.productId = productId;
     
     const response = await api.post('/messages/send.php', payload);
+    if (response.data.success) {
+      return response.data;
+    }
+    throw new Error(response.data.message);
+  }
+};
+
+export default messagesService;
