@@ -24,3 +24,16 @@ try {
             m.content as last_message,
             m.created_at as last_message_date,
             m.is_read
+        FROM users u
+        JOIN messages m ON (u.id = m.sender_id OR u.id = m.receiver_id)
+        WHERE (m.sender_id = :uid OR m.receiver_id = :uid) AND u.id != :uid
+        AND m.id = (
+            SELECT MAX(id) FROM messages m2 
+            WHERE (m2.sender_id = :uid AND m2.receiver_id = u.id) 
+               OR (m2.receiver_id = :uid AND m2.sender_id = u.id)
+        )
+        ORDER BY m.created_at DESC
+    ";
+    
+    $stmt = $db->prepare($query);
+    $stmt->execute([':uid' => $userId]);
