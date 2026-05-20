@@ -9,3 +9,14 @@ import axios from 'axios';
  */
 
 const api = axios.create({
+  baseURL: import.meta.env.PROD 
+    ? '/backend/api' 
+    : 'http://127.0.0.1/IP%20final%20project/backend/api',
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+
+
