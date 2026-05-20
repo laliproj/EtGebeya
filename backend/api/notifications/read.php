@@ -11,3 +11,16 @@ require_once __DIR__ . '/../../middleware/auth.php';
 
 $userId = AuthMiddleware::authenticate();
 
+if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
+    jsonResponse(false, "Method not allowed", null, 405);
+}
+
+if (!isset($_GET['id'])) {
+    jsonResponse(false, "Notification ID is required", null, 400);
+}
+
+$notificationId = (int)$_GET['id'];
+
+$database = new Database();
+$db = $database->getConnection();
+
