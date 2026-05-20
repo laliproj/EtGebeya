@@ -73,3 +73,28 @@ try {
         // Check if seller needs to be banned (3 warnings)
         $banCheck = "SELECT warnings FROM users WHERE id = :seller";
         $banStmt = $db->prepare($banCheck);
+        $banStmt->execute([':seller' => $sellerId]);
+        $warningsCount = $banStmt->fetchColumn();
+
+        if ($warningsCount >= 3) {
+            $banUpdate = "UPDATE users SET isBanned = 1 WHERE id = :seller";
+            $db->prepare($banUpdate)->execute([':seller' => $sellerId]);
+
+            // Create notification for seller
+            $notifInsert = "INSERT INTO notifications (user_id, type, title, message, icon) VALUES (:seller, 'ban', 'Account Banned', 'Your account has been banned due to receiving 3 warnings.', '🚫')";
+            $db->prepare($notifInsert)->execute([':seller' => $sellerId]);
+        } else {
+            // Create notification for warning
+            $notifInsert = "INSERT INTO notifications (user_id, type, title, message, icon) VALUES (:seller, 'warning', 'Warning Received', 'Your product was reported. Warning count: $warningsCount/3', '⚠️')";
+            $db->prepare($notifInsert)->execute([':seller' => $sellerId]);
+        }
+    }
+
+    $db->commit();
+    jsonResponse(true, "Report submitted successfully. Thank you for keeping our community safe.");
+
+} catch(PDOException $e) {
+    $db->rollBack();
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
