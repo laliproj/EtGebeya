@@ -14,3 +14,19 @@ $userId = AuthMiddleware::authenticate();
 
 $database = new Database();
 $db = $database->getConnection();
+
+$adminCheck = $db->prepare("SELECT isAdmin FROM users WHERE id = :id");
+$adminCheck->execute([':id' => $userId]);
+$admin = $adminCheck->fetch(PDO::FETCH_ASSOC);
+if (!$admin || !$admin['isAdmin']) {
+    jsonResponse(false, "Access denied.", null, 403);
+}
+
+try {
+    $query = "SELECT r.id, r.reason, r.details, r.status, r.created_at,
+              p.id as product_id, p.title as product_title, p.sellerId,
+              u.name as reporter_name, u.email as reporter_email,
+              s.name as seller_name, s.email as seller_email
+              FROM reports r
+              JOIN products p ON r.product_id = p.id
+              JOIN users u ON r.reporter_id = u.id

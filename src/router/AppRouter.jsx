@@ -79,3 +79,30 @@ const AppRouter = () => {
               <ProtectedRoute><UserProfilePage /></ProtectedRoute>
             } />
             <Route path="/wishlist" element={
+              <ProtectedRoute><WishlistPage /></ProtectedRoute>
+            } />
+            <Route path="/notifications" element={
+              <ProtectedRoute><NotificationsPage /></ProtectedRoute>
+            } />
+            <Route path="/my-reports" element={
+              <ProtectedRoute><UserReportsPage /></ProtectedRoute>
+            } />
+            <Route path="/messages" element={
+              <ProtectedRoute><MessagesPage /></ProtectedRoute>
+            } />
+
+            {/* Admin-Only Route */}
+            <Route path="/admin" element={
+              <AdminRoute><AdminDashboardPage /></AdminRoute>
+            } />
+          </Route>
+          
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </ErrorBoundary>
+  );
+};
+
+export default AppRouter;
