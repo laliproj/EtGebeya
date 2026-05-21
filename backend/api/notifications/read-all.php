@@ -7,3 +7,12 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../helpers/response.php';
+require_once __DIR__ . '/../../middleware/auth.php';
+
+$userId = AuthMiddleware::authenticate();
+
+if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
+    jsonResponse(false, "Method not allowed", null, 405);
+}
+
+$database = new Database();

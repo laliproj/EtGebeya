@@ -31,3 +31,14 @@ api.interceptors.request.use(
       }
     }
     return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Response interceptor — handle common errors
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // Only redirect to login for 401s if the request wasn't the login request itself
+    if (error.response?.status === 401 && !error.config?.url?.includes('login.php')) {
+      localStorage.removeItem('user');
