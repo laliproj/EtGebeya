@@ -16,3 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
 }
 
 $database = new Database();
+$db = $database->getConnection();
+
+try {
+    $query = "UPDATE notifications SET is_read = 1 WHERE user_id = :user_id";
+    $stmt = $db->prepare($query);
+    
+    if ($stmt->execute([':user_id' => $userId])) {
+        jsonResponse(true, "All notifications marked as read");
+    } else {
