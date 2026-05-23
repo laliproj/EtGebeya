@@ -25,3 +25,9 @@ try {
     if ($stmt->execute([':user_id' => $userId])) {
         jsonResponse(true, "All notifications marked as read");
     } else {
+        jsonResponse(false, "Failed to update notifications", null, 500);
+    }
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
