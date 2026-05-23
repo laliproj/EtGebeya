@@ -52,3 +52,57 @@ const FilterSidebar = ({ onClose }) => {
       </div>
 
       <div className="flex-1 overflow-y-auto space-y-6 hide-scrollbar">
+        {/* Category Filter */}
+        <div>
+          <h3 className="text-sm font-semibold text-surface-900 dark:text-white mb-3">Category</h3>
+          <div className="space-y-2">
+            <label className="flex items-center gap-3 cursor-pointer group">
+              <input 
+                type="radio" 
+                name="category"
+                checked={localFilters.category === ''}
+                onChange={() => handleChange('category', '')}
+                className="w-4 h-4 text-primary-600 focus:ring-primary-500 border-surface-300 rounded-full"
+              />
+              <span className="text-sm text-surface-600 dark:text-surface-400 group-hover:text-surface-900 dark:group-hover:text-white">All Categories</span>
+            </label>
+            {categoriesData.map(category => (
+              <label key={category.id} className="flex items-center gap-3 cursor-pointer group">
+                <input 
+                  type="radio" 
+                  name="category"
+                  checked={localFilters.category === category.slug}
+                  onChange={() => handleChange('category', category.slug)}
+                  className="w-4 h-4 text-primary-600 focus:ring-primary-500 border-surface-300 rounded-full"
+                />
+                <span className="text-sm text-surface-600 dark:text-surface-400 group-hover:text-surface-900 dark:group-hover:text-white">
+                  {category.name}
+                </span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Brand Filter */}
+        <div>
+          <h3 className="text-sm font-semibold text-surface-900 dark:text-white mb-3">Brand</h3>
+          <select 
+            className="w-full bg-surface-50 dark:bg-surface-800 border border-surface-200 dark:border-surface-700 rounded-xl px-3 py-2 text-sm text-surface-900 dark:text-white focus:ring-2 focus:ring-primary-500/30"
+            value={localFilters.brand}
+            onChange={(e) => handleChange('brand', e.target.value)}
+          >
+            <option value="">All Brands</option>
+            {availableBrands.map((brand, i) => (
+              <option key={i} value={brand.name}>{brand.name}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Condition Filter */}
+        <div>
+          <h3 className="text-sm font-semibold text-surface-900 dark:text-white mb-3">Condition</h3>
+          <div className="flex flex-wrap gap-2">
+            {['New', 'Used'].map(condition => (
+              <button
+                key={condition}
+                onClick={() => handleChange('condition', localFilters.condition === condition ? '' : condition)}
