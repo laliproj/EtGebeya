@@ -30,3 +30,34 @@ try {
               (SELECT image_url FROM product_images WHERE product_id = p.id AND is_cover = 1 LIMIT 1) as cover_image
               FROM products p
               LEFT JOIN users u ON p.sellerId = u.id
+              WHERE p.status = 'pending'
+              ORDER BY p.postedAt DESC";
+
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+
+    $products = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $products[] = [
+            'id'           => (int)$row['id'],
+            'title'        => $row['title'],
+            'price'        => (float)$row['price'],
+            'category'     => $row['category'],
+            'brand'        => $row['brand'],
+            'condition'    => $row['condition'],
+            'location'     => $row['location'],
+            'postedAt'     => $row['postedAt'],
+            'cover_image'  => $row['cover_image'],
+            'seller_name'  => $row['seller_name'],
+            'seller_email' => $row['seller_email'],
+            'seller_phone' => $row['seller_phone'],
+            'sellerId'     => (int)$row['sellerId'],
+        ];
+    }
+
+    jsonResponse(true, "Pending products retrieved", $products);
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
