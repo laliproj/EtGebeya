@@ -18,3 +18,13 @@ const adminService = {
     throw new Error(response.data.message || 'Failed to fetch pending products');
   },
 
+  /** Approve or reject a product listing */
+  async handleProduct(productId, action) {
+    const response = await api.post('/admin/approve_product.php', { productId, action });
+    if (response.data.success) return response.data;
+    throw new Error(response.data.message || 'Failed to handle product');
+  },
+
+  /** Get all user reports */
+  async getReports() {
+    const response = await api.get('/admin/reports.php');

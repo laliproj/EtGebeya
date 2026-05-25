@@ -8,3 +8,13 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../helpers/response.php';
 require_once __DIR__ . '/../../middleware/auth.php';
+
+$userId = AuthMiddleware::authenticate();
+
+if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+    jsonResponse(false, "Method not allowed", null, 405);
+}
+
+if (!isset($_GET['id'])) {
+    jsonResponse(false, "Notification ID is required", null, 400);
+}
