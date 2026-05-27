@@ -28,3 +28,13 @@ const adminService = {
   /** Get all user reports */
   async getReports() {
     const response = await api.get('/admin/reports.php');
+    if (response.data.success) return response.data.data;
+    throw new Error(response.data.message || 'Failed to fetch reports');
+  },
+
+  /** Handle a report: dismiss | remove_product | warn_seller | ban_seller */
+  async handleReport(reportId, action) {
+    const response = await api.post('/admin/handle_report.php', { reportId, action });
+    if (response.data.success) return response.data;
+    throw new Error(response.data.message || 'Failed to handle report');
+  },
