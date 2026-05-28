@@ -28,3 +28,12 @@ try {
     $query = "DELETE FROM notifications WHERE id = :id AND user_id = :user_id";
     $stmt = $db->prepare($query);
     
+    if ($stmt->execute([':id' => $notificationId, ':user_id' => $userId])) {
+        jsonResponse(true, "Notification deleted");
+    } else {
+        jsonResponse(false, "Failed to delete notification", null, 500);
+    }
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>

@@ -38,3 +38,13 @@ const adminService = {
     if (response.data.success) return response.data;
     throw new Error(response.data.message || 'Failed to handle report');
   },
+
+  /** Get reports submitted by the currently logged-in user */
+  async getMyReports() {
+    const response = await api.get('/admin/my_reports.php');
+    if (response.data.success) return response.data.data;
+    throw new Error(response.data.message || 'Failed to fetch your reports');
+  },
+};
+
+export default adminService;
