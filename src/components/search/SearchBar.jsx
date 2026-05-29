@@ -120,3 +120,64 @@ const SearchBar = ({ onSearch }) => {
       const formData = new FormData();
       formData.append('image', file);
       const response = await api.post('/ai/visual_search.php', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      if (response.data?.success) {
+        const { results, detectedCategory, detectedBrand } = response.data.data;
+        setVisualResults({ results, detectedCategory, detectedBrand });
+        setSuggestions([]);
+        const label = [detectedBrand, detectedCategory].filter(Boolean).join(' ') || 'electronics';
+        toast.success(`Found ${results.length} similar ${label} listings!`);
+      }
+    } catch {
+      toast.error('Visual search failed. Please try a clearer image.');
+    } finally {
+      setIsVisualSearching(false);
+      // Reset file input
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
+  return (
+    <div className="relative w-full">
+      {/* Search Input Row */}
+      <div className="relative flex items-center">
+        <HiOutlineMagnifyingGlass className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-surface-400 z-10" />
+        <input
+          ref={inputRef}
+          type="text"
+          value={query}
+          onChange={handleInputChange}
+          onFocus={() => setShowDropdown(true)}
+          onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+          placeholder="Search phones, laptops, headphones..."
+          className="w-full pl-10 pr-20 py-2.5 bg-surface-100 dark:bg-surface-800 border border-surface-200 dark:border-surface-700 rounded-xl text-sm text-surface-900 dark:text-white placeholder-surface-400 focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 transition-all duration-200"
+        />
+
+        {/* Right action buttons */}
+        <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+          {/* Voice Search */}
+          <button
+            onClick={handleVoiceSearch}
+            title="Voice Search"
+            className={`p-1.5 rounded-lg transition-colors ${
+              isListening
+                ? 'bg-danger-100 dark:bg-danger-900/30 text-danger-600 dark:text-danger-400 animate-pulse'
+                : 'text-surface-400 hover:text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20'
+            }`}
+          >
+            <HiOutlineMicrophone className="w-4 h-4" />
+          </button>
+
+          {/* Visual Search */}
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            title="Search by Image"
+            disabled={isVisualSearching}
+            className="p-1.5 rounded-lg text-surface-400 hover:text-accent-600 hover:bg-accent-50 dark:hover:bg-accent-900/20 transition-colors disabled:opacity-40"
+          >
+            {isVisualSearching
+              ? <div className="w-4 h-4 border-2 border-accent-400 border-t-transparent rounded-full animate-spin" />
+              : <HiOutlineCamera className="w-4 h-4" />
+            }
+          </button>
