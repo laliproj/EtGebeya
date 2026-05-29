@@ -181,3 +181,64 @@ const SearchBar = ({ onSearch }) => {
               : <HiOutlineCamera className="w-4 h-4" />
             }
           </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleVisualSearch}
+            className="hidden"
+          />
+        </div>
+      </div>
+
+      {/* Dropdown */}
+      {showDropdown && (
+        <div
+          ref={dropdownRef}
+          className="absolute top-full mt-2 w-full bg-white dark:bg-surface-800 rounded-xl shadow-xl border border-surface-200 dark:border-surface-700 overflow-hidden z-50 animate-slide-down"
+        >
+          {/* Visual Search Results */}
+          {visualResults && (
+            <div className="p-2">
+              <div className="flex items-center gap-2 px-3 py-2">
+                <HiOutlineSparkles className="w-3.5 h-3.5 text-accent-500" />
+                <p className="text-xs font-semibold text-surface-400 uppercase tracking-wider">
+                  Visual Match — {[visualResults.detectedBrand, visualResults.detectedCategory].filter(Boolean).join(' ')}
+                </p>
+              </div>
+              {visualResults.results.length === 0 ? (
+                <p className="text-sm text-surface-500 px-3 pb-3">No similar products found. Try a different photo.</p>
+              ) : (
+                visualResults.results.slice(0, 5).map(product => (
+                  <div
+                    key={product.id}
+                    onClick={() => { setShowDropdown(false); navigate(`/products/${product.id}`); }}
+                    className="flex items-center gap-3 px-3 py-2 hover:bg-surface-50 dark:hover:bg-surface-700 rounded-lg cursor-pointer"
+                  >
+                    {product.images[0] && (
+                      <img src={product.images[0]} alt={product.title} className="w-10 h-10 rounded-lg object-cover" />
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-surface-900 dark:text-white truncate">{product.title}</p>
+                      <p className="text-xs text-primary-600 font-semibold">{formatPrice(product.price)}</p>
+                    </div>
+                  </div>
+                ))
+              )}
+              {visualResults.results.length > 5 && (
+                <button
+                  onClick={() => { setShowDropdown(false); navigate(`/products?category=${visualResults.detectedCategory || ''}`); }}
+                  className="w-full text-center text-xs text-primary-600 py-2 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors"
+                >
+                  View all {visualResults.results.length} similar products →
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* Recent Searches */}
+          {!visualResults && query.length === 0 && recentSearches.length > 0 && (
+            <div className="p-2">
+              <p className="text-xs font-semibold text-surface-400 uppercase tracking-wider px-3 py-2">
+                Recent Searches
+              </p>
