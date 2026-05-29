@@ -17,3 +17,21 @@ $db = $database->getConnection();
 try {
     $query = "SELECT id, type, title, message, is_read as 'read', icon, created_at as createdAt
               FROM notifications 
+              WHERE user_id = :user_id 
+              ORDER BY created_at DESC";
+    $stmt = $db->prepare($query);
+    $stmt->execute([':user_id' => $userId]);
+
+    $notifications = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $row['id'] = (int)$row['id'];
+        $row['read'] = (bool)$row['read'];
+        $notifications[] = $row;
+    }
+
+    jsonResponse(true, "Notifications retrieved", $notifications);
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
