@@ -52,3 +52,30 @@ const AdminRoute = ({ children }) => {
 const AppRouter = () => {
   return (
     <ErrorBoundary>
+      <BrowserRouter>
+        <Routes>
+          {/* Auth Routes */}
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          </Route>
+
+          {/* Main Routes */}
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/products" element={<ProductListPage />} />
+            <Route path="/products/:id" element={<ProductDetailPage />} />
+            <Route path="/seller/:id" element={<SellerProfilePage />} />
+            
+            {/* Protected Routes (logged-in users) */}
+            <Route path="/products/new" element={
+              <ProtectedRoute><PostProductPage /></ProtectedRoute>
+            } />
+            <Route path="/dashboard" element={
+              <ProtectedRoute><SellerDashboardPage /></ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute><UserProfilePage /></ProtectedRoute>
+            } />
+            <Route path="/wishlist" element={
