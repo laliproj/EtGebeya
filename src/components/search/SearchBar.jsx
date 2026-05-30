@@ -242,3 +242,62 @@ const SearchBar = ({ onSearch }) => {
               <p className="text-xs font-semibold text-surface-400 uppercase tracking-wider px-3 py-2">
                 Recent Searches
               </p>
+              {recentSearches.map((search, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between px-3 py-2 hover:bg-surface-50 dark:hover:bg-surface-700 rounded-lg cursor-pointer group"
+                >
+                  <div className="flex items-center gap-3 flex-1" onClick={() => { setQuery(search); handleSearch(search); }}>
+                    <HiOutlineClock className="w-4 h-4 text-surface-400" />
+                    <span className="text-sm text-surface-700 dark:text-surface-300">{search}</span>
+                  </div>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); clearRecent(search); }}
+                    className="p-1 opacity-0 group-hover:opacity-100 hover:bg-surface-200 dark:hover:bg-surface-600 rounded transition-all"
+                  >
+                    <HiOutlineXMark className="w-3 h-3 text-surface-400" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* AI Suggestions */}
+          {!visualResults && suggestions.length > 0 && (
+            <div className="p-2">
+              <div className="flex items-center gap-1.5 px-3 py-2">
+                <HiOutlineSparkles className="w-3.5 h-3.5 text-primary-500" />
+                <p className="text-xs font-semibold text-surface-400 uppercase tracking-wider">AI Suggestions</p>
+              </div>
+              {suggestions.map(product => (
+                <div
+                  key={product.id}
+                  onClick={() => { setShowDropdown(false); navigate(`/products/${product.id}`); }}
+                  className="flex items-center gap-3 px-3 py-2 hover:bg-surface-50 dark:hover:bg-surface-700 rounded-lg cursor-pointer"
+                >
+                  {product.images?.[0] && (
+                    <img src={product.images[0]} alt={product.title} className="w-10 h-10 rounded-lg object-cover" />
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-surface-900 dark:text-white truncate">{product.title}</p>
+                    <p className="text-xs text-primary-600 font-semibold">{formatPrice(product.price)}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* No results */}
+          {!visualResults && query.length > 2 && suggestions.length === 0 && (
+            <div className="p-6 text-center">
+              <p className="text-sm text-surface-500">No results for "{query}"</p>
+              <p className="text-xs text-surface-400 mt-1">Try voice 🎙️ or photo 📷 search!</p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default SearchBar;
