@@ -79,3 +79,84 @@ const FilterSidebar = ({ onClose }) => {
                   {category.name}
                 </span>
               </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Brand Filter */}
+        <div>
+          <h3 className="text-sm font-semibold text-surface-900 dark:text-white mb-3">Brand</h3>
+          <select 
+            className="w-full bg-surface-50 dark:bg-surface-800 border border-surface-200 dark:border-surface-700 rounded-xl px-3 py-2 text-sm text-surface-900 dark:text-white focus:ring-2 focus:ring-primary-500/30"
+            value={localFilters.brand}
+            onChange={(e) => handleChange('brand', e.target.value)}
+          >
+            <option value="">All Brands</option>
+            {availableBrands.map((brand, i) => (
+              <option key={i} value={brand.name}>{brand.name}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Condition Filter */}
+        <div>
+          <h3 className="text-sm font-semibold text-surface-900 dark:text-white mb-3">Condition</h3>
+          <div className="flex flex-wrap gap-2">
+            {['New', 'Used'].map(condition => (
+              <button
+                key={condition}
+                onClick={() => handleChange('condition', localFilters.condition === condition ? '' : condition)}
+                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                  localFilters.condition === condition
+                    ? 'bg-primary-600 text-white border border-primary-600'
+                    : 'bg-surface-50 dark:bg-surface-800 text-surface-600 dark:text-surface-400 border border-surface-200 dark:border-surface-700 hover:border-surface-300'
+                }`}
+              >
+                {condition}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Price Range Filter */}
+        <div>
+          <h3 className="text-sm font-semibold text-surface-900 dark:text-white mb-3">Price Range</h3>
+          <div className="flex items-center gap-2">
+            <div className="relative flex-1">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-surface-400 text-sm">$</span>
+              <input
+                type="number"
+                placeholder="Min"
+                value={localFilters.priceMin}
+                onChange={(e) => handleChange('priceMin', e.target.value)}
+                className="w-full bg-surface-50 dark:bg-surface-800 border border-surface-200 dark:border-surface-700 rounded-xl pl-6 pr-3 py-2 text-sm text-surface-900 dark:text-white focus:ring-2 focus:ring-primary-500/30"
+              />
+            </div>
+            <span className="text-surface-400">-</span>
+            <div className="relative flex-1">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-surface-400 text-sm">$</span>
+              <input
+                type="number"
+                placeholder="Max"
+                value={localFilters.priceMax}
+                onChange={(e) => handleChange('priceMax', e.target.value)}
+                className="w-full bg-surface-50 dark:bg-surface-800 border border-surface-200 dark:border-surface-700 rounded-xl pl-6 pr-3 py-2 text-sm text-surface-900 dark:text-white focus:ring-2 focus:ring-primary-500/30"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="pt-6 mt-6 border-t border-surface-100 dark:border-surface-800 flex gap-3">
+        <Button variant="outline" fullWidth onClick={handleClear}>
+          Clear
+        </Button>
+        <Button variant="primary" fullWidth onClick={handleApply}>
+          Apply
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default FilterSidebar;

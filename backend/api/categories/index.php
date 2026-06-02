@@ -19,3 +19,10 @@ try {
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $categories[] = [
             'id' => (int)$row['id'],
+            'name' => $row['name'],
+            'slug' => $row['slug'],
+            'icon' => $row['icon'],
+            'image' => $row['image'],
+            'count' => (int)$row['actual_count']
+        ];
+    }
