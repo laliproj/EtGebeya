@@ -58,3 +58,23 @@ try {
         $db->prepare("UPDATE users SET warnings = warnings + 1 WHERE id = :id")->execute([':id' => $sellerId]);
         $db->prepare("INSERT INTO warnings (user_id, reason) VALUES (:uid, :reason)")->execute([':uid' => $sellerId, ':reason' => $report['reason']]);
         $db->prepare("UPDATE reports SET status = 'resolved' WHERE id = :id")->execute([':id' => $reportId]);
+
+        $db->prepare("INSERT INTO notifications (user_id, type, title, message, icon) VALUES (:uid, 'warning', 'ማስጠንቀቂያ ደረሰዎ', 'ሪፖርት ምክንያት ማስጠንቀቂያ ደርሷወ። (You received a warning due to a report.)', '⚠️')")
+           ->execute([':uid' => $sellerId]);
+
+    } elseif ($action === 'ban_seller') {
+        $db->prepare("UPDATE users SET isBanned = 1 WHERE id = :id")->execute([':id' => $sellerId]);
+        $db->prepare("UPDATE reports SET status = 'resolved' WHERE id = :id")->execute([':id' => $reportId]);
+
+        $db->prepare("INSERT INTO notifications (user_id, type, title, message, icon) VALUES (:uid, 'ban', 'አካውንት ታግዷል', 'የሻጭ አካውንት ታግዷል። (Your seller account has been banned due to policy violations.)', '🚫')")
+           ->execute([':uid' => $sellerId]);
+    }
+
+    $db->commit();
+    jsonResponse(true, "Report handled successfully.");
+
+} catch(PDOException $e) {
+    $db->rollBack();
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
