@@ -9,3 +9,14 @@ const Rating = ({ value, count, size = 'sm', showValue = false }) => {
 
   const sizes = {
     sm: 'w-3.5 h-3.5',
+    md: 'w-4 h-4',
+    lg: 'w-5 h-5',
+  };
+
+  const iconClass = sizes[size];
+  const fullStars = Math.floor(safeValue);
+  const hasHalfStar = safeValue % 1 >= 0.5;
+
+  return (
+    <div className="flex items-center gap-1.5">
+      <div className="flex items-center text-warning-500">
