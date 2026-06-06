@@ -32,3 +32,20 @@ try {
               ORDER BY m.created_at ASC";
     
     $stmt = $db->prepare($query);
+    $stmt->execute([':uid' => $userId, ':cid' => $contactId]);
+
+    $messages = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $row['id'] = (int)$row['id'];
+        $row['sender_id'] = (int)$row['sender_id'];
+        $row['receiver_id'] = (int)$row['receiver_id'];
+        $row['product_id'] = $row['product_id'] ? (int)$row['product_id'] : null;
+        $row['is_read'] = (bool)$row['is_read'];
+        $messages[] = $row;
+    }
+
+    jsonResponse(true, "Messages retrieved", $messages);
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
