@@ -59,3 +59,64 @@ const SearchBar = ({ onSearch }) => {
   const handleSearch = (searchQuery) => {
     const q = searchQuery || query;
     if (!q.trim()) return;
+    const updated = [q, ...recentSearches.filter(s => s !== q)].slice(0, 5);
+    setRecentSearches(updated);
+    localStorage.setItem('recentSearches', JSON.stringify(updated));
+    setShowDropdown(false);
+    setVisualResults(null);
+    navigate(`/products?search=${encodeURIComponent(q)}`);
+    if (onSearch) onSearch();
+  };
+
+  const clearRecent = (searchTerm) => {
+    const updated = recentSearches.filter(s => s !== searchTerm);
+    setRecentSearches(updated);
+    localStorage.setItem('recentSearches', JSON.stringify(updated));
+  };
+
+  // ─── Voice Search ───────────────────────────────────────────────────────────
+  const handleVoiceSearch = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      toast.error('Voice search is not supported in your browser. Try Chrome!');
+      return;
+    }
+    if (isListening) {
+      recognitionRef.current?.stop();
+      setIsListening(false);
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognitionRef.current = recognition;
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    setIsListening(true);
+    toast('🎙️ Listening... Speak now!', { duration: 3000 });
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setQuery(transcript);
+      setIsListening(false);
+      toast.success(`Heard: "${transcript}"`);
+      // Auto-submit after hearing
+      setTimeout(() => handleSearch(transcript), 400);
+    };
+    recognition.onerror = () => {
+      setIsListening(false);
+      toast.error('Could not understand. Please try again.');
+    };
+    recognition.onend = () => setIsListening(false);
+    recognition.start();
+  };
+
+  // ─── Visual Search ──────────────────────────────────────────────────────────
+  const handleVisualSearch = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setIsVisualSearching(true);
+    setShowDropdown(true);
+    toast('📷 Analyzing image with AI...', { duration: 2000 });
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+      const response = await api.post('/ai/visual_search.php', formData, {
