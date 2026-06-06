@@ -20,3 +20,14 @@ const Rating = ({ value, count, size = 'sm', showValue = false }) => {
   return (
     <div className="flex items-center gap-1.5">
       <div className="flex items-center text-warning-500">
+        {[...Array(5)].map((_, i) => {
+          if (i < fullStars) {
+            return <HiStar key={i} className={iconClass} />;
+          }
+          if (i === fullStars && hasHalfStar) {
+            return (
+              <div key={i} className="relative">
+                <HiOutlineStar className={`${iconClass} text-warning-500`} />
+                <div className="absolute inset-0 overflow-hidden w-1/2">
+                  <HiStar className={`${iconClass} text-warning-500`} />
+                </div>
