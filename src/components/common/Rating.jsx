@@ -31,3 +31,14 @@ const Rating = ({ value, count, size = 'sm', showValue = false }) => {
                 <div className="absolute inset-0 overflow-hidden w-1/2">
                   <HiStar className={`${iconClass} text-warning-500`} />
                 </div>
+              </div>
+            );
+          }
+          return <HiOutlineStar key={i} className={`${iconClass} text-surface-300 dark:text-surface-600`} />;
+        })}
+      </div>
+      
+      {(showValue || count !== undefined) && (
+        <div className="flex items-center gap-1 text-sm">
+          {showValue && count > 0 && <span className="font-medium text-surface-900 dark:text-white">{safeValue.toFixed(1)}</span>}
+          {showValue && count === 0 && <span className="font-medium text-surface-500">No ratings</span>}

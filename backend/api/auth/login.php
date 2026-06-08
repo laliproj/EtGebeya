@@ -14,3 +14,19 @@ require_once __DIR__ . '/../../middleware/auth.php';
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     jsonResponse(false, "Method not allowed", null, 405);
 }
+
+$data = json_decode(file_get_contents("php://input"), true);
+
+$missing = Validator::checkRequired($data, ['email', 'password']);
+if (!empty($missing)) {
+    jsonResponse(false, "Missing required fields: " . implode(', ', $missing), null, 400);
+}
+
+$email = Validator::sanitize($data['email']);
+$password = $data['password'];
+
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    $query = "SELECT id, name, email, password, avatar, phone, location, joinDate, bio,
