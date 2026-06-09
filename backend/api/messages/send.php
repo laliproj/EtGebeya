@@ -15,3 +15,20 @@ $userId = AuthMiddleware::authenticate();
 
 $data = json_decode(file_get_contents("php://input"), true);
 $receiverId = (int)($data['receiverId'] ?? 0);
+$productId = isset($data['productId']) ? (int)$data['productId'] : null;
+$content = trim($data['content'] ?? '');
+
+if (!$receiverId || empty($content)) {
+    jsonResponse(false, "Receiver and content are required.", null, 400);
+}
+
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    $db->beginTransaction();
+
+    $query = "INSERT INTO messages (sender_id, receiver_id, product_id, content) VALUES (:s, :r, :p, :c)";
+    $stmt = $db->prepare($query);
+    $stmt->execute([
+        ':s' => $userId,
