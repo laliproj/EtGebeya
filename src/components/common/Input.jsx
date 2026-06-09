@@ -38,3 +38,22 @@ const Input = forwardRef(({
             transition-all duration-200
             ${Icon ? 'pl-10' : ''}
             ${error 
+              ? 'border-danger-500 focus:ring-danger-500/30 focus:border-danger-500' 
+              : 'border-surface-200 dark:border-surface-700 hover:border-surface-300 dark:hover:border-surface-600'
+            }
+          `}
+          {...props}
+        />
+      </div>
+      {error && (
+        <p className="mt-1.5 text-sm text-danger-500 animate-fade-in">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+});
+
+Input.displayName = 'Input';
+
+export default Input;
