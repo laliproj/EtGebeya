@@ -42,3 +42,11 @@ const Rating = ({ value, count, size = 'sm', showValue = false }) => {
         <div className="flex items-center gap-1 text-sm">
           {showValue && count > 0 && <span className="font-medium text-surface-900 dark:text-white">{safeValue.toFixed(1)}</span>}
           {showValue && count === 0 && <span className="font-medium text-surface-500">No ratings</span>}
+          {count !== undefined && count > 0 && <span className="text-surface-500">({count})</span>}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Rating;

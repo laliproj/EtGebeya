@@ -30,3 +30,19 @@ $db = $database->getConnection();
 
 try {
     $query = "SELECT id, name, email, password, avatar, phone, location, joinDate, bio,
+                     trustScore, totalSold, totalRatings, isVerified, isBanned, isAdmin, warnings 
+              FROM users WHERE email = :email LIMIT 1";
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($row['isBanned']) {
+            jsonResponse(false, "Your account has been banned due to policy violations.", null, 403);
+        }
+
+        if (password_verify($password, $row['password'])) {
+            $user = [
+                'id'           => (int)$row['id'],
