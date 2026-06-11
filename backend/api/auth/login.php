@@ -46,3 +46,19 @@ try {
         if (password_verify($password, $row['password'])) {
             $user = [
                 'id'           => (int)$row['id'],
+                'name'         => $row['name'],
+                'email'        => $row['email'],
+                'avatar'       => $row['avatar'],
+                'phone'        => $row['phone'],
+                'location'     => $row['location'],
+                'joinDate'     => $row['joinDate'],
+                'bio'          => $row['bio'],
+                'trustScore'   => (float)$row['trustScore'],
+                'totalSold'    => (int)$row['totalSold'],
+                'totalRatings' => (int)$row['totalRatings'],
+                'isVerified'   => (bool)$row['isVerified'],
+                'isBanned'     => (bool)$row['isBanned'],
+                'isAdmin'      => (bool)$row['isAdmin'],
+                'warnings'     => (int)$row['warnings'],
+            ];
+
