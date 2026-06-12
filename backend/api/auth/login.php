@@ -62,3 +62,17 @@ try {
                 'warnings'     => (int)$row['warnings'],
             ];
 
+            $token = AuthMiddleware::generateToken($user);
+            $user['token'] = $token;
+
+            jsonResponse(true, "Login successful", $user);
+        } else {
+            jsonResponse(false, "Invalid email or password", null, 401);
+        }
+    } else {
+        jsonResponse(false, "Invalid email or password", null, 401);
+    }
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>

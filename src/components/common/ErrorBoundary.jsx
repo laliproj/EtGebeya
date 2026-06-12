@@ -28,3 +28,32 @@ class ErrorBoundary extends Component {
             </h1>
             <p className="text-surface-500 mb-2 text-sm">
               {this.state.error?.message || 'An unexpected error occurred.'}
+            </p>
+            <p className="text-surface-400 mb-8 text-xs">
+              Please try refreshing the page or going back to the home page.
+            </p>
+            <div className="flex gap-4 justify-center">
+              <button
+                onClick={() => { this.setState({ hasError: false, error: null }); window.history.back(); }}
+                className="px-5 py-2.5 bg-surface-100 dark:bg-surface-800 text-surface-700 dark:text-surface-300 rounded-xl font-medium text-sm hover:bg-surface-200 dark:hover:bg-surface-700 transition-colors"
+              >
+                ← Go Back
+              </button>
+              <Link
+                to="/"
+                onClick={() => this.setState({ hasError: false, error: null })}
+                className="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-medium text-sm transition-colors"
+              >
+                Home Page
+              </Link>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+export default ErrorBoundary;
