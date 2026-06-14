@@ -20,3 +20,25 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $data = json_decode(file_get_contents("php://input"), true);
 
 // Validate required fields
+$required = ['name', 'email', 'password'];
+$missing = Validator::checkRequired($data, $required);
+
+if (!empty($missing)) {
+    jsonResponse(false, "Missing required fields: " . implode(', ', $missing), null, 400);
+}
+
+// Sanitize inputs
+$name = Validator::sanitize($data['name']);
+$email = Validator::sanitize($data['email']);
+$password = $data['password']; // Don't sanitize password
+$phone = isset($data['phone']) ? Validator::sanitize($data['phone']) : '';
+$location = isset($data['location']) ? Validator::sanitize($data['location']) : '';
+
+// Validate email
+if (!Validator::isValidEmail($email)) {
+    jsonResponse(false, "Invalid email format", null, 400);
+}
+
+// Validate password strength
+if (!Validator::isStrongPassword($password)) {
+    jsonResponse(false, "Password must be at least 8 characters long and contain at least one uppercase letter and one number", null, 400);
