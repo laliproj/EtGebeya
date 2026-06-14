@@ -31,3 +31,14 @@ try {
             SELECT MAX(id) FROM messages m2 
             WHERE (m2.sender_id = :uid AND m2.receiver_id = u.id) 
                OR (m2.receiver_id = :uid AND m2.sender_id = u.id)
+        )
+        ORDER BY m.created_at DESC
+    ";
+    
+    $stmt = $db->prepare($query);
+    $stmt->execute([':uid' => $userId]);
+
+    $conversations = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $row['contact_id'] = (int)$row['contact_id'];
+        $row['is_read'] = (bool)$row['is_read'];
