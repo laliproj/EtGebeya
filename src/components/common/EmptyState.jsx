@@ -18,3 +18,13 @@ const EmptyState = ({
         {Icon ? (
           <Icon className="w-10 h-10 text-surface-400 dark:text-surface-500" />
         ) : (
+          <span className="text-4xl">📭</span>
+        )}
+      </div>
+      
+      <h3 className="text-xl font-bold text-surface-900 dark:text-white mb-2">
+        {title}
+      </h3>
+      
+      <p className="text-surface-500 max-w-sm mb-8">
+        {description}
