@@ -29,3 +29,34 @@ try {
               s.name as seller_name, s.email as seller_email
               FROM reports r
               JOIN products p ON r.product_id = p.id
+              JOIN users u ON r.reporter_id = u.id
+              JOIN users s ON p.sellerId = s.id
+              ORDER BY r.created_at DESC";
+
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+
+    $reports = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $reports[] = [
+            'id'             => (int)$row['id'],
+            'reason'         => $row['reason'],
+            'details'        => $row['details'],
+            'status'         => $row['status'],
+            'created_at'     => $row['created_at'],
+            'product_id'     => (int)$row['product_id'],
+            'product_title'  => $row['product_title'],
+            'seller_id'      => (int)$row['sellerId'],
+            'reporter_name'  => $row['reporter_name'],
+            'reporter_email' => $row['reporter_email'],
+            'seller_name'    => $row['seller_name'],
+            'seller_email'   => $row['seller_email'],
+        ];
+    }
+
+    jsonResponse(true, "Reports retrieved", $reports);
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>

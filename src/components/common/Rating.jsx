@@ -24,3 +24,29 @@ const Rating = ({ value, count, size = 'sm', showValue = false }) => {
           if (i < fullStars) {
             return <HiStar key={i} className={iconClass} />;
           }
+          if (i === fullStars && hasHalfStar) {
+            return (
+              <div key={i} className="relative">
+                <HiOutlineStar className={`${iconClass} text-warning-500`} />
+                <div className="absolute inset-0 overflow-hidden w-1/2">
+                  <HiStar className={`${iconClass} text-warning-500`} />
+                </div>
+              </div>
+            );
+          }
+          return <HiOutlineStar key={i} className={`${iconClass} text-surface-300 dark:text-surface-600`} />;
+        })}
+      </div>
+      
+      {(showValue || count !== undefined) && (
+        <div className="flex items-center gap-1 text-sm">
+          {showValue && count > 0 && <span className="font-medium text-surface-900 dark:text-white">{safeValue.toFixed(1)}</span>}
+          {showValue && count === 0 && <span className="font-medium text-surface-500">No ratings</span>}
+          {count !== undefined && count > 0 && <span className="text-surface-500">({count})</span>}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Rating;
