@@ -38,3 +38,9 @@ const EmptyState = ({
         >
           {actionLabel}
         </Button>
+      )}
+    </div>
+  );
+};
+
+export default EmptyState;
