@@ -28,3 +28,13 @@ const EmptyState = ({
       
       <p className="text-surface-500 max-w-sm mb-8">
         {description}
+      </p>
+
+      {actionLabel && (onAction || actionTo) && (
+        <Button
+          onClick={onAction}
+          to={actionTo}
+          variant="primary"
+        >
+          {actionLabel}
+        </Button>

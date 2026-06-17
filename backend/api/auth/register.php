@@ -86,3 +86,24 @@ try {
             'id' => $userId,
             'name' => $name,
             'email' => $email,
+            'avatar' => $avatar,
+            'phone' => $phone,
+            'location' => $location,
+            'joinDate' => $joinDate,
+            'bio' => '',
+            'trustScore' => 5.0,
+            'isVerified' => false
+        ];
+
+        // Generate JWT
+        $token = AuthMiddleware::generateToken($user);
+        $user['token'] = $token;
+
+        jsonResponse(true, "User registered successfully", $user, 201);
+    } else {
+        jsonResponse(false, "Unable to register user", null, 500);
+    }
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
