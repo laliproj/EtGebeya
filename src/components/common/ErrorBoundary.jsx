@@ -38,3 +38,22 @@ class ErrorBoundary extends Component {
                 className="px-5 py-2.5 bg-surface-100 dark:bg-surface-800 text-surface-700 dark:text-surface-300 rounded-xl font-medium text-sm hover:bg-surface-200 dark:hover:bg-surface-700 transition-colors"
               >
                 ← Go Back
+              </button>
+              <Link
+                to="/"
+                onClick={() => this.setState({ hasError: false, error: null })}
+                className="px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-medium text-sm transition-colors"
+              >
+                Home Page
+              </Link>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+export default ErrorBoundary;
