@@ -31,3 +31,35 @@ if (!$productId || !in_array($action, ['approve', 'reject'])) {
     jsonResponse(false, "Invalid request.", null, 400);
 }
 
+try {
+    $newStatus = $action === 'approve' ? 'active' : 'rejected';
+    $stmt = $db->prepare("UPDATE products SET status = :status WHERE id = :id");
+    $stmt->execute([':status' => $newStatus, ':id' => $productId]);
+
+    // Notify seller
+    $sellerQ = $db->prepare("SELECT sellerId, title FROM products WHERE id = :id");
+    $sellerQ->execute([':id' => $productId]);
+    $product = $sellerQ->fetch(PDO::FETCH_ASSOC);
+
+    if ($product) {
+        $msg   = $action === 'approve'
+            ? "እርስዎ ያስቀመጡት \"{$product['title']}\" ተቀብሎ ታትሟል። (Your listing has been approved)"
+            : "እርስዎ ያስቀመጡት \"{$product['title']}\" አልፈቀድንም። (Your listing was rejected)";
+        $title = $action === 'approve' ? 'ማስታወቂያ ተቀበሎ' : 'ማስታወቂያ ተቀባይነት አላገኘም';
+        $icon  = $action === 'approve' ? '✅' : '❌';
+
+        $notif = $db->prepare("INSERT INTO notifications (user_id, type, title, message, icon) VALUES (:uid, 'product_status', :title, :msg, :icon)");
+        $notif->execute([
+            ':uid'   => $product['sellerId'],
+            ':title' => $title,
+            ':msg'   => $msg,
+            ':icon'  => $icon,
+        ]);
+    }
+
+    jsonResponse(true, "Product " . $newStatus . " successfully.");
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
