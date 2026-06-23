@@ -17,3 +17,22 @@ const Modal = ({ isOpen, onClose, title, children, maxWidth = 'md' }) => {
       document.body.style.overflow = 'hidden'; // Prevent body scroll
     }
 
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen, onClose]);
+
+  const handleBackdropClick = (e) => {
+    if (modalRef.current && !modalRef.current.contains(e.target)) {
+      onClose();
+    }
+  };
+
+  if (!isOpen) return null;
+
+  const maxWidthClasses = {
+    sm: 'max-w-sm',
+    md: 'max-w-md',
+    lg: 'max-w-lg',
+    xl: 'max-w-xl',
