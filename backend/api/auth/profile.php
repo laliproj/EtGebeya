@@ -44,3 +44,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     // Update profile
+    $data = json_decode(file_get_contents("php://input"), true);
+    
+    // Build dynamic query based on provided fields
+    $allowed_fields = ['name', 'phone', 'location', 'bio'];
+    $updates = [];
+    $params = [':id' => $userId];
+    
+    foreach ($allowed_fields as $field) {
+        if (isset($data[$field])) {
+            $updates[] = "{$field} = :{$field}";
+            $params[":{$field}"] = Validator::sanitize($data[$field]);
+        }
+    }
+    
+    if (empty($updates)) {
+        jsonResponse(false, "No valid fields provided for update", null, 400);
+    }
+    
+    try {
+        $query = "UPDATE users SET " . implode(', ', $updates) . " WHERE id = :id";
+        $stmt = $db->prepare($query);
+        
+        if ($stmt->execute($params)) {
+            // Fetch updated user
+            $query = "SELECT id, name, email, avatar, phone, location, joinDate, bio, trustScore, isVerified 
+                      FROM users WHERE id = :id LIMIT 1";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(':id', $userId);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            $user['trustScore'] = (float)$user['trustScore'];
+            $user['isVerified'] = (bool)$user['isVerified'];
+            
+            jsonResponse(true, "Profile updated successfully", $user);
+        } else {
+            jsonResponse(false, "Failed to update profile", null, 500);
+        }
+    } catch(PDOException $e) {
+        jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+    }
+} else {
+    jsonResponse(false, "Method not allowed", null, 405);
+}
+?>
