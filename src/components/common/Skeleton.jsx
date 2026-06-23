@@ -18,3 +18,11 @@ export const ProductCardSkeleton = () => (
     <Skeleton className="w-full aspect-[4/3] mb-4" />
     <Skeleton className="w-3/4 h-5 mb-2" />
     <Skeleton className="w-1/2 h-4 mb-4" />
+    <div className="flex justify-between items-end">
+      <Skeleton className="w-1/3 h-6" />
+      <Skeleton className="w-8 h-8 circular" />
+    </div>
+  </div>
+);
+
+export default Skeleton;
