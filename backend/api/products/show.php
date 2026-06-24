@@ -21,3 +21,26 @@ $db = $database->getConnection();
 try {
     // Get basic product info
     $query = "SELECT p.*, u.name as seller_name, u.avatar as seller_avatar, u.trustScore as seller_rating,
+              (SELECT GROUP_CONCAT(image_url) FROM product_images WHERE product_id = p.id) as images
+              FROM products p
+              LEFT JOIN users u ON p.sellerId = u.id
+              WHERE p.id = :id LIMIT 1";
+    
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(':id', $productId);
+    $stmt->execute();
+
+    if ($stmt->rowCount() === 0) {
+        jsonResponse(false, "Product not found", null, 404);
+    }
+
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Get Specs
+    $specsQuery = "SELECT spec_key, spec_value FROM product_specs WHERE product_id = :id";
+    $specsStmt = $db->prepare($specsQuery);
+    $specsStmt->bindParam(':id', $productId);
+    $specsStmt->execute();
+    $specs = [];
+    while ($specRow = $specsStmt->fetch(PDO::FETCH_ASSOC)) {
+        $specs[$specRow['spec_key']] = $specRow['spec_value'];
