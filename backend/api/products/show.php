@@ -44,3 +44,26 @@ try {
     $specs = [];
     while ($specRow = $specsStmt->fetch(PDO::FETCH_ASSOC)) {
         $specs[$specRow['spec_key']] = $specRow['spec_value'];
+    }
+
+    // Get Features
+    $featuresQuery = "SELECT feature FROM product_features WHERE product_id = :id";
+    $featuresStmt = $db->prepare($featuresQuery);
+    $featuresStmt->bindParam(':id', $productId);
+    $featuresStmt->execute();
+    $features = [];
+    while ($featRow = $featuresStmt->fetch(PDO::FETCH_ASSOC)) {
+        $features[] = $featRow['feature'];
+    }
+
+    // Increment views
+    $updateViews = "UPDATE products SET views = views + 1 WHERE id = :id";
+    $db->prepare($updateViews)->execute([':id' => $productId]);
+
+    $product = [
+        'id' => (int)$row['id'],
+        'title' => $row['title'],
+        'description' => $row['description'],
+        'price' => (float)$row['price'],
+        'category' => $row['category'],
+        'brand' => $row['brand'],

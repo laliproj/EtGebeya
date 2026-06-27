@@ -55,3 +55,20 @@ const Modal = ({ isOpen, onClose, title, children, maxWidth = 'md' }) => {
             {title}
           </h2>
           <button
+            onClick={onClose}
+            className="p-2 -mr-2 text-surface-400 hover:text-surface-600 dark:hover:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-full transition-colors"
+          >
+            <HiOutlineXMark className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="p-6 overflow-y-auto">
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Modal;
