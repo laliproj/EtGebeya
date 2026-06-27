@@ -67,3 +67,24 @@ try {
         'price' => (float)$row['price'],
         'category' => $row['category'],
         'brand' => $row['brand'],
+        'model' => $row['model'],
+        'condition' => $row['condition'],
+        'images' => $row['images'] ? explode(',', $row['images']) : [],
+        'specs' => $specs,
+        'features' => $features,
+        'sellerId' => (int)$row['sellerId'],
+        'sellerName' => $row['seller_name'],
+        'sellerRating' => (float)$row['seller_rating'],
+        'location' => $row['location'],
+        'postedAt' => $row['postedAt'] ? date('c', strtotime($row['postedAt'])) : date('c'),
+        'views' => (int)$row['views'] + 1,
+        'isFeatured' => (bool)$row['isFeatured'],
+        'status' => $row['status'] ?? 'active',
+    ];
+
+    jsonResponse(true, "Product retrieved", $product);
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
