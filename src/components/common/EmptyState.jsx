@@ -30,3 +30,17 @@ const EmptyState = ({
         {description}
       </p>
 
+      {actionLabel && (onAction || actionTo) && (
+        <Button
+          onClick={onAction}
+          to={actionTo}
+          variant="primary"
+        >
+          {actionLabel}
+        </Button>
+      )}
+    </div>
+  );
+};
+
+export default EmptyState;

@@ -38,3 +38,23 @@ try {
     // Get report info
     $rQ = $db->prepare("SELECT r.*, p.sellerId, p.title as product_title FROM reports r JOIN products p ON r.product_id = p.id WHERE r.id = :id");
     $rQ->execute([':id' => $reportId]);
+    $report = $rQ->fetch(PDO::FETCH_ASSOC);
+    if (!$report) jsonResponse(false, "Report not found", null, 404);
+
+    $sellerId = (int)$report['sellerId'];
+
+    if ($action === 'dismiss') {
+        $db->prepare("UPDATE reports SET status = 'dismissed' WHERE id = :id")->execute([':id' => $reportId]);
+
+    } elseif ($action === 'remove_product') {
+        $db->prepare("DELETE FROM products WHERE id = :id")->execute([':id' => $report['product_id']]);
+        $db->prepare("UPDATE reports SET status = 'resolved' WHERE id = :id")->execute([':id' => $reportId]);
+
+        // Notify seller
+        $db->prepare("INSERT INTO notifications (user_id, type, title, message, icon) VALUES (:uid, 'product_removed', 'ማስታወቂያ ተወግዷል', :msg, '❌')")
+           ->execute([':uid' => $sellerId, ':msg' => "ማስታወቂያዎ \"{$report['product_title']}\" ጥሰት ምክንያት ተወግዷል። (Your listing was removed due to a policy violation.)"]);
+
+    } elseif ($action === 'warn_seller') {
+        $db->prepare("UPDATE users SET warnings = warnings + 1 WHERE id = :id")->execute([':id' => $sellerId]);
+        $db->prepare("INSERT INTO warnings (user_id, reason) VALUES (:uid, :reason)")->execute([':uid' => $sellerId, ':reason' => $report['reason']]);
+        $db->prepare("UPDATE reports SET status = 'resolved' WHERE id = :id")->execute([':id' => $reportId]);
