@@ -24,3 +24,16 @@ try {
               JOIN users u ON p.sellerId = u.id
               WHERE r.reporter_id = :uid
               ORDER BY r.created_at DESC";
+
+    $stmt = $db->prepare($query);
+    $stmt->execute([':uid' => $userId]);
+
+    $reports = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $reports[] = [
+            'id'            => (int)$row['id'],
+            'reason'        => $row['reason'],
+            'details'       => $row['details'],
+            'status'        => $row['status'],
+            'created_at'    => $row['created_at'],
+            'product_id'    => (int)$row['product_id'],
