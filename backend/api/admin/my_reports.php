@@ -37,3 +37,14 @@ try {
             'status'        => $row['status'],
             'created_at'    => $row['created_at'],
             'product_id'    => (int)$row['product_id'],
+            'product_title' => $row['product_title'],
+            'seller_name'   => $row['seller_name'],
+        ];
+    }
+
+    jsonResponse(true, "Your reports retrieved", $reports);
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
