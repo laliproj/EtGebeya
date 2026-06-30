@@ -11,3 +11,16 @@ require_once __DIR__ . '/../../helpers/response.php';
 require_once __DIR__ . '/../../middleware/auth.php';
 
 $userId = AuthMiddleware::authenticate();
+
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    $query = "SELECT r.id, r.reason, r.details, r.status, r.created_at,
+              p.id as product_id, p.title as product_title,
+              u.name as seller_name
+              FROM reports r
+              JOIN products p ON r.product_id = p.id
+              JOIN users u ON p.sellerId = u.id
+              WHERE r.reporter_id = :uid
+              ORDER BY r.created_at DESC";

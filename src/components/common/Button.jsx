@@ -48,3 +48,26 @@ const Button = forwardRef(({
     </>
   );
 
+  if (to) {
+    return (
+      <Link to={to} className={classes} ref={ref} {...props}>
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <button
+      ref={ref}
+      className={classes}
+      disabled={disabled || isLoading}
+      {...props}
+    >
+      {content}
+    </button>
+  );
+});
+
+Button.displayName = 'Button';
+
+export default Button;
