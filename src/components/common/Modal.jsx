@@ -28,3 +28,18 @@ const Modal = ({ isOpen, onClose, title, children, maxWidth = 'md' }) => {
       onClose();
     }
   };
+
+  if (!isOpen) return null;
+
+  const maxWidthClasses = {
+    sm: 'max-w-sm',
+    md: 'max-w-md',
+    lg: 'max-w-lg',
+    xl: 'max-w-xl',
+    '2xl': 'max-w-2xl',
+    '4xl': 'max-w-4xl',
+  };
+
+  return (
+    <div 
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-surface-900/50 backdrop-blur-sm animate-fade-in"
