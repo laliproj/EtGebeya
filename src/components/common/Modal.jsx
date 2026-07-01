@@ -43,3 +43,18 @@ const Modal = ({ isOpen, onClose, title, children, maxWidth = 'md' }) => {
   return (
     <div 
       className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-surface-900/50 backdrop-blur-sm animate-fade-in"
+      onClick={handleBackdropClick}
+    >
+      <div 
+        ref={modalRef}
+        className={`w-full ${maxWidthClasses[maxWidth]} bg-white dark:bg-surface-900 rounded-2xl shadow-2xl overflow-hidden animate-scale-in flex flex-col max-h-[90vh]`}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-surface-100 dark:border-surface-800 shrink-0">
+          <h2 className="text-xl font-bold text-surface-900 dark:text-white">
+            {title}
+          </h2>
+          <button
+            onClick={onClose}
+            className="p-2 -mr-2 text-surface-400 hover:text-surface-600 dark:hover:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-full transition-colors"
+          >
