@@ -50,3 +50,29 @@ try {
                 'email'        => $row['email'],
                 'avatar'       => $row['avatar'],
                 'phone'        => $row['phone'],
+                'location'     => $row['location'],
+                'joinDate'     => $row['joinDate'],
+                'bio'          => $row['bio'],
+                'trustScore'   => (float)$row['trustScore'],
+                'totalSold'    => (int)$row['totalSold'],
+                'totalRatings' => (int)$row['totalRatings'],
+                'isVerified'   => (bool)$row['isVerified'],
+                'isBanned'     => (bool)$row['isBanned'],
+                'isAdmin'      => (bool)$row['isAdmin'],
+                'warnings'     => (int)$row['warnings'],
+            ];
+
+            $token = AuthMiddleware::generateToken($user);
+            $user['token'] = $token;
+
+            jsonResponse(true, "Login successful", $user);
+        } else {
+            jsonResponse(false, "Invalid email or password", null, 401);
+        }
+    } else {
+        jsonResponse(false, "Invalid email or password", null, 401);
+    }
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
