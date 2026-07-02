@@ -58,3 +58,33 @@ const NotificationDropdown = ({ onClose }) => {
                   <div className="flex-1 min-w-0">
                     <p className={`text-sm ${!notification.read ? 'font-semibold text-surface-900 dark:text-white' : 'font-medium text-surface-700 dark:text-surface-300'}`}>
                       {notification.title}
+                    </p>
+                    <p className="text-sm text-surface-500 mt-0.5 line-clamp-2">
+                      {notification.message}
+                    </p>
+                    <p className="text-xs text-surface-400 mt-1.5">
+                      {timeAgo(notification.createdAt)}
+                    </p>
+                  </div>
+                  {/* Actions */}
+                  <div className="flex flex-col items-end gap-2 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                    {!notification.read && (
+                      <button
+                        onClick={(e) => handleMarkAsRead(e, notification.id)}
+                        className="p-1 text-surface-400 hover:text-primary-600 dark:hover:text-primary-400"
+                        title="Mark as read"
+                      >
+                        <HiOutlineCheck className="w-4 h-4" />
+                      </button>
+                    )}
+                    <button
+                      onClick={(e) => handleDelete(e, notification.id)}
+                      className="p-1 text-surface-400 hover:text-danger-500"
+                      title="Delete notification"
+                    >
+                      <HiOutlineTrash className="w-4 h-4" />
+                    </button>
+                  </div>
+                </Link>
+              </div>
+            ))}
