@@ -88,3 +88,30 @@ const NotificationDropdown = ({ onClose }) => {
                 </Link>
               </div>
             ))}
+          </div>
+        ) : (
+          <div className="p-8 text-center">
+            <div className="w-16 h-16 bg-surface-100 dark:bg-surface-700 rounded-full flex items-center justify-center mx-auto mb-3">
+              <span className="text-2xl">📭</span>
+            </div>
+            <p className="text-surface-500 font-medium">No notifications yet</p>
+            <p className="text-sm text-surface-400 mt-1">We'll let you know when something happens.</p>
+          </div>
+        )}
+      </div>
+
+      {/* Footer */}
+      <div className="p-3 border-t border-surface-100 dark:border-surface-700 bg-surface-50 dark:bg-surface-800/50">
+        <Link
+          to="/notifications"
+          onClick={onClose}
+          className="block w-full py-2 text-center text-sm font-medium text-surface-700 dark:text-surface-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+        >
+          View all notifications
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default NotificationDropdown;
