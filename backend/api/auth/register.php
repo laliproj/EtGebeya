@@ -64,3 +64,25 @@ try {
     
     // Generate default avatar
     $avatar = "https://ui-avatars.com/api/?name=" . urlencode($name) . "&background=3b82f6&color=fff";
+    $joinDate = date('Y-m-d');
+
+    // Insert user
+    $query = "INSERT INTO users (name, email, password, avatar, phone, location, joinDate) 
+              VALUES (:name, :email, :password, :avatar, :phone, :location, :joinDate)";
+    
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':password', $password_hash);
+    $stmt->bindParam(':avatar', $avatar);
+    $stmt->bindParam(':phone', $phone);
+    $stmt->bindParam(':location', $location);
+    $stmt->bindParam(':joinDate', $joinDate);
+
+    if ($stmt->execute()) {
+        $userId = $db->lastInsertId();
+        
+        $user = [
+            'id' => $userId,
+            'name' => $name,
+            'email' => $email,
