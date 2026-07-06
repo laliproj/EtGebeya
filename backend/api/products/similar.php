@@ -15,3 +15,20 @@ if (!isset($_GET['id'])) {
 $productId = (int)$_GET['id'];
 
 $database = new Database();
+$db = $database->getConnection();
+
+try {
+    // Get category of the current product
+    $catStmt = $db->prepare("SELECT category FROM products WHERE id = :id");
+    $catStmt->execute([':id' => $productId]);
+    
+    if ($catStmt->rowCount() === 0) {
+        jsonResponse(true, "No similar products", []);
+    }
+    
+    $category = $catStmt->fetchColumn();
+
+    // Get products in same category excluding the current one
+    $query = "SELECT p.*, u.name as seller_name, u.avatar as seller_avatar, u.trustScore as seller_rating,
+              (SELECT GROUP_CONCAT(image_url) FROM product_images WHERE product_id = p.id) as images
+              FROM products p

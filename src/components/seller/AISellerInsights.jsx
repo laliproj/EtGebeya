@@ -48,3 +48,28 @@ const AISellerInsights = () => {
     <div className="bg-gradient-to-br from-primary-50 to-accent-50 dark:from-primary-900/20 dark:to-accent-900/20 rounded-3xl p-6 md:p-8 mb-8 border border-primary-100 dark:border-primary-800/30 shadow-sm relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-0 right-0 -mt-8 -mr-8 w-48 h-48 bg-primary-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-12 h-12 bg-white dark:bg-surface-800 rounded-xl shadow-sm flex items-center justify-center">
+          <HiOutlineSparkles className="w-6 h-6 text-primary-500" />
+        </div>
+        <div>
+          <h2 className="text-xl font-bold text-surface-900 dark:text-white">AI Seller Insights</h2>
+          <p className="text-sm text-surface-600 dark:text-surface-400">Smart analysis of your performance</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        {/* Trust Score */}
+        <div className="bg-white/60 dark:bg-surface-800/60 backdrop-blur-md p-5 rounded-2xl border border-white/40 dark:border-surface-700/50">
+          <div className="flex items-center gap-2 mb-3">
+            <HiOutlineShieldCheck className="w-5 h-5 text-surface-500" />
+            <h3 className="font-semibold text-surface-700 dark:text-surface-300">Trust Score</h3>
+          </div>
+          <div className="flex items-end gap-3">
+            <span className="text-4xl font-black text-surface-900 dark:text-white">{insights.trust.score}</span>
+            <span className={`px-2.5 py-1 mb-1 rounded-full text-xs font-bold uppercase tracking-wide border ${trustClass}`}>
+              {insights.trust.level}
+            </span>
+          </div>
+        </div>
