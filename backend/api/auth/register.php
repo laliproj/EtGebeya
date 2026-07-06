@@ -42,3 +42,25 @@ if (!Validator::isValidEmail($email)) {
 // Validate password strength
 if (!Validator::isStrongPassword($password)) {
     jsonResponse(false, "Password must be at least 8 characters long and contain at least one uppercase letter and one number", null, 400);
+}
+
+// Connect to database
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    // Check if email already exists
+    $query = "SELECT id FROM users WHERE email = :email LIMIT 1";
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+        jsonResponse(false, "Email already registered", null, 409);
+    }
+
+    // Hash password
+    $password_hash = password_hash($password, PASSWORD_BCRYPT);
+    
+    // Generate default avatar
+    $avatar = "https://ui-avatars.com/api/?name=" . urlencode($name) . "&background=3b82f6&color=fff";
