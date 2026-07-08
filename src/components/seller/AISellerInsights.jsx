@@ -73,3 +73,28 @@ const AISellerInsights = () => {
             </span>
           </div>
         </div>
+
+        {/* Pricing Competitiveness */}
+        <div className="bg-white/60 dark:bg-surface-800/60 backdrop-blur-md p-5 rounded-2xl border border-white/40 dark:border-surface-700/50">
+          <div className="flex items-center gap-2 mb-3">
+            <HiOutlineArrowTrendingUp className="w-5 h-5 text-surface-500" />
+            <h3 className="font-semibold text-surface-700 dark:text-surface-300">Pricing Competitiveness</h3>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="relative w-16 h-16 flex items-center justify-center shrink-0">
+              <svg className="w-full h-full transform -rotate-90">
+                <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="6" fill="transparent" className="text-surface-200 dark:text-surface-700" />
+                <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="6" fill="transparent" strokeDasharray="175" strokeDashoffset={175 - (175 * insights.pricingCompetitiveness.score) / 100} className="text-primary-500 transition-all duration-1000" />
+              </svg>
+              <span className="absolute text-sm font-bold">{insights.pricingCompetitiveness.score}%</span>
+            </div>
+            <div className="text-xs text-surface-600 dark:text-surface-400 space-y-1">
+              <div className="flex justify-between gap-4"><span>Great Deals:</span> <strong>{insights.pricingCompetitiveness.breakdown.great_deal}</strong></div>
+              <div className="flex justify-between gap-4"><span>Fair Price:</span> <strong>{insights.pricingCompetitiveness.breakdown.fair_price}</strong></div>
+              <div className="flex justify-between gap-4 text-danger-600"><span>Overpriced:</span> <strong>{insights.pricingCompetitiveness.breakdown.overpriced}</strong></div>
+            </div>
+          </div>
+        </div>
+
+        {/* AI Recommendations */}
+        <div className="bg-white/60 dark:bg-surface-800/60 backdrop-blur-md p-5 rounded-2xl border border-white/40 dark:border-surface-700/50">
