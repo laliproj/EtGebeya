@@ -98,3 +98,27 @@ const AISellerInsights = () => {
 
         {/* AI Recommendations */}
         <div className="bg-white/60 dark:bg-surface-800/60 backdrop-blur-md p-5 rounded-2xl border border-white/40 dark:border-surface-700/50">
+          <div className="flex items-center gap-2 mb-3">
+            <HiOutlineLightBulb className="w-5 h-5 text-surface-500" />
+            <h3 className="font-semibold text-surface-700 dark:text-surface-300">Actionable Advice</h3>
+          </div>
+          {insights.aiSuggestions?.length > 0 ? (
+            <ul className="space-y-3">
+              {insights.aiSuggestions.map((suggestion, idx) => (
+                <li key={idx} className="flex items-start gap-2 text-sm text-surface-700 dark:text-surface-300">
+                  <span className="text-primary-500 mt-0.5">•</span> {suggestion}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm text-surface-500 flex items-center gap-2">
+              <HiOutlineInformationCircle className="w-4 h-4" /> You're doing great! No immediate suggestions.
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AISellerInsights;
