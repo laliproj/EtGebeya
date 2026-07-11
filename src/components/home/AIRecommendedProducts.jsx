@@ -30,3 +30,19 @@
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {recommendations.map(product => (
             <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default AIRecommendedProducts;
+
+// 
+// 
+// 
+// 
+// import { useEffect, useState } from 'react';
+import { HiOutlineSparkles } from 'react-icons/hi2';
+import api from '../../services/api';
