@@ -55,3 +55,21 @@ try {
             }
         }
     }
+    
+    if (empty($updates)) {
+        jsonResponse(false, "No valid fields provided for update", null, 400);
+    }
+    
+    $query = "UPDATE products SET " . implode(', ', $updates) . " WHERE id = :id";
+    $stmt = $db->prepare($query);
+    
+    if ($stmt->execute($params)) {
+        jsonResponse(true, "Product updated successfully");
+    } else {
+        jsonResponse(false, "Failed to update product", null, 500);
+    }
+
+} catch(PDOException $e) {
+    jsonResponse(false, "Database error: " . $e->getMessage(), null, 500);
+}
+?>
