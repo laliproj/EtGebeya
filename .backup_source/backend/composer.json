@@ -1,7 +1,0 @@
-{
-    "name": "electromart/backend",
-    "description": "Backend API for Online Electronics Marketplace",
-    "require": {
-        "firebase/php-jwt": "^6.10"
-    }
-}
