@@ -62,3 +62,16 @@ const AIRecommendedProducts = () => {
           setRecommendations(response.data.data.recommendations || []);
           setStrategy(response.data.data.strategy || '');
         }
+      } catch (err) {
+        console.error('Failed to fetch recommendations', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchRecommendations();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-12 bg-primary-50 dark:bg-primary-900/10">
+        <div className="max-w-7xl mx-auto px-4">
