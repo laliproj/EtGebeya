@@ -43,4 +43,19 @@ export default AIRecommendedProducts;
 // 
 // 
 // 
-// 
+// import { useEffect, useState } from 'react';
+import { HiOutlineSparkles } from 'react-icons/hi2';
+import api from '../../services/api';
+import ProductCard from '../product/ProductCard';
+import Skeleton from '../common/Skeleton';
+
+const AIRecommendedProducts = () => {
+  const [recommendations, setRecommendations] = useState([]);
+  const [strategy, setStrategy] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      try {
+        const response = await api.get('/ai/recommendations.php?limit=4');
+        if (response.data?.success) {
